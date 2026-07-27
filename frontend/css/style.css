@@ -13,3 +13,19 @@ body {
     background-color: #f5f5f5;
     color: #333;
 }
+
+header {
+    background-color: #6a0dad;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 36px;
+}
+
+header p {
+    margin-top: 8px;
+    font-size: 18px;
+}
