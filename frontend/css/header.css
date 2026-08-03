@@ -1,7 +1,7 @@
 header {
-    background: linear-gradient(90deg, #5b21b6, #6d28d9, #4c1d95);
-    padding: 15px 0;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(90deg,#5b21b6,#6d28d9,#4c1d95);
+    padding: 8px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,.15);
 }
 
 .logo {
@@ -11,7 +11,7 @@ header {
 }
 
 .logo img {
-    width: 220px;
+    width: 350px;
     height: auto;
     display: block;
     margin: 0 auto;
