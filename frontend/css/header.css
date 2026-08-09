@@ -2,47 +2,64 @@
    DREAMLY MART HEADER
 ========================== */
 
-.header{
+.header {
     position: sticky;
     top: 0;
     z-index: 1000;
 
+    width: 100%;
     height: 70px;
+
     background: #ffffff;
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     padding: 0 15px;
+    gap: 10px;
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-/* Logo */
 
-.logo{
+/* ==========================
+   LOGO
+========================== */
+
+.logo {
     display: flex;
     align-items: center;
+
+    flex: 0 0 auto;
 }
 
-.logo img{
+.logo img {
     height: 50px;
     width: auto;
+
     display: block;
 }
 
-/* Search Box */
 
-.search-box{
-    flex: 1;
+/* ==========================
+   SEARCH BOX
+========================== */
+
+.search-box {
+    flex: 1 1 0;
+    min-width: 0;
+
     display: flex;
     align-items: center;
 
-    margin: 0 15px;
+    gap: 8px;
+    margin: 0 5px;
 }
 
-.search-box input{
+.search-box input {
+    flex: 1 1 0;
+    min-width: 0;
+
     width: 100%;
     height: 42px;
 
@@ -54,103 +71,30 @@
     outline: none;
 
     font-size: 15px;
+
+    box-sizing: border-box;
 }
 
-.search-box button{
-    margin-left: 8px;
+.search-box input:focus {
+    border-color: #7c3aed;
+}
+
+.search-box button {
+    flex: 0 0 42px;
 
     width: 42px;
+    min-width: 42px;
     height: 42px;
+
+    margin: 0;
 
     border: none;
     border-radius: 50%;
 
     background: #7c3aed;
-    color: white;
+    color: #ffffff;
 
     cursor: pointer;
-}
-
-/* Right Icons */
-
-.header-icons{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.header-icons span{
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* =========================================
-   MOBILE HEADER FIX
-========================================= */
-
-@media (max-width: 768px) {
-
-    .header {
-        height: 68px;
-
-        width: 100%;
-
-        padding: 0 10px;
-
-        display: flex;
-        align-items: center;
-
-        gap: 8px;
-
-        overflow: hidden;
-    }
-
-
-    /* LOGO */
-
-    .logo {
-        flex-shrink: 0;
-    }
-
-.logo img {
-    height: 38px;
-    width: auto;
-}
-
-
-    /* SEARCH AREA */
-
-.search-box {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin: 0 5px;
-}
-
-.search-box input {
-    flex: 1 1 auto;
-    width: auto;
-    min-width: 0;
-    height: 42px;
-    padding: 0 12px;
-
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-
-    font-size: 13px;
-}
-
-.search-box button {
-    flex: 0 0 42px;
-    width: 42px;
-    min-width: 42px;
-    height: 42px;
-
-    border: none;
-    border-radius: 50%;
 
     display: flex;
     align-items: center;
@@ -160,104 +104,154 @@
 }
 
 
-    .search-box input {
-        width: 100%;
+/* ==========================
+   RIGHT ICONS
+========================== */
 
+.header-icons {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.header-icons span {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+/* ==========================
+   TABLET / MOBILE
+========================== */
+
+@media (max-width: 768px) {
+
+    .header {
+        height: 66px;
+
+        padding: 0 10px;
+        gap: 6px;
+
+        overflow: visible;
+    }
+
+
+    /* LOGO */
+
+    .logo {
+        flex: 0 0 auto;
+    }
+
+    .logo img {
+        height: 40px;
+        width: auto;
+    }
+
+
+    /* SEARCH */
+
+    .search-box {
+        flex: 1 1 0;
+        min-width: 80px;
+
+        margin: 0 3px;
+
+        gap: 5px;
+    }
+
+    .search-box input {
+        flex: 1 1 0;
         min-width: 0;
 
-        height: 42px;
+        width: auto;
 
-        padding: 0 12px;
+        height: 40px;
 
-        border: 1px solid #ddd;
-
-        border-radius: 25px;
-
-        outline: none;
+        padding: 0 11px;
 
         font-size: 13px;
     }
 
-
     .search-box button {
-        width: 42px;
+        flex: 0 0 40px;
 
-        min-width: 42px;
-
-        height: 42px;
-
-        border: none;
-
-        border-radius: 50%;
-
-        cursor: pointer;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
 
         font-size: 16px;
     }
 
 
-    /* HEADER ICONS */
+    /* RIGHT ICONS */
 
-.header-icons {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
+    .header-icons {
+        flex: 0 0 auto;
 
+        gap: 3px;
+    }
 
-.header-icons span {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
+    .header-icons span {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
 
         font-size: 18px;
-
-        border-radius: 50%;
-
-        cursor: pointer;
     }
 }
 
 
-/* =========================================
+/* ==========================
    SMALL MOBILE
-========================================= */
+========================== */
 
 @media (max-width: 480px) {
 
     .header {
         height: 64px;
 
-        padding: 0 7px;
+        padding: 0 6px;
 
-        gap: 5px;
+        gap: 4px;
     }
 
+
+    /* LOGO */
 
     .logo img {
-        height: 38px;
+        height: 35px;
     }
 
+
+    /* SEARCH */
 
     .search-box {
-        gap: 3px;
+        flex: 1 1 0;
+        min-width: 90px;
+
+        margin: 0 2px;
+
+        gap: 4px;
     }
 
-
     .search-box input {
+        flex: 1 1 0;
+        min-width: 0;
+
+        width: 100%;
+
         height: 38px;
 
         padding: 0 10px;
@@ -265,30 +259,80 @@
         font-size: 12px;
     }
 
+    .search-box input::placeholder {
+        font-size: 11px;
+    }
 
     .search-box button {
+        flex: 0 0 38px;
+
         width: 38px;
-
         min-width: 38px;
-
         height: 38px;
 
         font-size: 15px;
     }
 
 
+    /* RIGHT ICONS */
+
     .header-icons {
+        gap: 2px;
+    }
+
+    .header-icons span {
+        width: 31px;
+        height: 31px;
+        min-width: 31px;
+
+        font-size: 16px;
+    }
+}
+
+
+/* ==========================
+   VERY SMALL PHONES
+========================== */
+
+@media (max-width: 360px) {
+
+    .header {
+        padding: 0 4px;
         gap: 3px;
     }
 
+    .logo img {
+        height: 32px;
+    }
+
+    .search-box {
+        min-width: 75px;
+        gap: 3px;
+    }
+
+    .search-box input {
+        height: 36px;
+        padding: 0 8px;
+        font-size: 11px;
+    }
+
+    .search-box button {
+        flex-basis: 36px;
+
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .header-icons {
+        gap: 1px;
+    }
 
     .header-icons span {
-        width: 32px;
+        width: 29px;
+        height: 29px;
+        min-width: 29px;
 
-        min-width: 32px;
-
-        height: 32px;
-
-        font-size: 16px;
+        font-size: 15px;
     }
 }
