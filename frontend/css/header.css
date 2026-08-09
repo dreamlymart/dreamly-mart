@@ -336,3 +336,54 @@
         font-size: 15px;
     }
 }
+
+
+/* ==========================
+   FINAL MOBILE SEARCH FIX
+========================== */
+
+@media (max-width: 480px) {
+
+    .logo img {
+        height: 34px;
+    }
+
+    .search-box {
+        flex: 1 1 auto;
+        min-width: 120px;
+        margin: 0 1px;
+        gap: 3px;
+    }
+
+    .search-box input {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 38px;
+
+        padding: 0 9px;
+        font-size: 12px;
+    }
+
+    .search-box input::placeholder {
+        font-size: 11px;
+    }
+
+    .search-box button {
+        flex: 0 0 38px;
+        width: 38px;
+        min-width: 38px;
+        height: 38px;
+    }
+
+    .header-icons {
+        gap: 1px;
+    }
+
+    .header-icons span {
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+
+        font-size: 16px;
+    }
+}
