@@ -1,5 +1,5 @@
 /* =========================================================
-   DREAMLY MART — HEADER
+   DREAMLY MART — PROFESSIONAL RESPONSIVE HEADER
 ========================================================= */
 
 * {
@@ -24,9 +24,9 @@
     display: flex;
     align-items: center;
 
-    padding: 0 12px;
+    padding: 0 18px;
 
-    gap: 6px;
+    gap: 12px;
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
@@ -42,6 +42,8 @@
     display: flex;
     align-items: center;
 
+    justify-content: center;
+
     margin: 0;
     padding: 0;
 }
@@ -49,15 +51,17 @@
 .logo img {
     display: block;
 
-    height: 48px;
+    height: 50px;
     width: auto;
 
-    max-width: 110px;
+    max-width: 130px;
+
+    object-fit: contain;
 }
 
 
 /* =========================================================
-   SEARCH BOX
+   SEARCH AREA
 ========================================================= */
 
 .search-box {
@@ -67,12 +71,14 @@
 
     width: 100%;
 
+    max-width: 680px;
+
     display: flex;
     align-items: center;
 
-    gap: 5px;
+    gap: 7px;
 
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
 }
 
@@ -80,12 +86,12 @@
 .search-box input {
     flex: 1 1 auto;
 
-    width: 100%;
     min-width: 0;
 
+    width: 100%;
     height: 42px;
 
-    padding: 0 13px;
+    padding: 0 15px;
 
     border: 1px solid #dddddd;
     border-radius: 25px;
@@ -134,7 +140,9 @@
 
     cursor: pointer;
 
-    font-size: 16px;
+    font-size: 17px;
+
+    box-shadow: 0 3px 8px rgba(124,58,237,0.25);
 }
 
 
@@ -148,7 +156,7 @@
     display: flex;
     align-items: center;
 
-    gap: 4px;
+    gap: 5px;
 
     margin: 0;
     padding: 0;
@@ -156,18 +164,25 @@
 
 
 .header-icons span {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
 
-    min-width: 34px;
+    min-width: 36px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 21px;
+    font-size: 22px;
 
     cursor: pointer;
+
+    transition: transform 0.2s ease;
+}
+
+
+.header-icons span:hover {
+    transform: scale(1.08);
 }
 
 
@@ -180,18 +195,22 @@
     .header {
         height: 66px;
 
-        padding: 0 8px;
+        padding: 0 10px;
 
-        gap: 4px;
+        gap: 7px;
     }
 
 
     /* LOGO */
 
-    .logo img {
-        height: 38px;
+    .logo {
+        flex: 0 0 auto;
+    }
 
-        max-width: 95px;
+    .logo img {
+        height: 42px;
+
+        max-width: 108px;
     }
 
 
@@ -202,20 +221,18 @@
 
         min-width: 0;
 
-        gap: 4px;
+        max-width: none;
+
+        margin: 0;
+
+        gap: 5px;
     }
 
 
     .search-box input {
-        flex: 1 1 auto;
-
-        min-width: 0;
-
-        width: 100%;
-
         height: 40px;
 
-        padding: 0 11px;
+        padding: 0 12px;
 
         font-size: 13px;
     }
@@ -240,7 +257,7 @@
     /* RIGHT ICONS */
 
     .header-icons {
-        gap: 2px;
+        gap: 3px;
     }
 
 
@@ -250,13 +267,13 @@
 
         min-width: 32px;
 
-        font-size: 18px;
+        font-size: 19px;
     }
 }
 
 
 /* =========================================================
-   MOBILE
+   MOBILE — 480px
 ========================================================= */
 
 @media (max-width: 480px) {
@@ -264,40 +281,56 @@
     .header {
         height: 64px;
 
-        padding: 0 5px;
+        padding: 0 6px;
 
-        gap: 2px;
+        gap: 5px;
     }
 
 
-    /* LOGO — SMALLER */
+    /* =====================================================
+       LOGO — SLIGHTLY LARGER & PROFESSIONAL
+    ===================================================== */
+
+    .logo {
+        flex: 0 0 auto;
+
+        width: 92px;
+    }
 
     .logo img {
-        height: 32px;
+        height: 37px;
 
-        max-width: 82px;
+        width: auto;
+
+        max-width: 92px;
     }
 
 
-    /* SEARCH — MORE SPACE */
+    /* =====================================================
+       SEARCH — CONTROLLED WIDTH
+    ===================================================== */
 
     .search-box {
-        flex: 1 1 auto;
+        flex: 0 0 155px;
 
-        min-width: 0;
+        width: 155px;
 
-        gap: 3px;
+        min-width: 155px;
+
+        max-width: 155px;
 
         margin: 0;
+
+        gap: 3px;
     }
 
 
     .search-box input {
         flex: 1 1 auto;
 
-        min-width: 0;
+        width: 117px;
 
-        width: 100%;
+        min-width: 0;
 
         height: 38px;
 
@@ -309,26 +342,32 @@
 
     .search-box input::placeholder {
         font-size: 11px;
+
+        white-space: nowrap;
     }
 
 
     .search-box button {
-        flex: 0 0 38px;
+        flex: 0 0 35px;
 
-        width: 38px;
-        min-width: 38px;
-        height: 38px;
+        width: 35px;
+        min-width: 35px;
+        height: 35px;
 
         font-size: 15px;
     }
 
 
-    /* CART + USER */
+    /* =====================================================
+       CART + USER
+    ===================================================== */
 
     .header-icons {
         flex: 0 0 auto;
 
         gap: 1px;
+
+        margin-left: auto;
     }
 
 
@@ -344,7 +383,7 @@
 
 
 /* =========================================================
-   VERY SMALL PHONE
+   VERY SMALL MOBILE — 360px
 ========================================================= */
 
 @media (max-width: 360px) {
@@ -352,29 +391,43 @@
     .header {
         height: 62px;
 
-        padding: 0 3px;
+        padding: 0 4px;
 
-        gap: 2px;
+        gap: 3px;
     }
 
 
-    /* SMALL LOGO */
+    /* LOGO */
+
+    .logo {
+        width: 82px;
+    }
 
     .logo img {
-        height: 29px;
+        height: 33px;
 
-        max-width: 74px;
+        max-width: 82px;
     }
 
 
     /* SEARCH */
 
     .search-box {
+        flex: 0 0 143px;
+
+        width: 143px;
+
+        min-width: 143px;
+
+        max-width: 143px;
+
         gap: 2px;
     }
 
 
     .search-box input {
+        width: 105px;
+
         height: 36px;
 
         padding: 0 7px;
@@ -394,6 +447,8 @@
         width: 36px;
         min-width: 36px;
         height: 36px;
+
+        font-size: 14px;
     }
 
 
