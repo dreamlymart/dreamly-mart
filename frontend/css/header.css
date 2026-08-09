@@ -1,5 +1,5 @@
 /* =========================================================
-   DREAMLY MART — PROFESSIONAL RESPONSIVE HEADER
+   DREAMLY MART — PROFESSIONAL HEADER
 ========================================================= */
 
 * {
@@ -24,16 +24,16 @@
     display: flex;
     align-items: center;
 
-    padding: 0 14px;
+    padding: 0 18px;
 
-    gap: 8px;
+    gap: 10px;
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 
 /* =========================================================
-   LOGO
+   DREAMLY MART LOGO
 ========================================================= */
 
 .logo {
@@ -41,22 +41,19 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     margin: 0;
     padding: 0;
 }
 
 
-/*
-   Logo is intentionally wider now
-   so Dreamly Mart branding is clearly visible.
-*/
+/* বড় ও পরিষ্কার Logo */
 
 .logo img {
     display: block;
 
-    width: 135px;
+    width: 170px;
     height: auto;
 
     max-width: none;
@@ -66,39 +63,45 @@
 
 
 /* =========================================================
-   SEARCH BOX
+   RIGHT SIDE CONTROL AREA
+   Search + Search Button + Cart + User
 ========================================================= */
 
 .search-box {
-    flex: 1 1 auto;
+    flex: 0 1 650px;
+
+    width: 650px;
 
     min-width: 0;
-
-    width: 100%;
-
-    max-width: 650px;
 
     display: flex;
     align-items: center;
 
     gap: 6px;
 
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: 0;
+
     padding: 0;
 }
 
 
+/* =========================================================
+   SEARCH INPUT
+========================================================= */
+
 .search-box input {
     flex: 1 1 auto;
 
+    width: 100%;
     min-width: 0;
 
-    width: 100%;
     height: 42px;
 
     padding: 0 15px;
 
     border: 1px solid #dddddd;
+
     border-radius: 25px;
 
     outline: none;
@@ -108,6 +111,8 @@
     color: #333333;
 
     font-size: 14px;
+
+    box-sizing: border-box;
 }
 
 
@@ -121,6 +126,10 @@
 }
 
 
+/* =========================================================
+   SEARCH BUTTON
+========================================================= */
+
 .search-box button {
     flex: 0 0 42px;
 
@@ -132,9 +141,11 @@
     padding: 0;
 
     border: none;
+
     border-radius: 50%;
 
     background: #7c3aed;
+
     color: #ffffff;
 
     display: flex;
@@ -150,7 +161,7 @@
 
 
 /* =========================================================
-   RIGHT ICONS
+   CART + USER
 ========================================================= */
 
 .header-icons {
@@ -198,9 +209,9 @@
     .header {
         height: 66px;
 
-        padding: 0 9px;
+        padding: 0 10px;
 
-        gap: 6px;
+        gap: 7px;
     }
 
 
@@ -212,30 +223,30 @@
 
 
     .logo img {
-        width: 112px;
-        height: auto;
+        width: 145px;
+        max-width: 145px;
     }
 
 
     /* SEARCH */
 
     .search-box {
-        flex: 1 1 auto;
+        flex: 0 1 500px;
+
+        width: auto;
 
         min-width: 0;
 
-        max-width: none;
+        margin-left: auto;
 
-        margin: 0;
-
-        gap: 4px;
+        gap: 5px;
     }
 
 
     .search-box input {
         height: 40px;
 
-        padding: 0 11px;
+        padding: 0 12px;
 
         font-size: 13px;
     }
@@ -257,7 +268,7 @@
     }
 
 
-    /* CART + USER */
+    /* ICONS */
 
     .header-icons {
         gap: 1px;
@@ -284,20 +295,20 @@
     .header {
         height: 64px;
 
-        padding: 0 5px;
+        padding: 0 6px;
 
         gap: 4px;
     }
 
 
     /* =====================================================
-       LOGO — LARGER
+       BIGGER PROFESSIONAL LOGO
     ===================================================== */
 
     .logo {
-        flex: 0 0 102px;
+        flex: 0 0 112px;
 
-        width: 102px;
+        width: 112px;
 
         display: flex;
         align-items: center;
@@ -306,44 +317,44 @@
 
 
     .logo img {
-        width: 102px;
+        width: 112px;
+
+        max-width: 112px;
 
         height: auto;
-
-        max-width: 102px;
     }
 
 
     /* =====================================================
-       SEARCH
-       Keeps the current comfortable mobile size
+       SEARCH + SEARCH BUTTON
     ===================================================== */
 
     .search-box {
-        flex: 0 0 155px;
+        flex: 1 1 auto;
 
-        width: 155px;
+        width: auto;
 
-        min-width: 155px;
+        min-width: 0;
 
-        max-width: 155px;
+        max-width: none;
 
-        margin: 0;
+        margin-left: auto;
+        margin-right: 0;
 
-        gap: 3px;
+        gap: 4px;
     }
 
 
     .search-box input {
         flex: 1 1 auto;
 
-        width: 117px;
-
         min-width: 0;
+
+        width: 100%;
 
         height: 38px;
 
-        padding: 0 9px;
+        padding: 0 10px;
 
         font-size: 12px;
     }
@@ -351,24 +362,23 @@
 
     .search-box input::placeholder {
         font-size: 11px;
-
-        white-space: nowrap;
     }
 
 
     .search-box button {
-        flex: 0 0 35px;
+        flex: 0 0 38px;
 
-        width: 35px;
-        min-width: 35px;
-        height: 35px;
+        width: 38px;
+        min-width: 38px;
+
+        height: 38px;
 
         font-size: 15px;
     }
 
 
     /* =====================================================
-       CART + USER
+       CART + USER — একদম ডান পাশে
     ===================================================== */
 
     .header-icons {
@@ -392,7 +402,7 @@
 
 
 /* =========================================================
-   VERY SMALL PHONES
+   VERY SMALL PHONE
 ========================================================= */
 
 @media (max-width: 360px) {
@@ -400,49 +410,43 @@
     .header {
         height: 62px;
 
-        padding: 0 3px;
+        padding: 0 4px;
 
-        gap: 2px;
+        gap: 3px;
     }
 
 
     /* LOGO */
 
     .logo {
-        flex: 0 0 90px;
+        flex: 0 0 95px;
 
-        width: 90px;
+        width: 95px;
     }
 
 
     .logo img {
-        width: 90px;
+        width: 95px;
 
-        max-width: 90px;
+        max-width: 95px;
     }
 
 
     /* SEARCH */
 
     .search-box {
-        flex: 0 0 143px;
+        flex: 1 1 auto;
 
-        width: 143px;
+        min-width: 0;
 
-        min-width: 143px;
-
-        max-width: 143px;
-
-        gap: 2px;
+        gap: 3px;
     }
 
 
     .search-box input {
-        width: 105px;
-
         height: 36px;
 
-        padding: 0 7px;
+        padding: 0 8px;
 
         font-size: 11px;
     }
@@ -458,9 +462,8 @@
 
         width: 36px;
         min-width: 36px;
-        height: 36px;
 
-        font-size: 14px;
+        height: 36px;
     }
 
 
