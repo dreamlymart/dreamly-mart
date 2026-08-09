@@ -1,6 +1,15 @@
-/* ==========================
-   DREAMLY MART HEADER
-========================== */
+/* =========================================================
+   DREAMLY MART — HEADER
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN HEADER
+========================================================= */
 
 .header {
     position: sticky;
@@ -15,69 +24,93 @@
     display: flex;
     align-items: center;
 
-    padding: 0 15px;
-    gap: 10px;
+    padding: 0 12px;
+
+    gap: 6px;
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 
-/* ==========================
+/* =========================================================
    LOGO
-========================== */
+========================================================= */
 
 .logo {
+    flex: 0 0 auto;
+
     display: flex;
     align-items: center;
 
-    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
 }
 
 .logo img {
-    height: 50px;
+    display: block;
+
+    height: 48px;
     width: auto;
 
-    display: block;
+    max-width: 110px;
 }
 
 
-/* ==========================
+/* =========================================================
    SEARCH BOX
-========================== */
+========================================================= */
 
 .search-box {
-    flex: 1 1 0;
+    flex: 1 1 auto;
+
     min-width: 0;
+
+    width: 100%;
 
     display: flex;
     align-items: center;
 
-    gap: 8px;
-    margin: 0 5px;
+    gap: 5px;
+
+    margin: 0;
+    padding: 0;
 }
 
+
 .search-box input {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 1 1 auto;
 
     width: 100%;
+    min-width: 0;
+
     height: 42px;
+
+    padding: 0 13px;
 
     border: 1px solid #dddddd;
     border-radius: 25px;
 
-    padding: 0 15px;
-
     outline: none;
 
-    font-size: 15px;
+    background: #ffffff;
+
+    color: #333333;
+
+    font-size: 14px;
 
     box-sizing: border-box;
 }
 
+
+.search-box input::placeholder {
+    color: #777777;
+}
+
+
 .search-box input:focus {
     border-color: #7c3aed;
 }
+
 
 .search-box button {
     flex: 0 0 42px;
@@ -87,6 +120,7 @@
     height: 42px;
 
     margin: 0;
+    padding: 0;
 
     border: none;
     border-radius: 50%;
@@ -94,19 +128,19 @@
     background: #7c3aed;
     color: #ffffff;
 
-    cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
+
+    cursor: pointer;
 
     font-size: 16px;
 }
 
 
-/* ==========================
+/* =========================================================
    RIGHT ICONS
-========================== */
+========================================================= */
 
 .header-icons {
     flex: 0 0 auto;
@@ -114,68 +148,70 @@
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: 4px;
+
+    margin: 0;
+    padding: 0;
 }
 
+
 .header-icons span {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 22px;
+    font-size: 21px;
 
     cursor: pointer;
 }
 
 
-/* ==========================
-   TABLET / MOBILE
-========================== */
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 768px) {
 
     .header {
         height: 66px;
 
-        padding: 0 10px;
-        gap: 6px;
+        padding: 0 8px;
 
-        overflow: visible;
+        gap: 4px;
     }
 
 
     /* LOGO */
 
-    .logo {
-        flex: 0 0 auto;
-    }
-
     .logo img {
-        height: 40px;
-        width: auto;
+        height: 38px;
+
+        max-width: 95px;
     }
 
 
     /* SEARCH */
 
     .search-box {
-        flex: 1 1 0;
-        min-width: 80px;
+        flex: 1 1 auto;
 
-        margin: 0 3px;
-
-        gap: 5px;
-    }
-
-    .search-box input {
-        flex: 1 1 0;
         min-width: 0;
 
-        width: auto;
+        gap: 4px;
+    }
+
+
+    .search-box input {
+        flex: 1 1 auto;
+
+        min-width: 0;
+
+        width: 100%;
 
         height: 40px;
 
@@ -183,6 +219,12 @@
 
         font-size: 13px;
     }
+
+
+    .search-box input::placeholder {
+        font-size: 12px;
+    }
+
 
     .search-box button {
         flex: 0 0 40px;
@@ -198,70 +240,77 @@
     /* RIGHT ICONS */
 
     .header-icons {
-        flex: 0 0 auto;
-
-        gap: 3px;
+        gap: 2px;
     }
 
+
     .header-icons span {
-        width: 34px;
-        height: 34px;
-        min-width: 34px;
+        width: 32px;
+        height: 32px;
+
+        min-width: 32px;
 
         font-size: 18px;
     }
 }
 
 
-/* ==========================
-   SMALL MOBILE
-========================== */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 480px) {
 
     .header {
         height: 64px;
 
-        padding: 0 6px;
+        padding: 0 5px;
 
-        gap: 4px;
+        gap: 2px;
     }
 
 
-    /* LOGO */
+    /* LOGO — SMALLER */
 
     .logo img {
-        height: 35px;
+        height: 32px;
+
+        max-width: 82px;
     }
 
 
-    /* SEARCH */
+    /* SEARCH — MORE SPACE */
 
     .search-box {
-        flex: 1 1 0;
-        min-width: 90px;
+        flex: 1 1 auto;
 
-        margin: 0 2px;
+        min-width: 0;
 
-        gap: 4px;
+        gap: 3px;
+
+        margin: 0;
     }
 
+
     .search-box input {
-        flex: 1 1 0;
+        flex: 1 1 auto;
+
         min-width: 0;
 
         width: 100%;
 
         height: 38px;
 
-        padding: 0 10px;
+        padding: 0 9px;
 
         font-size: 12px;
     }
 
+
     .search-box input::placeholder {
         font-size: 11px;
     }
+
 
     .search-box button {
         flex: 0 0 38px;
@@ -274,116 +323,93 @@
     }
 
 
-    /* RIGHT ICONS */
+    /* CART + USER */
 
     .header-icons {
-        gap: 2px;
+        flex: 0 0 auto;
+
+        gap: 1px;
     }
 
+
     .header-icons span {
-        width: 31px;
-        height: 31px;
-        min-width: 31px;
+        width: 29px;
+        height: 29px;
+
+        min-width: 29px;
 
         font-size: 16px;
     }
 }
 
 
-/* ==========================
-   VERY SMALL PHONES
-========================== */
+/* =========================================================
+   VERY SMALL PHONE
+========================================================= */
 
 @media (max-width: 360px) {
 
     .header {
-        padding: 0 4px;
-        gap: 3px;
+        height: 62px;
+
+        padding: 0 3px;
+
+        gap: 2px;
     }
+
+
+    /* SMALL LOGO */
 
     .logo img {
-        height: 32px;
+        height: 29px;
+
+        max-width: 74px;
     }
 
+
+    /* SEARCH */
+
     .search-box {
-        min-width: 75px;
-        gap: 3px;
+        gap: 2px;
     }
+
 
     .search-box input {
         height: 36px;
-        padding: 0 8px;
+
+        padding: 0 7px;
+
         font-size: 11px;
     }
 
+
+    .search-box input::placeholder {
+        font-size: 10px;
+    }
+
+
     .search-box button {
-        flex-basis: 36px;
+        flex: 0 0 36px;
 
         width: 36px;
         min-width: 36px;
         height: 36px;
     }
 
+
+    /* ICONS */
+
     .header-icons {
-        gap: 1px;
+        gap: 0;
     }
 
+
     .header-icons span {
-        width: 29px;
-        height: 29px;
-        min-width: 29px;
+        width: 27px;
+        height: 27px;
+
+        min-width: 27px;
 
         font-size: 15px;
-    }
-}
-
-
-/* ==========================
-   FINAL MOBILE SEARCH FIX
-========================== */
-
-@media (max-width: 480px) {
-
-    .logo img {
-        height: 34px;
-    }
-
-    .search-box {
-        flex: 1 1 auto;
-        min-width: 120px;
-        margin: 0 1px;
-        gap: 3px;
-    }
-
-    .search-box input {
-        flex: 1 1 auto;
-        min-width: 0;
-        height: 38px;
-
-        padding: 0 9px;
-        font-size: 12px;
-    }
-
-    .search-box input::placeholder {
-        font-size: 11px;
-    }
-
-    .search-box button {
-        flex: 0 0 38px;
-        width: 38px;
-        min-width: 38px;
-        height: 38px;
-    }
-
-    .header-icons {
-        gap: 1px;
-    }
-
-    .header-icons span {
-        width: 30px;
-        min-width: 30px;
-        height: 30px;
-
-        font-size: 16px;
     }
 }
