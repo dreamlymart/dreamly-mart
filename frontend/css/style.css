@@ -1,38 +1,131 @@
-@import url("header.css");
-@import url("home.css");
+/* =========================================================
+   DREAMLY MART — GLOBAL STYLE
+========================================================= */
+
+
 /* ==========================
-   Dreamly Mart - Global Style
+   RESET
 ========================== */
 
 * {
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
 }
 
+
+/* ==========================
+   HTML
+========================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* ==========================
+   BODY
+========================== */
+
 body {
+    margin: 0;
+
+    padding: 0;
+
     font-family: Arial, sans-serif;
+
     background-color: #f5f5f5;
-    color: #333;
+
+    color: #333333;
+
+    line-height: 1.5;
+
+    overflow-x: hidden;
 }
 
-header {
-    background-color: #6a0dad;
-    color: white;
-    text-align: center;
-    padding: 20px;
+
+/* ==========================
+   IMAGES
+========================== */
+
+img {
+    max-width: 100%;
+
+    height: auto;
 }
 
-header h1 {
-    font-size: 36px;
+
+/* ==========================
+   BUTTONS
+========================== */
+
+button {
+    font-family: inherit;
 }
 
-header p {
-    margin-top: 8px;
-    font-size: 18px;
+
+/* ==========================
+   LINKS
+========================== */
+
+a {
+    color: inherit;
+
+    text-decoration: none;
 }
-.logo img{
-    height:55px;
-    width:auto;
-    display:block;
+
+
+/* ==========================
+   COMMON CONTAINER
+========================== */
+
+.container {
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 0 20px;
+}
+
+
+/* ==========================
+   REMOVE OLD HEADER STYLING
+========================== */
+
+/*
+   Header design is handled
+   completely by header.css.
+
+   Do NOT add header styling here.
+*/
+
+
+/* ==========================
+   MOBILE GLOBAL FIX
+========================== */
+
+@media (max-width: 768px) {
+
+    body {
+        width: 100%;
+
+        overflow-x: hidden;
+    }
+
+}
+
+
+/* ==========================
+   SMALL MOBILE
+========================== */
+
+@media (max-width: 480px) {
+
+    body {
+        font-size: 14px;
+    }
+
 }
