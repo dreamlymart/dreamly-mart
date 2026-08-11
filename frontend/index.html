@@ -2,15 +2,40 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dreamly Mart | Shopping Just Got Easier</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/header.css">
-  <link rel="stylesheet" href="css/home.css">
+  <title>
+    Dreamly Mart | Shopping Just Got Easier
+  </title>
+
+
+  <!-- ==========================
+       CSS FILES
+  =========================== -->
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/header.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/home.css"
+  >
+
 </head>
+
 
 <body>
 
@@ -21,24 +46,33 @@
 
   <header class="header">
 
+
+    <!-- LOGO -->
+
     <div class="logo">
+
       <img
         src="images/logo-header.png"
         alt="Dreamly Mart"
       >
+
     </div>
 
+
+    <!-- SEARCH -->
 
     <div class="search-box">
 
       <input
         type="text"
+        id="searchInput"
         placeholder="Search products..."
         aria-label="Search products"
       >
 
       <button
         type="button"
+        id="searchButton"
         aria-label="Search"
       >
         🔍
@@ -47,21 +81,32 @@
     </div>
 
 
+    <!-- HEADER ICONS -->
+
     <div class="header-icons">
+
+
+      <!-- CART -->
 
       <span
         role="button"
         aria-label="Shopping Cart"
+        id="cartButton"
       >
         🛒
       </span>
 
+
+      <!-- ACCOUNT -->
+
       <span
         role="button"
         aria-label="Account"
+        id="accountButton"
       >
         👤
       </span>
+
 
     </div>
 
@@ -75,7 +120,9 @@
 
   <section class="hero-banner">
 
+
     <div class="hero-content">
+
 
       <span class="hero-tag">
         ✨ SMART SHOPPING, BETTER LIVING
@@ -83,8 +130,13 @@
 
 
       <h1>
+
         Shopping Just Got
-        <span>Easier.</span>
+
+        <span>
+          Easier.
+        </span>
+
       </h1>
 
 
@@ -95,6 +147,7 @@
 
 
       <div class="hero-buttons">
+
 
         <a
           href="#products"
@@ -111,9 +164,12 @@
           Explore Products
         </a>
 
+
       </div>
 
+
     </div>
+
 
   </section>
 
@@ -121,7 +177,7 @@
 
   <!-- =====================================================
        FEATURED CATEGORIES
-       Homepage — 6 Main Categories
+       HOMEPAGE — ONLY 6 MAIN CATEGORIES
   ====================================================== -->
 
   <section
@@ -130,9 +186,10 @@
   >
 
 
-    <!-- Section Heading -->
+    <!-- SECTION HEADING -->
 
     <div class="section-heading">
+
 
       <div>
 
@@ -156,18 +213,19 @@
         View All →
       </button>
 
+
     </div>
 
 
 
     <!-- =================================================
-         6 MAIN HOMEPAGE CATEGORIES
+         6 MAIN CATEGORIES
     ================================================== -->
 
     <div class="category-grid">
 
 
-      <!-- 01 — Fashion & Style -->
+      <!-- 01 Fashion -->
 
       <div
         class="category-card"
@@ -189,8 +247,7 @@
       </div>
 
 
-
-      <!-- 02 — Electronics & Gadgets -->
+      <!-- 02 Electronics -->
 
       <div
         class="category-card"
@@ -212,8 +269,7 @@
       </div>
 
 
-
-      <!-- 03 — Beauty & Care -->
+      <!-- 03 Beauty -->
 
       <div
         class="category-card"
@@ -235,8 +291,7 @@
       </div>
 
 
-
-      <!-- 04 — Home & Kitchen -->
+      <!-- 04 Home -->
 
       <div
         class="category-card"
@@ -258,8 +313,7 @@
       </div>
 
 
-
-      <!-- 05 — Baby & Mother Care -->
+      <!-- 05 Baby -->
 
       <div
         class="category-card"
@@ -281,8 +335,7 @@
       </div>
 
 
-
-      <!-- 06 — Gifts & Combos -->
+      <!-- 06 Gifts -->
 
       <div
         class="category-card"
@@ -310,7 +363,7 @@
 
     <!-- =================================================
          ALL 17 CATEGORIES
-         Initially Hidden
+         HIDDEN BY DEFAULT
     ================================================== -->
 
     <div
@@ -320,6 +373,7 @@
 
 
       <div class="all-categories-header">
+
 
         <div>
 
@@ -343,6 +397,7 @@
           ✕
         </button>
 
+
       </div>
 
 
@@ -357,14 +412,15 @@
           data-category="Fashion & Style"
         >
 
-          <span>👗</span>
+          <span>
+            👗
+          </span>
 
           <h3>
             Fashion &amp; Style
           </h3>
 
         </div>
-
 
 
         <!-- 02 -->
@@ -374,14 +430,15 @@
           data-category="Electronics & Gadgets"
         >
 
-          <span>📱</span>
+          <span>
+            📱
+          </span>
 
           <h3>
             Electronics &amp; Gadgets
           </h3>
 
         </div>
-
 
 
         <!-- 03 -->
@@ -391,14 +448,15 @@
           data-category="Beauty & Care"
         >
 
-          <span>💄</span>
+          <span>
+            💄
+          </span>
 
           <h3>
             Beauty &amp; Care
           </h3>
 
         </div>
-
 
 
         <!-- 04 -->
@@ -408,14 +466,15 @@
           data-category="Home & Kitchen"
         >
 
-          <span>🏠</span>
+          <span>
+            🏠
+          </span>
 
           <h3>
             Home &amp; Kitchen
           </h3>
 
         </div>
-
 
 
         <!-- 05 -->
@@ -425,14 +484,15 @@
           data-category="Baby & Mother Care"
         >
 
-          <span>👶</span>
+          <span>
+            👶
+          </span>
 
           <h3>
             Baby &amp; Mother Care
           </h3>
 
         </div>
-
 
 
         <!-- 06 -->
@@ -442,14 +502,15 @@
           data-category="Gifts & Combos"
         >
 
-          <span>🎁</span>
+          <span>
+            🎁
+          </span>
 
           <h3>
             Gifts &amp; Combos
           </h3>
 
         </div>
-
 
 
         <!-- 07 -->
@@ -459,14 +520,15 @@
           data-category="Grocery & Food"
         >
 
-          <span>🛒</span>
+          <span>
+            🛒
+          </span>
 
           <h3>
             Grocery &amp; Food
           </h3>
 
         </div>
-
 
 
         <!-- 08 -->
@@ -476,14 +538,15 @@
           data-category="Health & Wellness"
         >
 
-          <span>💪</span>
+          <span>
+            💪
+          </span>
 
           <h3>
             Health &amp; Wellness
           </h3>
 
         </div>
-
 
 
         <!-- 09 -->
@@ -493,14 +556,15 @@
           data-category="Local & Heritage"
         >
 
-          <span>🌾</span>
+          <span>
+            🌾
+          </span>
 
           <h3>
             Local &amp; Heritage
           </h3>
 
         </div>
-
 
 
         <!-- 10 -->
@@ -510,14 +574,15 @@
           data-category="Furniture & Living"
         >
 
-          <span>🛋️</span>
+          <span>
+            🛋️
+          </span>
 
           <h3>
             Furniture &amp; Living
           </h3>
 
         </div>
-
 
 
         <!-- 11 -->
@@ -527,14 +592,15 @@
           data-category="Sports & Fitness"
         >
 
-          <span>🏃</span>
+          <span>
+            🏃
+          </span>
 
           <h3>
             Sports &amp; Fitness
           </h3>
 
         </div>
-
 
 
         <!-- 12 -->
@@ -544,14 +610,15 @@
           data-category="Automotive"
         >
 
-          <span>🚗</span>
+          <span>
+            🚗
+          </span>
 
           <h3>
             Automotive
           </h3>
 
         </div>
-
 
 
         <!-- 13 -->
@@ -561,14 +628,15 @@
           data-category="Gaming & Entertainment"
         >
 
-          <span>🎮</span>
+          <span>
+            🎮
+          </span>
 
           <h3>
             Gaming &amp; Entertainment
           </h3>
 
         </div>
-
 
 
         <!-- 14 -->
@@ -578,14 +646,15 @@
           data-category="Senior Comfort"
         >
 
-          <span>🧓</span>
+          <span>
+            🧓
+          </span>
 
           <h3>
             Senior Comfort
           </h3>
 
         </div>
-
 
 
         <!-- 15 -->
@@ -595,14 +664,15 @@
           data-category="Books & Stationery"
         >
 
-          <span>📚</span>
+          <span>
+            📚
+          </span>
 
           <h3>
             Books &amp; Stationery
           </h3>
 
         </div>
-
 
 
         <!-- 16 -->
@@ -612,14 +682,15 @@
           data-category="Pet Care"
         >
 
-          <span>🐾</span>
+          <span>
+            🐾
+          </span>
 
           <h3>
             Pet Care
           </h3>
 
         </div>
-
 
 
         <!-- 17 -->
@@ -629,7 +700,9 @@
           data-category="Others"
         >
 
-          <span>🛍️</span>
+          <span>
+            🛍️
+          </span>
 
           <h3>
             Others
@@ -640,7 +713,9 @@
 
       </div>
 
+
     </div>
+
 
   </section>
 
@@ -655,7 +730,9 @@
     id="products"
   >
 
+
     <div class="section-heading">
+
 
       <div>
 
@@ -669,21 +746,391 @@
 
       </div>
 
+
       <button
-        class="view-all-btn"
+        class="product-view-all"
         type="button"
       >
         View All →
       </button>
 
+
     </div>
+
 
 
     <div class="product-grid">
 
-      <!-- Products will be added in the next step -->
+
+      <!-- =================================================
+           PRODUCT 01
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-1"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="discount-badge">
+            -20%
+          </span>
+
+
+          <img
+            src="images/products/product-1.jpg"
+            alt="Casio Illuminator Premium Watch"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            Casio Illuminator Premium Watch
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳1,590
+            </span>
+
+
+            <span class="old-price">
+              ৳1,990
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
+
+
+      <!-- =================================================
+           PRODUCT 02
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-2"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="discount-badge">
+            -15%
+          </span>
+
+
+          <img
+            src="images/products/product-2.jpg"
+            alt="Maximum MB3031 Antenna Phone"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            Maximum MB3031 Antenna Phone
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳2,290
+            </span>
+
+
+            <span class="old-price">
+              ৳2,690
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
+
+
+      <!-- =================================================
+           PRODUCT 03
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-3"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="discount-badge">
+            -25%
+          </span>
+
+
+          <img
+            src="images/products/product-3.jpg"
+            alt="Smart Gadget Premium Collection"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            Smart Gadget Premium Collection
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳990
+            </span>
+
+
+            <span class="old-price">
+              ৳1,320
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
+
+
+      <!-- =================================================
+           PRODUCT 04
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-4"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="discount-badge">
+            -10%
+          </span>
+
+
+          <img
+            src="images/products/product-4.jpg"
+            alt="Premium Gift and Combo Pack"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            Premium Gift &amp; Combo Pack
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳1,290
+            </span>
+
+
+            <span class="old-price">
+              ৳1,440
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
 
     </div>
+
 
   </section>
 
@@ -693,9 +1140,14 @@
        NEW ARRIVALS
   ====================================================== -->
 
-  <section class="products">
+  <section
+    class="products new-arrivals"
+    id="new-arrivals"
+  >
+
 
     <div class="section-heading">
+
 
       <div>
 
@@ -703,27 +1155,204 @@
           JUST ARRIVED
         </span>
 
+
         <h2>
           New Arrivals
         </h2>
 
       </div>
 
+
       <button
-        class="view-all-btn"
+        class="product-view-all"
         type="button"
       >
         View All →
       </button>
 
+
     </div>
+
 
 
     <div class="product-grid">
 
-      <!-- New products will be added later -->
+
+      <!-- =================================================
+           NEW PRODUCT 01
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-5"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="new-badge">
+            NEW
+          </span>
+
+
+          <img
+            src="images/products/product-5.jpg"
+            alt="New Arrival Premium Product"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            New Arrival Premium Product
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳1,490
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
+
+
+      <!-- =================================================
+           NEW PRODUCT 02
+      ================================================== -->
+
+      <article
+        class="product-card"
+        data-product-id="product-6"
+      >
+
+
+        <div class="product-image">
+
+
+          <span class="new-badge">
+            NEW
+          </span>
+
+
+          <img
+            src="images/products/product-6.jpg"
+            alt="Smart Lifestyle Product"
+            loading="lazy"
+          >
+
+
+        </div>
+
+
+        <div class="product-info">
+
+
+          <h3>
+            Smart Lifestyle Product
+          </h3>
+
+
+          <div class="product-rating">
+
+            ⭐⭐⭐⭐⭐
+
+            <span>
+              (0)
+            </span>
+
+          </div>
+
+
+          <div class="product-price">
+
+
+            <span class="current-price">
+              ৳890
+            </span>
+
+
+          </div>
+
+
+          <div class="product-actions">
+
+
+            <button
+              class="add-cart-btn"
+              type="button"
+            >
+              🛒 Add to Cart
+            </button>
+
+
+            <button
+              class="buy-now-btn"
+              type="button"
+            >
+              Buy Now
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+
+      </article>
+
 
     </div>
+
 
   </section>
 
@@ -735,9 +1364,11 @@
 
   <footer class="footer">
 
+
     <p>
       © 2026 Dreamly Mart. All Rights Reserved.
     </p>
+
 
   </footer>
 
@@ -748,6 +1379,7 @@
   ====================================================== -->
 
   <script src="js/app.js"></script>
+
 
 </body>
 
