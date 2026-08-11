@@ -1,6 +1,7 @@
 /* =========================================================
    DREAMLY MART
-   APP.JS — CATEGORY + PRODUCT DATA SYSTEM
+   APP.JS
+   CATEGORY + PRODUCT DATA + PRODUCT DETAILS SYSTEM
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -65,53 +66,104 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       DREAMLY MART — PRODUCT DATA
+       DREAMLY MART — TOP SELLING PRODUCTS
     ===================================================== */
 
     const topSellingProducts = [
 
         {
+            id: "casio-illuminator-watch",
+
             name: "Casio Illuminator Premium Watch",
+
             price: 1590,
+
             oldPrice: 1990,
+
             discount: "-20%",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Fashion & Style",
-            image: "images/casio-watch.jpg"
+
+            image: "images/casio-watch.jpg",
+
+            description:
+                "Premium Casio Illuminator watch with a stylish design, perfect for everyday use and special occasions."
         },
 
+
         {
+            id: "maximum-mb3031-phone",
+
             name: "Maximum MB3031 Antenna Phone",
+
             price: 2290,
+
             oldPrice: 2690,
+
             discount: "-15%",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Electronics & Gadgets",
-            image: "images/maximum-phone.jpg"
+
+            image: "images/maximum-phone.jpg",
+
+            description:
+                "Maximum MB3031 Antenna Phone featuring dual antenna support, powerful battery and practical everyday features."
         },
 
+
         {
+            id: "smart-gadget-premium",
+
             name: "Smart Gadget Premium Collection",
+
             price: 990,
+
             oldPrice: 1320,
+
             discount: "-25%",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Electronics & Gadgets",
-            image: "images/smart-gadget.jpg"
+
+            image: "images/smart-gadget.jpg",
+
+            description:
+                "A premium smart gadget collection designed to make everyday life easier and smarter."
         },
 
+
         {
+            id: "premium-gift-combo",
+
             name: "Premium Gift and Combo Pack",
+
             price: 1290,
+
             oldPrice: 1440,
+
             discount: "-10%",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Gifts & Combos",
-            image: "images/gift-combo.jpg"
+
+            image: "images/gift-combo.jpg",
+
+            description:
+                "A beautiful premium gift and combo pack, perfect for birthdays, celebrations and special moments."
         }
 
     ];
@@ -125,28 +177,85 @@ document.addEventListener("DOMContentLoaded", function () {
     const newArrivalProducts = [
 
         {
+            id: "new-arrival-premium",
+
             name: "New Arrival Premium Product",
+
             price: 1490,
+
             oldPrice: null,
+
             discount: "NEW",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Others",
-            image: "images/new-arrival.jpg"
+
+            image: "images/new-arrival.jpg",
+
+            description:
+                "A newly arrived premium product selected for Dreamly Mart customers."
         },
 
+
         {
+            id: "smart-lifestyle-product",
+
             name: "Smart Lifestyle Product",
+
             price: 890,
+
             oldPrice: null,
+
             discount: "NEW",
+
             rating: 5,
+
             reviews: 0,
+
             category: "Home & Kitchen",
-            image: "images/smart-lifestyle.jpg"
+
+            image: "images/smart-lifestyle.jpg",
+
+            description:
+                "A smart lifestyle product designed to add convenience and comfort to everyday living."
         }
 
     ];
+
+
+
+    /* =====================================================
+       COMBINE ALL PRODUCTS
+    ===================================================== */
+
+    const allProducts = [
+
+        ...topSellingProducts,
+
+        ...newArrivalProducts
+
+    ];
+
+
+
+    /* =====================================================
+       SAVE PRODUCT FOR DETAILS PAGE
+    ===================================================== */
+
+    function openProductDetails(product) {
+
+        localStorage.setItem(
+            "dreamlySelectedProduct",
+            JSON.stringify(product)
+        );
+
+        window.location.href =
+            "product-details.html";
+
+    }
 
 
 
@@ -157,101 +266,135 @@ document.addEventListener("DOMContentLoaded", function () {
     function createProductCard(product) {
 
         const card =
-            document.createElement("div");
+            document.createElement("article");
 
-        card.className = "product-card";
+        card.className =
+            "product-card";
 
 
-        /* IMAGE */
+        card.setAttribute(
+            "data-product-id",
+            product.id
+        );
+
+
+        /* =================================================
+           IMAGE BOX
+        ================================================= */
 
         const imageBox =
             document.createElement("div");
 
-        imageBox.className = "product-image";
+        imageBox.className =
+            "product-image";
 
 
         const image =
             document.createElement("img");
 
-        image.src = product.image;
+        image.src =
+            product.image;
 
-        image.alt = product.name;
+        image.alt =
+            product.name;
 
-        image.loading = "lazy";
+        image.loading =
+            "lazy";
 
 
-        /*
-         * Product image এখনো upload করা হয়নি।
-         * তাই image না পাওয়া গেলে সুন্দর fallback দেখাবে।
-         */
+        /* IMAGE FALLBACK */
 
         image.onerror = function () {
 
-            image.style.display = "none";
+            image.style.display =
+                "none";
 
-            imageBox.innerHTML = `
-                <div style="
-                    width:100%;
-                    height:100%;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    flex-direction:column;
-                    gap:10px;
-                    background:#f8f7ff;
-                    color:#7c3aed;
-                    font-size:48px;
-                ">
-                    🛍️
-                    <span style="
-                        font-size:13px;
-                        color:#777;
-                    ">
-                        Product Image
-                    </span>
-                </div>
+
+            imageBox.classList.add(
+                "image-placeholder"
+            );
+
+
+            const fallback =
+                document.createElement("div");
+
+            fallback.className =
+                "product-image-fallback";
+
+
+            fallback.innerHTML = `
+                <span>🛍️</span>
+                <small>Product Image</small>
             `;
+
+
+            imageBox.appendChild(
+                fallback
+            );
 
         };
 
 
-        imageBox.appendChild(image);
+        imageBox.appendChild(
+            image
+        );
 
 
-
-        /* BADGE */
+        /* =================================================
+           DISCOUNT / NEW BADGE
+        ================================================= */
 
         if (product.discount) {
 
             const badge =
                 document.createElement("span");
 
-            badge.className =
+
+            if (
                 product.discount === "NEW"
-                    ? "new-badge"
-                    : "discount-badge";
+            ) {
+
+                badge.className =
+                    "new-badge";
+
+            } else {
+
+                badge.className =
+                    "discount-badge";
+
+            }
+
 
             badge.textContent =
                 product.discount;
 
-            imageBox.appendChild(badge);
+
+            imageBox.appendChild(
+                badge
+            );
 
         }
 
 
-        card.appendChild(imageBox);
+        card.appendChild(
+            imageBox
+        );
 
 
 
-        /* PRODUCT INFO */
+        /* =================================================
+           PRODUCT INFORMATION
+        ================================================= */
 
         const info =
             document.createElement("div");
 
-        info.className = "product-info";
+        info.className =
+            "product-info";
 
 
-        /* NAME */
+
+        /* PRODUCT NAME */
 
         const title =
             document.createElement("h3");
@@ -259,11 +402,16 @@ document.addEventListener("DOMContentLoaded", function () {
         title.textContent =
             product.name;
 
-        info.appendChild(title);
+
+        info.appendChild(
+            title
+        );
 
 
 
-        /* RATING */
+        /* =================================================
+           RATING
+        ================================================= */
 
         const rating =
             document.createElement("div");
@@ -271,15 +419,39 @@ document.addEventListener("DOMContentLoaded", function () {
         rating.className =
             "product-rating";
 
-        rating.innerHTML =
-            "★★★★★ " +
-            <span>(${product.reviews})</span>;
 
-        info.appendChild(rating);
+        const stars =
+            document.createElement("span");
+
+        stars.textContent =
+            "★★★★★";
+
+
+        const reviews =
+            document.createElement("span");
+
+        reviews.textContent =
+            ` (${product.reviews})`;
+
+
+        rating.appendChild(
+            stars
+        );
+
+        rating.appendChild(
+            reviews
+        );
+
+
+        info.appendChild(
+            rating
+        );
 
 
 
-        /* PRICE */
+        /* =================================================
+           PRICE
+        ================================================= */
 
         const priceBox =
             document.createElement("div");
@@ -294,12 +466,18 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPrice.className =
             "current-price";
 
+
         currentPrice.textContent =
             "৳" +
             product.price.toLocaleString("en-BD");
 
-        priceBox.appendChild(currentPrice);
 
+        priceBox.appendChild(
+            currentPrice
+        );
+
+
+        /* OLD PRICE */
 
         if (product.oldPrice) {
 
@@ -309,20 +487,28 @@ document.addEventListener("DOMContentLoaded", function () {
             oldPrice.className =
                 "old-price";
 
+
             oldPrice.textContent =
                 "৳" +
                 product.oldPrice.toLocaleString("en-BD");
 
-            priceBox.appendChild(oldPrice);
+
+            priceBox.appendChild(
+                oldPrice
+            );
 
         }
 
 
-        info.appendChild(priceBox);
+        info.appendChild(
+            priceBox
+        );
 
 
 
-        /* ACTION BUTTONS */
+        /* =================================================
+           ACTION BUTTONS
+        ================================================= */
 
         const actions =
             document.createElement("div");
@@ -330,6 +516,9 @@ document.addEventListener("DOMContentLoaded", function () {
         actions.className =
             "product-actions";
 
+
+
+        /* ADD TO CART */
 
         const cartButton =
             document.createElement("button");
@@ -344,6 +533,21 @@ document.addEventListener("DOMContentLoaded", function () {
             "🛒 Add to Cart";
 
 
+        cartButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                addToCart(product);
+
+            }
+        );
+
+
+
+        /* BUY NOW */
+
         const buyButton =
             document.createElement("button");
 
@@ -357,14 +561,54 @@ document.addEventListener("DOMContentLoaded", function () {
             "Buy Now";
 
 
-        actions.appendChild(cartButton);
+        buyButton.addEventListener(
+            "click",
+            function (event) {
 
-        actions.appendChild(buyButton);
+                event.stopPropagation();
 
-        info.appendChild(actions);
+                openProductDetails(
+                    product
+                );
+
+            }
+        );
 
 
-        card.appendChild(info);
+        actions.appendChild(
+            cartButton
+        );
+
+        actions.appendChild(
+            buyButton
+        );
+
+
+        info.appendChild(
+            actions
+        );
+
+
+        card.appendChild(
+            info
+        );
+
+
+
+        /* =================================================
+           CARD CLICK
+        ================================================= */
+
+        card.addEventListener(
+            "click",
+            function () {
+
+                openProductDetails(
+                    product
+                );
+
+            }
+        );
 
 
         return card;
@@ -377,44 +621,63 @@ document.addEventListener("DOMContentLoaded", function () {
        DISPLAY PRODUCTS
     ===================================================== */
 
-    function displayProducts(products, grids) {
+    function displayProducts(
+        products,
+        grid
+    ) {
 
-        grids.forEach(function (grid) {
+        if (!grid) {
+            return;
+        }
 
-            if (!grid) return;
 
-            grid.innerHTML = "";
+        grid.innerHTML = "";
 
-            products.forEach(function (product) {
+
+        products.forEach(
+            function (product) {
 
                 const card =
-                    createProductCard(product);
+                    createProductCard(
+                        product
+                    );
 
-                grid.appendChild(card);
 
-            });
+                grid.appendChild(
+                    card
+                );
 
-        });
+            }
+        );
 
     }
 
 
 
     /* =====================================================
-       TOP SELLING PRODUCT GRID
+       TOP SELLING PRODUCTS
     ===================================================== */
 
-    const productGrids =
+    const productSections =
         document.querySelectorAll(
-            "#products .product-grid"
+            ".products"
         );
 
 
-    if (productGrids.length > 0) {
+    if (
+        productSections.length > 0
+    ) {
+
+        const topGrid =
+            productSections[0]
+                .querySelector(
+                    ".product-grid"
+                );
+
 
         displayProducts(
             topSellingProducts,
-            [productGrids[0]]
+            topGrid
         );
 
     }
@@ -422,20 +685,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       NEW ARRIVAL PRODUCT GRID
+       NEW ARRIVALS
     ===================================================== */
 
-    const allProductSections =
-        document.querySelectorAll(
-            ".products .product-grid"
-        );
+    if (
+        productSections.length > 1
+    ) {
 
+        const newGrid =
+            productSections[1]
+                .querySelector(
+                    ".product-grid"
+                );
 
-    if (allProductSections.length > 1) {
 
         displayProducts(
             newArrivalProducts,
-            [allProductSections[1]]
+            newGrid
         );
 
     }
@@ -443,39 +709,251 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PRODUCT BUTTON — TEMPORARY
+       ADD TO CART — TEMPORARY
     ===================================================== */
 
-    document.addEventListener(
-        "click",
-        function (event) {
+    function addToCart(product) {
 
-            if (
-                event.target.classList.contains(
-                    "add-cart-btn"
+        let cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "dreamlyCart"
                 )
-            ) {
-
-                alert(
-                    "Product added to cart!"
-                );
-
-            }
+            ) || [];
 
 
-            if (
-                event.target.classList.contains(
-                    "buy-now-btn"
-                )
-            ) {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        });
 
-                alert(
-                    "Buy Now system will be connected in the next step."
-                );
 
-            }
+        localStorage.setItem(
+            "dreamlyCart",
+            JSON.stringify(cart)
+        );
+
+
+        alert(
+            `"${product.name}" added to cart!`
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CATEGORY CARD CLICK
+    ===================================================== */
+
+    const categoryCards =
+        document.querySelectorAll(
+            ".category-card, .all-category-card"
+        );
+
+
+    categoryCards.forEach(
+        function (categoryCard) {
+
+            categoryCard.addEventListener(
+                "click",
+                function () {
+
+                    const category =
+                        categoryCard.dataset.category;
+
+
+                    if (!category) {
+                        return;
+                    }
+
+
+                    localStorage.setItem(
+                        "dreamlySelectedCategory",
+                        category
+                    );
+
+
+                    /*
+                     * Category filtering system
+                     * পরবর্তী ধাপে connect করা হবে।
+                     */
+
+                    console.log(
+                        "Selected Category:",
+                        category
+                    );
+
+                }
+            );
 
         }
     );
+
+
+
+    /* =====================================================
+       SEARCH — BASIC PREPARATION
+    ===================================================== */
+
+    const searchInput =
+        document.querySelector(
+            ".search-box input"
+        );
+
+
+    const searchButton =
+        document.querySelector(
+            ".search-box button"
+        );
+
+
+    function performSearch() {
+
+        if (!searchInput) {
+            return;
+        }
+
+
+        const searchText =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        if (!searchText) {
+            return;
+        }
+
+
+        const matchedProducts =
+            allProducts.filter(
+                function (product) {
+
+                    return (
+                        product.name
+                            .toLowerCase()
+                            .includes(searchText)
+                        ||
+                        product.category
+                            .toLowerCase()
+                            .includes(searchText)
+                    );
+
+                }
+            );
+
+
+        if (
+            matchedProducts.length > 0
+        ) {
+
+            displaySearchResults(
+                matchedProducts
+            );
+
+        } else {
+
+            alert(
+                "No products found."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH RESULTS
+    ===================================================== */
+
+    function displaySearchResults(
+        products
+    ) {
+
+        const firstProductSection =
+            document.querySelector(
+                ".products"
+            );
+
+
+        if (!firstProductSection) {
+            return;
+        }
+
+
+        firstProductSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+
+        const grid =
+            firstProductSection.querySelector(
+                ".product-grid"
+            );
+
+
+        displayProducts(
+            products,
+            grid
+        );
+
+    }
+
+
+
+    if (searchButton) {
+
+        searchButton.addEventListener(
+            "click",
+            performSearch
+        );
+
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       PRODUCT DATA AVAILABLE FOR OTHER JS FILES
+    ===================================================== */
+
+    window.DreamlyMartProducts = {
+
+        topSelling:
+            topSellingProducts,
+
+        newArrivals:
+            newArrivalProducts,
+
+        all:
+            allProducts
+
+    };
+
 
 });
