@@ -571,3 +571,135 @@
         height: 140px;
     }
 }
+
+
+/* =========================================================
+   ALL CATEGORIES — HIDDEN BY DEFAULT
+========================================================= */
+
+.all-categories {
+    display: none;
+    width: 100%;
+    margin-top: 30px;
+}
+
+
+/* যখন View All চাপা হবে */
+
+.all-categories.show {
+    display: block;
+}
+
+
+/* All Categories Header */
+
+.all-categories-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+
+/* Close Button */
+
+.close-categories-btn {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* All Category Grid */
+
+.all-category-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+/* All Category Card */
+
+.all-category-card {
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 25px 15px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+
+.all-category-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+}
+
+
+.all-category-card span {
+    display: block;
+
+    font-size: 34px;
+
+    margin-bottom: 12px;
+}
+
+
+.all-category-card h3 {
+    margin: 0;
+
+    font-size: 17px;
+
+    color: #222;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .all-category-grid {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 14px;
+    }
+
+    .all-category-card {
+        padding: 20px 10px;
+    }
+
+    .all-category-card span {
+        font-size: 30px;
+    }
+
+    .all-category-card h3 {
+        font-size: 15px;
+    }
+}
