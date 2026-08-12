@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout | Dreamly Mart</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/header.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/checkout.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <a href="index.html">
+
+            <img
+                src="images/logo-header.png"
+                alt="Dreamly Mart"
+            >
+
+        </a>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            placeholder="Search products..."
+            aria-label="Search products"
+        >
+
+        <button
+            type="button"
+            aria-label="Search"
+        >
+            🔍
+        </button>
+
+    </div>
+
+
+    <div class="header-icons">
+
+        <span
+            role="button"
+            aria-label="Shopping Cart"
+            id="checkoutCartButton"
+        >
+            🛒
+        </span>
+
+
+        <span
+            role="button"
+            aria-label="Account"
+        >
+            👤
+        </span>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     CHECKOUT PAGE
+===================================================== -->
+
+<main class="checkout-page">
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="checkout-intro">
+
+        <span>
+            DREAMLY MART
+        </span>
+
+        <h1>
+            Checkout
+        </h1>
+
+        <p>
+            Complete your information to place your order.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CHECKOUT LAYOUT
+    ================================================== -->
+
+    <section class="checkout-layout">
+
+
+        <!-- =================================================
+             CUSTOMER INFORMATION
+        ================================================== -->
+
+        <div class="checkout-left">
+
+
+            <!-- DELIVERY INFORMATION -->
+
+            <div class="checkout-card">
+
+                <div class="checkout-card-heading">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Delivery Information
+                        </h2>
+
+                        <p>
+                            Where should we deliver your order?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form id="checkoutForm">
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="customerName">
+                                Full Name
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerName"
+                                name="customerName"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="customerPhone">
+                                Mobile Number
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="customerPhone"
+                                name="customerPhone"
+                                placeholder="01XXXXXXXXX"
+                                autocomplete="tel"
+                                required
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="customerEmail">
+                            Email Address
+                            <small>(Optional)</small>
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            name="customerEmail"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="customerAddress">
+                            Full Delivery Address
+                            <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="customerAddress"
+                            name="customerAddress"
+                            rows="4"
+                            placeholder="House/Road, Village/Area, Union, Upazila, District..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="customerDistrict">
+                                District
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerDistrict"
+                                name="customerDistrict"
+                                placeholder="Enter district"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="customerPostCode">
+                                Post Code
+                                <small>(Optional)</small>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerPostCode"
+                                name="customerPostCode"
+                                placeholder="Post code"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="orderNote">
+                            Order Note
+                            <small>(Optional)</small>
+                        </label>
+
+                        <textarea
+                            id="orderNote"
+                            name="orderNote"
+                            rows="3"
+                            placeholder="Any special instruction for delivery?"
+                        ></textarea>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAYMENT METHOD
+            ================================================== -->
+
+            <div class="checkout-card">
+
+                <div class="checkout-card-heading">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Payment Method
+                        </h2>
+
+                        <p>
+                            Choose your preferred payment method.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="payment-methods">
+
+
+                    <!-- COD -->
+
+                    <label class="payment-option active">
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="cod"
+                            checked
+                        >
+
+                        <div class="payment-option-content">
+
+                            <div class="payment-icon">
+                                💵
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Cash on Delivery
+                                </strong>
+
+                                <span>
+                                    Pay when your order arrives.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- BKASH -->
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="bkash"
+                        >
+
+                        <div class="payment-option-content">
+
+                            <div class="payment-icon">
+                                📱
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    bKash
+                                </strong>
+
+                                <span>
+                                    Online payment option.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- NAGAD -->
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="nagad"
+                        >
+
+                        <div class="payment-option-content">
+
+                            <div class="payment-icon">
+                                💳
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Nagad
+                                </strong>
+
+                                <span>
+                                    Online payment option.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+                <div
+                    class="payment-notice"
+                    id="onlinePaymentNotice"
+                >
+
+                    <strong>
+                        ℹ️ Online Payment
+                    </strong>
+
+                    <p>
+                        Online payment gateway will be connected
+                        when Dreamly Mart's merchant account is ready.
+                        For now, Cash on Delivery is fully available.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 TERMS
+            ================================================== -->
+
+            <div class="checkout-terms">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="termsCheckbox"
+                        required
+                    >
+
+                    <span>
+
+                        I confirm that my delivery information
+                        is correct and I agree to Dreamly Mart's
+                        order terms.
+
+                    </span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             ORDER SUMMARY
+        ================================================== -->
+
+        <aside class="checkout-right">
+
+
+            <div class="order-summary">
+
+
+                <div class="summary-heading">
+
+                    <div>
+
+                        <span>
+                            YOUR ORDER
+                        </span>
+
+                        <h2>
+                            Order Summary
+                        </h2>
+
+                    </div>
+
+                    <span
+                        class="summary-count"
+                        id="summaryCount"
+                    >
+                        0 items
+                    </span>
+
+                </div>
+
+
+
+                <!-- ORDER ITEMS -->
+
+                <div
+                    class="checkout-items"
+                    id="checkoutItems"
+                >
+
+                </div>
+
+
+
+                <!-- SUMMARY -->
+
+                <div class="summary-prices">
+
+
+                    <div>
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong id="checkoutSubtotal">
+                            ৳0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Delivery Charge
+                        </span>
+
+                        <strong id="deliveryCharge">
+                            ৳0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="checkoutTotal">
+                        ৳0
+                    </strong>
+
+                </div>
+
+
+
+                <!-- PLACE ORDER -->
+
+                <button
+                    type="button"
+                    class="place-order-btn"
+                    id="placeOrderButton"
+                >
+
+                    🛍️ Place Order
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="back-cart-btn"
+                    id="backToCartButton"
+                >
+
+                    ← Back to Cart
+
+                </button>
+
+
+                <div class="secure-note">
+
+                    🔒
+                    Your information is handled securely.
+
+                </div>
+
+
+            </div>
+
+        </aside>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     ORDER SUCCESS MODAL
+===================================================== -->
+
+<div
+    class="order-success-overlay"
+    id="orderSuccessOverlay"
+>
+
+
+    <div class="order-success-modal">
+
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+
+        <span class="success-label">
+            ORDER CONFIRMED
+        </span>
+
+
+        <h2>
+            Thank You!
+        </h2>
+
+
+        <p>
+            Your order has been successfully placed.
+        </p>
+
+
+        <div class="order-number-box">
+
+            <span>
+                Order Number
+            </span>
+
+            <strong id="successOrderNumber">
+                DM-000000
+            </strong>
+
+        </div>
+
+
+        <div class="success-details">
+
+            <p>
+                📦 We will contact you shortly
+                to confirm your order.
+            </p>
+
+            <p>
+                🚚 Your order will be delivered
+                to your provided address.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="continueShoppingButton"
+        >
+            Continue Shopping
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 Dreamly Mart. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+
+<script src="js/checkout.js"></script>
+
+</body>
+
+</html>

@@ -7,6 +7,7 @@
    SEARCH
    CART
    PRODUCT DETAILS
+   CHECKOUT
 ========================================================= */
 
 
@@ -642,7 +643,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* ADD TO CART */
+        /* =================================================
+           ADD TO CART
+        ================================================= */
 
         const cartButton =
             document.createElement("button");
@@ -673,7 +676,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* BUY NOW */
+        /* =================================================
+           BUY NOW
+        ================================================= */
 
         const buyButton =
             document.createElement("button");
@@ -1547,15 +1552,24 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
+        /* =================================================
+           CHECKOUT BUTTON
+        ================================================= */
+
         if (checkoutButton) {
 
             checkoutButton.addEventListener(
                 "click",
                 function () {
 
-                    alert(
-                        "Checkout system will be connected in the next step."
-                    );
+                    /*
+                     * Checkout page
+                     * The cart is already saved
+                     * in localStorage.
+                     */
+
+                    window.location.href =
+                        "checkout.html";
 
                 }
             );
