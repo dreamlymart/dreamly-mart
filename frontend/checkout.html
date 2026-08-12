@@ -102,7 +102,9 @@
 <main class="checkout-page">
 
 
-    <!-- PAGE HEADER -->
+    <!-- =================================================
+         PAGE INTRO
+    ================================================== -->
 
     <section class="checkout-intro">
 
@@ -130,13 +132,15 @@
 
 
         <!-- =================================================
-             CUSTOMER INFORMATION
+             LEFT SIDE
         ================================================== -->
 
         <div class="checkout-left">
 
 
-            <!-- DELIVERY INFORMATION -->
+            <!-- =================================================
+                 DELIVERY INFORMATION
+            ================================================== -->
 
             <div class="checkout-card">
 
@@ -161,8 +165,15 @@
                 </div>
 
 
+
+                <!-- =================================================
+                     CUSTOMER FORM
+                ================================================== -->
+
                 <form id="checkoutForm">
 
+
+                    <!-- NAME + PHONE -->
 
                     <div class="form-row">
 
@@ -170,8 +181,11 @@
                         <div class="form-group">
 
                             <label for="customerName">
+
                                 Full Name
+
                                 <span>*</span>
+
                             </label>
 
                             <input
@@ -186,11 +200,15 @@
                         </div>
 
 
+
                         <div class="form-group">
 
                             <label for="customerPhone">
+
                                 Mobile Number
+
                                 <span>*</span>
+
                             </label>
 
                             <input
@@ -199,6 +217,7 @@
                                 name="customerPhone"
                                 placeholder="01XXXXXXXXX"
                                 autocomplete="tel"
+                                inputmode="tel"
                                 required
                             >
 
@@ -209,11 +228,18 @@
 
 
 
+                    <!-- EMAIL -->
+
                     <div class="form-group">
 
                         <label for="customerEmail">
+
                             Email Address
-                            <small>(Optional)</small>
+
+                            <small>
+                                (Optional)
+                            </small>
+
                         </label>
 
                         <input
@@ -228,11 +254,384 @@
 
 
 
+                    <!-- =================================================
+                         DISTRICT
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="customerDistrict">
+
+                            District
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <select
+                            id="customerDistrict"
+                            name="customerDistrict"
+                            required
+                        >
+
+                            <option value="">
+                                Select your district
+                            </option>
+
+
+                            <!-- =========================================
+                                 BARISHAL DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Barishal Division">
+
+                                <option value="Barguna">
+                                    Barguna
+                                </option>
+
+                                <option value="Barishal">
+                                    Barishal
+                                </option>
+
+                                <option value="Bhola">
+                                    Bhola
+                                </option>
+
+                                <option value="Jhalokathi">
+                                    Jhalokathi
+                                </option>
+
+                                <option value="Patuakhali">
+                                    Patuakhali
+                                </option>
+
+                                <option value="Pirojpur">
+                                    Pirojpur
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 CHATTOGRAM DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Chattogram Division">
+
+                                <option value="Bandarban">
+                                    Bandarban
+                                </option>
+
+                                <option value="Brahmanbaria">
+                                    Brahmanbaria
+                                </option>
+
+                                <option value="Chandpur">
+                                    Chandpur
+                                </option>
+
+                                <option value="Chattogram">
+                                    Chattogram
+                                </option>
+
+                                <option value="Cumilla">
+                                    Cumilla
+                                </option>
+
+                                <option value="Cox's Bazar">
+                                    Cox's Bazar
+                                </option>
+
+                                <option value="Feni">
+                                    Feni
+                                </option>
+
+                                <option value="Khagrachhari">
+                                    Khagrachhari
+                                </option>
+
+                                <option value="Lakshmipur">
+                                    Lakshmipur
+                                </option>
+
+                                <option value="Noakhali">
+                                    Noakhali
+                                </option>
+
+                                <option value="Rangamati">
+                                    Rangamati
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 DHAKA DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Dhaka Division">
+
+                                <option value="Dhaka">
+                                    Dhaka
+                                </option>
+
+                                <option value="Faridpur">
+                                    Faridpur
+                                </option>
+
+                                <option value="Gazipur">
+                                    Gazipur
+                                </option>
+
+                                <option value="Gopalganj">
+                                    Gopalganj
+                                </option>
+
+                                <option value="Kishoreganj">
+                                    Kishoreganj
+                                </option>
+
+                                <option value="Madaripur">
+                                    Madaripur
+                                </option>
+
+                                <option value="Manikganj">
+                                    Manikganj
+                                </option>
+
+                                <option value="Munshiganj">
+                                    Munshiganj
+                                </option>
+
+                                <option value="Narayanganj">
+                                    Narayanganj
+                                </option>
+
+                                <option value="Narsingdi">
+                                    Narsingdi
+                                </option>
+
+                                <option value="Rajbari">
+                                    Rajbari
+                                </option>
+
+                                <option value="Shariatpur">
+                                    Shariatpur
+                                </option>
+
+                                <option value="Tangail">
+                                    Tangail
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 KHULNA DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Khulna Division">
+
+                                <option value="Bagerhat">
+                                    Bagerhat
+                                </option>
+
+                                <option value="Chuadanga">
+                                    Chuadanga
+                                </option>
+
+                                <option value="Jashore">
+                                    Jashore
+                                </option>
+
+                                <option value="Jhenaidah">
+                                    Jhenaidah
+                                </option>
+
+                                <option value="Khulna">
+                                    Khulna
+                                </option>
+
+                                <option value="Kushtia">
+                                    Kushtia
+                                </option>
+
+                                <option value="Magura">
+                                    Magura
+                                </option>
+
+                                <option value="Meherpur">
+                                    Meherpur
+                                </option>
+
+                                <option value="Narail">
+                                    Narail
+                                </option>
+
+                                <option value="Satkhira">
+                                    Satkhira
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 MYMENSINGH DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Mymensingh Division">
+
+                                <option value="Jamalpur">
+                                    Jamalpur
+                                </option>
+
+                                <option value="Mymensingh">
+                                    Mymensingh
+                                </option>
+
+                                <option value="Netrokona">
+                                    Netrokona
+                                </option>
+
+                                <option value="Sherpur">
+                                    Sherpur
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 RAJSHAHI DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Rajshahi Division">
+
+                                <option value="Bogura">
+                                    Bogura
+                                </option>
+
+                                <option value="Joypurhat">
+                                    Joypurhat
+                                </option>
+
+                                <option value="Naogaon">
+                                    Naogaon
+                                </option>
+
+                                <option value="Natore">
+                                    Natore
+                                </option>
+
+                                <option value="Chapainawabganj">
+                                    Chapainawabganj
+                                </option>
+
+                                <option value="Pabna">
+                                    Pabna
+                                </option>
+
+                                <option value="Rajshahi">
+                                    Rajshahi
+                                </option>
+
+                                <option value="Sirajganj">
+                                    Sirajganj
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 RANGPUR DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Rangpur Division">
+
+                                <option value="Dinajpur">
+                                    Dinajpur
+                                </option>
+
+                                <option value="Gaibandha">
+                                    Gaibandha
+                                </option>
+
+                                <option value="Kurigram">
+                                    Kurigram
+                                </option>
+
+                                <option value="Lalmonirhat">
+                                    Lalmonirhat
+                                </option>
+
+                                <option value="Nilphamari">
+                                    Nilphamari
+                                </option>
+
+                                <option value="Panchagarh">
+                                    Panchagarh
+                                </option>
+
+                                <option value="Rangpur">
+                                    Rangpur
+                                </option>
+
+                                <option value="Thakurgaon">
+                                    Thakurgaon
+                                </option>
+
+                            </optgroup>
+
+
+
+                            <!-- =========================================
+                                 SYLHET DIVISION
+                            ========================================== -->
+
+                            <optgroup label="Sylhet Division">
+
+                                <option value="Habiganj">
+                                    Habiganj
+                                </option>
+
+                                <option value="Moulvibazar">
+                                    Moulvibazar
+                                </option>
+
+                                <option value="Sunamganj">
+                                    Sunamganj
+                                </option>
+
+                                <option value="Sylhet">
+                                    Sylhet
+                                </option>
+
+                            </optgroup>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         FULL DELIVERY ADDRESS
+                    ================================================== -->
+
                     <div class="form-group">
 
                         <label for="customerAddress">
+
                             Full Delivery Address
+
                             <span>*</span>
+
                         </label>
 
                         <textarea
@@ -240,6 +639,7 @@
                             name="customerAddress"
                             rows="4"
                             placeholder="House/Road, Village/Area, Union, Upazila, District..."
+                            autocomplete="street-address"
                             required
                         ></textarea>
 
@@ -247,53 +647,20 @@
 
 
 
-                    <div class="form-row">
-
-
-                        <div class="form-group">
-
-                            <label for="customerDistrict">
-                                District
-                                <span>*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                id="customerDistrict"
-                                name="customerDistrict"
-                                placeholder="Enter district"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="customerPostCode">
-                                Post Code
-                                <small>(Optional)</small>
-                            </label>
-
-                            <input
-                                type="text"
-                                id="customerPostCode"
-                                name="customerPostCode"
-                                placeholder="Post code"
-                            >
-
-                        </div>
-
-
-                    </div>
-
-
+                    <!-- =================================================
+                         ORDER NOTE
+                    ================================================== -->
 
                     <div class="form-group">
 
                         <label for="orderNote">
+
                             Order Note
-                            <small>(Optional)</small>
+
+                            <small>
+                                (Optional)
+                            </small>
+
                         </label>
 
                         <textarea
@@ -343,7 +710,7 @@
                 <div class="payment-methods">
 
 
-                    <!-- COD -->
+                    <!-- CASH ON DELIVERY -->
 
                     <label class="payment-option active">
 
@@ -448,6 +815,9 @@
                 </div>
 
 
+
+                <!-- ONLINE PAYMENT NOTICE -->
+
                 <div
                     class="payment-notice"
                     id="onlinePaymentNotice"
@@ -501,7 +871,7 @@
 
 
         <!-- =================================================
-             ORDER SUMMARY
+             RIGHT SIDE — ORDER SUMMARY
         ================================================== -->
 
         <aside class="checkout-right">
@@ -509,6 +879,8 @@
 
             <div class="order-summary">
 
+
+                <!-- SUMMARY HEADING -->
 
                 <div class="summary-heading">
 
@@ -523,6 +895,7 @@
                         </h2>
 
                     </div>
+
 
                     <span
                         class="summary-count"
@@ -540,13 +913,11 @@
                 <div
                     class="checkout-items"
                     id="checkoutItems"
-                >
-
-                </div>
+                ></div>
 
 
 
-                <!-- SUMMARY -->
+                <!-- SUMMARY PRICES -->
 
                 <div class="summary-prices">
 
@@ -581,6 +952,8 @@
 
 
 
+                <!-- TOTAL -->
+
                 <div class="summary-total">
 
                     <span>
@@ -608,6 +981,9 @@
                 </button>
 
 
+
+                <!-- BACK TO CART -->
+
                 <button
                     type="button"
                     class="back-cart-btn"
@@ -618,6 +994,9 @@
 
                 </button>
 
+
+
+                <!-- SECURITY NOTE -->
 
                 <div class="secure-note">
 
@@ -691,6 +1070,7 @@
                 to confirm your order.
             </p>
 
+
             <p>
                 🚚 Your order will be delivered
                 to your provided address.
@@ -727,7 +1107,12 @@
 
 
 
+<!-- =====================================================
+     CHECKOUT JAVASCRIPT
+===================================================== -->
+
 <script src="js/checkout.js"></script>
+
 
 </body>
 

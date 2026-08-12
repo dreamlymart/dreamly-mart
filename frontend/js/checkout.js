@@ -1,8 +1,19 @@
 /* =========================================================
    DREAMLY MART
    CHECKOUT.JS
-   COMPLETE FRONTEND CHECKOUT SYSTEM
+
+   COMPLETE CHECKOUT SYSTEM
+   ---------------------------------------------------------
+   • Cart
+   • District Selection
+   • Customer Information
+   • Payment Method
+   • Order Summary
+   • Order Number
+   • Order Storage
+   • Order Success
 ========================================================= */
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -15,9 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
-            return JSON.parse(
-                localStorage.getItem("dreamlyCart")
-            ) || [];
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("dreamlyCart")
+                );
+
+            return Array.isArray(cart)
+                ? cart
+                : [];
 
         } catch (error) {
 
@@ -34,37 +50,70 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     const checkoutItems =
-        document.getElementById("checkoutItems");
+        document.getElementById(
+            "checkoutItems"
+        );
+
 
     const checkoutSubtotal =
-        document.getElementById("checkoutSubtotal");
+        document.getElementById(
+            "checkoutSubtotal"
+        );
+
 
     const deliveryCharge =
-        document.getElementById("deliveryCharge");
+        document.getElementById(
+            "deliveryCharge"
+        );
+
 
     const checkoutTotal =
-        document.getElementById("checkoutTotal");
+        document.getElementById(
+            "checkoutTotal"
+        );
+
 
     const summaryCount =
-        document.getElementById("summaryCount");
+        document.getElementById(
+            "summaryCount"
+        );
+
 
     const placeOrderButton =
-        document.getElementById("placeOrderButton");
+        document.getElementById(
+            "placeOrderButton"
+        );
+
 
     const backToCartButton =
-        document.getElementById("backToCartButton");
+        document.getElementById(
+            "backToCartButton"
+        );
+
 
     const checkoutForm =
-        document.getElementById("checkoutForm");
+        document.getElementById(
+            "checkoutForm"
+        );
+
 
     const termsCheckbox =
-        document.getElementById("termsCheckbox");
+        document.getElementById(
+            "termsCheckbox"
+        );
+
 
     const successOverlay =
-        document.getElementById("orderSuccessOverlay");
+        document.getElementById(
+            "orderSuccessOverlay"
+        );
+
 
     const successOrderNumber =
-        document.getElementById("successOrderNumber");
+        document.getElementById(
+            "successOrderNumber"
+        );
+
 
     const continueShoppingButton =
         document.getElementById(
@@ -72,9 +121,19 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+    const districtSelect =
+        document.getElementById(
+            "customerDistrict"
+        );
+
+
 
     /* =====================================================
        DELIVERY CHARGE
+       -----------------------------------------------------
+       আপাতত সারা বাংলাদেশে একই delivery charge।
+       পরবর্তীতে district অনুযায়ী charge পরিবর্তন
+       করা যাবে।
     ===================================================== */
 
     const DELIVERY_CHARGE = 80;
@@ -89,7 +148,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return (
             "৳" +
-            Number(amount).toLocaleString("en-BD")
+            Number(amount || 0)
+                .toLocaleString("en-BD")
+        );
+
+    }
+
+
+
+    /* =====================================================
+       DISTRICT VALIDATION
+    ===================================================== */
+
+    function validateDistrict() {
+
+        if (!districtSelect) {
+
+            return true;
+
+        }
+
+
+        if (!districtSelect.value) {
+
+            districtSelect.setCustomValidity(
+                "Please select your district."
+            );
+
+            return false;
+
+        }
+
+
+        districtSelect.setCustomValidity(
+            ""
+        );
+
+        return true;
+
+    }
+
+
+
+    /* =====================================================
+       DISTRICT CHANGE
+    ===================================================== */
+
+    if (districtSelect) {
+
+        districtSelect.addEventListener(
+            "change",
+            function () {
+
+                validateDistrict();
+
+            }
         );
 
     }
@@ -102,17 +215,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderCheckout() {
 
-        const cart = getCart();
+        const cart =
+            getCart();
+
 
         if (!checkoutItems) {
+
             return;
+
         }
 
 
-        checkoutItems.innerHTML = "";
+        checkoutItems.innerHTML =
+            "";
 
 
-        /* EMPTY CART */
+
+        /* =================================================
+           EMPTY CART
+        ================================================= */
 
         if (cart.length === 0) {
 
@@ -129,7 +250,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </h2>
 
                     <p>
-                        Please add some products before checkout.
+                        Please add some products
+                        before checkout.
                     </p>
 
                     <a href="index.html">
@@ -142,152 +264,255 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (checkoutSubtotal) {
-                checkoutSubtotal.textContent = "৳0";
+
+                checkoutSubtotal.textContent =
+                    "৳0";
+
             }
+
 
             if (deliveryCharge) {
-                deliveryCharge.textContent = "৳0";
+
+                deliveryCharge.textContent =
+                    "৳0";
+
             }
+
 
             if (checkoutTotal) {
-                checkoutTotal.textContent = "৳0";
+
+                checkoutTotal.textContent =
+                    "৳0";
+
             }
+
 
             if (summaryCount) {
-                summaryCount.textContent = "0 items";
+
+                summaryCount.textContent =
+                    "0 items";
+
             }
 
+
             if (placeOrderButton) {
-                placeOrderButton.disabled = true;
+
+                placeOrderButton.disabled =
+                    true;
+
             }
+
 
             return;
 
         }
 
 
+
         if (placeOrderButton) {
-            placeOrderButton.disabled = false;
+
+            placeOrderButton.disabled =
+                false;
+
         }
 
 
 
         /* =================================================
-           ITEMS
-        ================================================== */
+           PRODUCTS
+        ================================================= */
 
-        let subtotal = 0;
-
-        let totalItems = 0;
-
-
-        cart.forEach(function (item) {
-
-            subtotal +=
-                item.price *
-                item.quantity;
+        let subtotal =
+            0;
 
 
-            totalItems +=
-                item.quantity;
+        let totalItems =
+            0;
 
 
-            const itemElement =
-                document.createElement("div");
-
-            itemElement.className =
-                "checkout-item";
+        cart.forEach(
+            function (item) {
 
 
-            const imageBox =
-                document.createElement("div");
-
-            imageBox.className =
-                "checkout-item-image";
+                const itemPrice =
+                    Number(item.price) || 0;
 
 
-            const image =
-                document.createElement("img");
-
-            image.src =
-                item.image;
-
-            image.alt =
-                item.name;
+                const itemQuantity =
+                    Number(item.quantity) || 0;
 
 
-            image.onerror =
-                function () {
-
-                    image.style.display =
-                        "none";
+                subtotal +=
+                    itemPrice *
+                    itemQuantity;
 
 
-                    imageBox.innerHTML =
-                        "<span>🛍️</span>";
-
-                };
-
-
-            imageBox.appendChild(image);
+                totalItems +=
+                    itemQuantity;
 
 
 
-            const info =
-                document.createElement("div");
+                /* =========================================
+                   ITEM
+                ========================================== */
 
-            info.className =
-                "checkout-item-info";
-
-
-            const title =
-                document.createElement("h3");
-
-            title.textContent =
-                item.name;
+                const itemElement =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            const quantity =
-                document.createElement("p");
-
-            quantity.textContent =
-                "Quantity: " +
-                item.quantity;
+                itemElement.className =
+                    "checkout-item";
 
 
-            const price =
-                document.createElement("strong");
 
-            price.textContent =
-                formatMoney(
-                    item.price *
-                    item.quantity
+                /* =========================================
+                   IMAGE
+                ========================================== */
+
+                const imageBox =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                imageBox.className =
+                    "checkout-item-image";
+
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                image.src =
+                    item.image || "";
+
+
+                image.alt =
+                    item.name || "Product";
+
+
+                image.loading =
+                    "lazy";
+
+
+                image.onerror =
+                    function () {
+
+                        image.style.display =
+                            "none";
+
+
+                        imageBox.innerHTML =
+                            `
+                            <span>
+                                🛍️
+                            </span>
+                            `;
+
+                    };
+
+
+                imageBox.appendChild(
+                    image
                 );
 
 
-            info.appendChild(title);
 
-            info.appendChild(quantity);
+                /* =========================================
+                   PRODUCT INFO
+                ========================================== */
 
-            info.appendChild(price);
+                const info =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            itemElement.appendChild(imageBox);
+                info.className =
+                    "checkout-item-info";
 
-            itemElement.appendChild(info);
 
 
-            checkoutItems.appendChild(
-                itemElement
-            );
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
 
-        });
+
+                title.textContent =
+                    item.name || "Product";
+
+
+                const quantity =
+                    document.createElement(
+                        "p"
+                    );
+
+
+                quantity.textContent =
+                    "Quantity: " +
+                    itemQuantity;
+
+
+                const price =
+                    document.createElement(
+                        "strong"
+                    );
+
+
+                price.textContent =
+                    formatMoney(
+                        itemPrice *
+                        itemQuantity
+                    );
+
+
+                info.appendChild(
+                    title
+                );
+
+
+                info.appendChild(
+                    quantity
+                );
+
+
+                info.appendChild(
+                    price
+                );
+
+
+
+                /* =========================================
+                   APPEND ITEM
+                ========================================== */
+
+                itemElement.appendChild(
+                    imageBox
+                );
+
+
+                itemElement.appendChild(
+                    info
+                );
+
+
+                checkoutItems.appendChild(
+                    itemElement
+                );
+
+            }
+        );
 
 
 
         /* =================================================
            TOTALS
-        ================================================== */
+        ================================================= */
 
         const finalDeliveryCharge =
             DELIVERY_CHARGE;
@@ -297,6 +522,11 @@ document.addEventListener("DOMContentLoaded", function () {
             subtotal +
             finalDeliveryCharge;
 
+
+
+        /* =================================================
+           SUMMARY COUNT
+        ================================================= */
 
         if (summaryCount) {
 
@@ -311,13 +541,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+
+        /* =================================================
+           SUBTOTAL
+        ================================================= */
+
         if (checkoutSubtotal) {
 
             checkoutSubtotal.textContent =
-                formatMoney(subtotal);
+                formatMoney(
+                    subtotal
+                );
 
         }
 
+
+
+        /* =================================================
+           DELIVERY
+        ================================================= */
 
         if (deliveryCharge) {
 
@@ -329,10 +571,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+
+        /* =================================================
+           TOTAL
+        ================================================= */
+
         if (checkoutTotal) {
 
             checkoutTotal.textContent =
-                formatMoney(total);
+                formatMoney(
+                    total
+                );
 
         }
 
@@ -356,6 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
             option.addEventListener(
                 "click",
                 function () {
+
 
                     paymentOptions.forEach(
                         function (item) {
@@ -381,7 +631,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CREATE ORDER NUMBER
+       PAYMENT RADIO CHANGE
+    ===================================================== */
+
+    const paymentInputs =
+        document.querySelectorAll(
+            'input[name="paymentMethod"]'
+        );
+
+
+    paymentInputs.forEach(
+        function (input) {
+
+            input.addEventListener(
+                "change",
+                function () {
+
+                    paymentOptions.forEach(
+                        function (option) {
+
+                            option.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    const selectedOption =
+                        input.closest(
+                            ".payment-option"
+                        );
+
+
+                    if (selectedOption) {
+
+                        selectedOption.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       GENERATE ORDER NUMBER
     ===================================================== */
 
     function generateOrderNumber() {
@@ -397,13 +697,37 @@ document.addEventListener("DOMContentLoaded", function () {
         const month =
             String(
                 now.getMonth() + 1
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
 
 
         const day =
             String(
                 now.getDate()
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const hours =
+            String(
+                now.getHours()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const minutes =
+            String(
+                now.getMinutes()
+            ).padStart(
+                2,
+                "0"
+            );
 
 
         const random =
@@ -418,6 +742,9 @@ document.addEventListener("DOMContentLoaded", function () {
             year +
             month +
             day +
+            "-" +
+            hours +
+            minutes +
             "-" +
             random
         );
@@ -434,14 +761,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let orders = [];
 
+
         try {
 
-            orders =
+            const savedOrders =
                 JSON.parse(
                     localStorage.getItem(
                         "dreamlyOrders"
                     )
-                ) || [];
+                );
+
+
+            orders =
+                Array.isArray(savedOrders)
+                    ? savedOrders
+                    : [];
 
         } catch (error) {
 
@@ -450,13 +784,42 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        orders.push(order);
+        orders.push(
+            order
+        );
 
 
         localStorage.setItem(
             "dreamlyOrders",
-            JSON.stringify(orders)
+            JSON.stringify(
+                orders
+            )
         );
+
+    }
+
+
+
+    /* =====================================================
+       GET CUSTOMER VALUE
+    ===================================================== */
+
+    function getValue(id) {
+
+        const element =
+            document.getElementById(
+                id
+            );
+
+
+        if (!element) {
+
+            return "";
+
+        }
+
+
+        return element.value.trim();
 
     }
 
@@ -472,6 +835,11 @@ document.addEventListener("DOMContentLoaded", function () {
             getCart();
 
 
+
+        /* =================================================
+           EMPTY CART
+        ================================================= */
+
         if (cart.length === 0) {
 
             alert(
@@ -482,6 +850,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
+
+
+        /* =================================================
+           DISTRICT VALIDATION
+        ================================================= */
+
+        if (!validateDistrict()) {
+
+            if (districtSelect) {
+
+                districtSelect.focus();
+
+            }
+
+            return;
+
+        }
+
+
+
+        /* =================================================
+           FORM VALIDATION
+        ================================================= */
 
         if (
             !checkoutForm ||
@@ -499,14 +890,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+
+        /* =================================================
+           TERMS
+        ================================================= */
+
         if (
             termsCheckbox &&
             !termsCheckbox.checked
         ) {
 
             alert(
-                "Please confirm that your information is correct."
+                "Please confirm that your delivery information is correct."
             );
+
+            termsCheckbox.focus();
 
             return;
 
@@ -516,52 +914,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /* =================================================
            CUSTOMER DATA
-        ================================================== */
+           -------------------------------------------------
+           এখানে Post Code নেই।
+        ================================================= */
 
         const customer = {
 
             name:
-                document.getElementById(
+                getValue(
                     "customerName"
-                ).value.trim(),
+                ),
+
 
             phone:
-                document.getElementById(
+                getValue(
                     "customerPhone"
-                ).value.trim(),
+                ),
+
 
             email:
-                document.getElementById(
+                getValue(
                     "customerEmail"
-                ).value.trim(),
+                ),
 
-            address:
-                document.getElementById(
-                    "customerAddress"
-                ).value.trim(),
 
             district:
-                document.getElementById(
+                getValue(
                     "customerDistrict"
-                ).value.trim(),
+                ),
 
-            postCode:
-                document.getElementById(
-                    "customerPostCode"
-                ).value.trim(),
+
+            address:
+                getValue(
+                    "customerAddress"
+                ),
+
 
             note:
-                document.getElementById(
+                getValue(
                     "orderNote"
-                ).value.trim()
+                )
 
         };
 
 
 
         /* =================================================
-           PAYMENT
-        ================================================== */
+           PAYMENT METHOD
+        ================================================= */
 
         const paymentInput =
             document.querySelector(
@@ -577,58 +977,93 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           CALCULATE TOTAL
-        ================================================== */
+           CALCULATE SUBTOTAL
+        ================================================= */
 
-        let subtotal = 0;
+        let subtotal =
+            0;
 
 
         cart.forEach(
             function (item) {
 
+                const price =
+                    Number(
+                        item.price
+                    ) || 0;
+
+
+                const quantity =
+                    Number(
+                        item.quantity
+                    ) || 0;
+
+
                 subtotal +=
-                    item.price *
-                    item.quantity;
+                    price *
+                    quantity;
 
             }
         );
 
 
-        const total =
-            subtotal +
+
+        /* =================================================
+           DELIVERY CHARGE
+        ================================================= */
+
+        const finalDeliveryCharge =
             DELIVERY_CHARGE;
 
 
 
         /* =================================================
-           ORDER
-        ================================================== */
+           FINAL TOTAL
+        ================================================= */
+
+        const total =
+            subtotal +
+            finalDeliveryCharge;
+
+
+
+        /* =================================================
+           CREATE ORDER
+        ================================================= */
 
         const order = {
 
             orderNumber:
                 generateOrderNumber(),
 
+
             createdAt:
                 new Date().toISOString(),
+
 
             status:
                 "Pending",
 
+
             paymentMethod:
                 paymentMethod,
+
 
             customer:
                 customer,
 
+
             items:
                 cart,
+
 
             subtotal:
                 subtotal,
 
+
             deliveryCharge:
-                DELIVERY_CHARGE,
+                finalDeliveryCharge,
+
 
             total:
                 total
@@ -636,13 +1071,20 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
 
-        saveOrder(order);
+
+        /* =================================================
+           SAVE ORDER
+        ================================================= */
+
+        saveOrder(
+            order
+        );
 
 
 
         /* =================================================
            CLEAR CART
-        ================================================== */
+        ================================================= */
 
         localStorage.removeItem(
             "dreamlyCart"
@@ -651,7 +1093,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           SHOW SUCCESS
+           UPDATE SUCCESS NUMBER
         ================================================= */
 
         if (successOrderNumber) {
@@ -661,6 +1103,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
+
+
+        /* =================================================
+           SHOW SUCCESS MODAL
+        ================================================= */
 
         if (successOverlay) {
 
@@ -730,7 +1177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CART ICON
+       CART BUTTON
     ===================================================== */
 
     const cartButton =
@@ -751,6 +1198,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 window.location.href =
                     "index.html";
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       FORM — DISTRICT VALIDATION
+    ===================================================== */
+
+    if (checkoutForm) {
+
+        checkoutForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                placeOrder();
 
             }
         );
