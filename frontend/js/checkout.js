@@ -5,7 +5,10 @@
    COMPLETE CHECKOUT SYSTEM
    ---------------------------------------------------------
    • Cart
-   • District Selection
+   • 64 District Selection
+   • Dhaka Delivery = ৳80
+   • Outside Dhaka Delivery = ৳120
+   • Dynamic Delivery Charge
    • Customer Information
    • Payment Method
    • Order Summary
@@ -16,6 +19,16 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       DELIVERY CHARGE SETTINGS
+    ===================================================== */
+
+    const DHAKA_DELIVERY_CHARGE = 80;
+
+    const OUTSIDE_DHAKA_DELIVERY_CHARGE = 120;
+
 
 
     /* =====================================================
@@ -54,89 +67,65 @@ document.addEventListener("DOMContentLoaded", function () {
             "checkoutItems"
         );
 
-
     const checkoutSubtotal =
         document.getElementById(
             "checkoutSubtotal"
         );
-
 
     const deliveryCharge =
         document.getElementById(
             "deliveryCharge"
         );
 
-
     const checkoutTotal =
         document.getElementById(
             "checkoutTotal"
         );
-
 
     const summaryCount =
         document.getElementById(
             "summaryCount"
         );
 
-
     const placeOrderButton =
         document.getElementById(
             "placeOrderButton"
         );
-
 
     const backToCartButton =
         document.getElementById(
             "backToCartButton"
         );
 
-
     const checkoutForm =
         document.getElementById(
             "checkoutForm"
         );
-
 
     const termsCheckbox =
         document.getElementById(
             "termsCheckbox"
         );
 
-
     const successOverlay =
         document.getElementById(
             "orderSuccessOverlay"
         );
-
 
     const successOrderNumber =
         document.getElementById(
             "successOrderNumber"
         );
 
-
     const continueShoppingButton =
         document.getElementById(
             "continueShoppingButton"
         );
 
-
     const districtSelect =
         document.getElementById(
             "customerDistrict"
         );
-
-
-
-    /* =====================================================
-       DELIVERY CHARGE
-       -----------------------------------------------------
-       আপাতত সারা বাংলাদেশে একই delivery charge।
-       পরবর্তীতে district অনুযায়ী charge পরিবর্তন
-       করা যাবে।
-    ===================================================== */
-
-    const DELIVERY_CHARGE = 80;
 
 
 
@@ -151,6 +140,38 @@ document.addEventListener("DOMContentLoaded", function () {
             Number(amount || 0)
                 .toLocaleString("en-BD")
         );
+
+    }
+
+
+
+    /* =====================================================
+       GET DELIVERY CHARGE
+       -----------------------------------------------------
+       Dhaka = ৳80
+       All other districts = ৳120
+    ===================================================== */
+
+    function getDeliveryCharge() {
+
+        if (
+            districtSelect &&
+            districtSelect.value === "Dhaka"
+        ) {
+
+            return DHAKA_DELIVERY_CHARGE;
+
+        }
+
+
+        /*
+         * District নির্বাচন না করা থাকলে
+         * default হিসেবে ৳120 রাখা হচ্ছে।
+         * District নির্বাচন করলে সঙ্গে সঙ্গে
+         * সঠিক charge চলে আসবে।
+         */
+
+        return OUTSIDE_DHAKA_DELIVERY_CHARGE;
 
     }
 
@@ -191,7 +212,122 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       UPDATE DELIVERY + TOTAL
+    ===================================================== */
+
+    function updateDeliveryAndTotal() {
+
+        const cart =
+            getCart();
+
+
+        if (!cart.length) {
+
+            if (deliveryCharge) {
+
+                deliveryCharge.textContent =
+                    "৳0";
+
+            }
+
+
+            if (checkoutTotal) {
+
+                checkoutTotal.textContent =
+                    "৳0";
+
+            }
+
+
+            return;
+
+        }
+
+
+
+        /* =================================================
+           SUBTOTAL
+        ================================================= */
+
+        let subtotal =
+            0;
+
+
+        cart.forEach(
+            function (item) {
+
+                const price =
+                    Number(
+                        item.price
+                    ) || 0;
+
+
+                const quantity =
+                    Number(
+                        item.quantity
+                    ) || 0;
+
+
+                subtotal +=
+                    price *
+                    quantity;
+
+            }
+        );
+
+
+
+        /* =================================================
+           DELIVERY
+        ================================================= */
+
+        const delivery =
+            getDeliveryCharge();
+
+
+
+        /* =================================================
+           TOTAL
+        ================================================= */
+
+        const total =
+            subtotal +
+            delivery;
+
+
+
+        /* =================================================
+           UPDATE UI
+        ================================================= */
+
+        if (deliveryCharge) {
+
+            deliveryCharge.textContent =
+                formatMoney(
+                    delivery
+                );
+
+        }
+
+
+        if (checkoutTotal) {
+
+            checkoutTotal.textContent =
+                formatMoney(
+                    total
+                );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
        DISTRICT CHANGE
+       -----------------------------------------------------
+       Customer District পরিবর্তন করলে
+       Delivery Charge + Total সঙ্গে সঙ্গে বদলাবে।
     ===================================================== */
 
     if (districtSelect) {
@@ -201,6 +337,8 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
                 validateDistrict();
+
+                updateDeliveryAndTotal();
 
             }
         );
@@ -319,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           PRODUCTS
+           ITEMS
         ================================================= */
 
         let subtotal =
@@ -333,28 +471,27 @@ document.addEventListener("DOMContentLoaded", function () {
         cart.forEach(
             function (item) {
 
+                const price =
+                    Number(
+                        item.price
+                    ) || 0;
 
-                const itemPrice =
-                    Number(item.price) || 0;
 
-
-                const itemQuantity =
-                    Number(item.quantity) || 0;
+                const quantity =
+                    Number(
+                        item.quantity
+                    ) || 0;
 
 
                 subtotal +=
-                    itemPrice *
-                    itemQuantity;
+                    price *
+                    quantity;
 
 
                 totalItems +=
-                    itemQuantity;
+                    quantity;
 
 
-
-                /* =========================================
-                   ITEM
-                ========================================== */
 
                 const itemElement =
                     document.createElement(
@@ -367,9 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-                /* =========================================
-                   IMAGE
-                ========================================== */
+                /* IMAGE */
 
                 const imageBox =
                     document.createElement(
@@ -407,11 +542,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         imageBox.innerHTML =
-                            `
-                            <span>
-                                🛍️
-                            </span>
-                            `;
+                            "<span>🛍️</span>";
 
                     };
 
@@ -422,9 +553,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-                /* =========================================
-                   PRODUCT INFO
-                ========================================== */
+                /* INFO */
 
                 const info =
                     document.createElement(
@@ -436,7 +565,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     "checkout-item-info";
 
 
-
                 const title =
                     document.createElement(
                         "h3"
@@ -444,30 +572,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 title.textContent =
-                    item.name || "Product";
+                    item.name ||
+                    "Product";
 
 
-                const quantity =
+                const quantityText =
                     document.createElement(
                         "p"
                     );
 
 
-                quantity.textContent =
+                quantityText.textContent =
                     "Quantity: " +
-                    itemQuantity;
+                    quantity;
 
 
-                const price =
+                const priceText =
                     document.createElement(
                         "strong"
                     );
 
 
-                price.textContent =
+                priceText.textContent =
                     formatMoney(
-                        itemPrice *
-                        itemQuantity
+                        price *
+                        quantity
                     );
 
 
@@ -477,19 +606,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 info.appendChild(
-                    quantity
+                    quantityText
                 );
 
 
                 info.appendChild(
-                    price
+                    priceText
                 );
 
-
-
-                /* =========================================
-                   APPEND ITEM
-                ========================================== */
 
                 itemElement.appendChild(
                     imageBox
@@ -507,20 +631,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
-
-
-
-        /* =================================================
-           TOTALS
-        ================================================= */
-
-        const finalDeliveryCharge =
-            DELIVERY_CHARGE;
-
-
-        const total =
-            subtotal +
-            finalDeliveryCharge;
 
 
 
@@ -557,33 +667,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* =================================================
-           DELIVERY
-        ================================================= */
+        /*
+         * Delivery + Total
+         */
 
-        if (deliveryCharge) {
-
-            deliveryCharge.textContent =
-                formatMoney(
-                    finalDeliveryCharge
-                );
-
-        }
-
-
-
-        /* =================================================
-           TOTAL
-        ================================================= */
-
-        if (checkoutTotal) {
-
-            checkoutTotal.textContent =
-                formatMoney(
-                    total
-                );
-
-        }
+        updateDeliveryAndTotal();
 
     }
 
@@ -605,7 +693,6 @@ document.addEventListener("DOMContentLoaded", function () {
             option.addEventListener(
                 "click",
                 function () {
-
 
                     paymentOptions.forEach(
                         function (item) {
@@ -801,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       GET CUSTOMER VALUE
+       GET FORM VALUE
     ===================================================== */
 
     function getValue(id) {
@@ -835,10 +922,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getCart();
 
 
-
-        /* =================================================
-           EMPTY CART
-        ================================================= */
+        /* EMPTY CART */
 
         if (cart.length === 0) {
 
@@ -852,9 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* =================================================
-           DISTRICT VALIDATION
-        ================================================= */
+        /* DISTRICT */
 
         if (!validateDistrict()) {
 
@@ -870,9 +952,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* =================================================
-           FORM VALIDATION
-        ================================================= */
+        /* FORM */
 
         if (
             !checkoutForm ||
@@ -891,9 +971,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        /* =================================================
-           TERMS
-        ================================================= */
+        /* TERMS */
 
         if (
             termsCheckbox &&
@@ -913,9 +991,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           CUSTOMER DATA
-           -------------------------------------------------
-           এখানে Post Code নেই।
+           CUSTOMER
         ================================================= */
 
         const customer = {
@@ -960,7 +1036,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           PAYMENT METHOD
+           PAYMENT
         ================================================= */
 
         const paymentInput =
@@ -977,7 +1053,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           CALCULATE SUBTOTAL
+           SUBTOTAL
         ================================================= */
 
         let subtotal =
@@ -1013,12 +1089,12 @@ document.addEventListener("DOMContentLoaded", function () {
         ================================================= */
 
         const finalDeliveryCharge =
-            DELIVERY_CHARGE;
+            getDeliveryCharge();
 
 
 
         /* =================================================
-           FINAL TOTAL
+           TOTAL
         ================================================= */
 
         const total =
@@ -1073,7 +1149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           SAVE ORDER
+           SAVE
         ================================================= */
 
         saveOrder(
@@ -1093,7 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           UPDATE SUCCESS NUMBER
+           SUCCESS NUMBER
         ================================================= */
 
         if (successOrderNumber) {
@@ -1106,7 +1182,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           SHOW SUCCESS MODAL
+           SUCCESS MODAL
         ================================================= */
 
         if (successOverlay) {
@@ -1207,7 +1283,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       FORM — DISTRICT VALIDATION
+       FORM SUBMIT
     ===================================================== */
 
     if (checkoutForm) {
