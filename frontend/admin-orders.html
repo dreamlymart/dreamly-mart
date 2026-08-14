@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Orders | Dreamly Mart</title>
+
+    <style>
+
+        /* =====================================================
+           DREAMLY MART
+           ADMIN ORDERS DASHBOARD
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f6fa;
+            color: #172033;
+        }
+
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .admin-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            width: 100%;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e8e8e8;
+
+            box-shadow:
+                0 5px 20px rgba(20, 30, 50, 0.06);
+        }
+
+
+        .admin-header-inner {
+            max-width: 1400px;
+
+            margin: 0 auto;
+
+            padding: 16px 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .admin-brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .admin-brand-logo {
+            width: 48px;
+            height: 48px;
+
+            object-fit: contain;
+        }
+
+
+        .admin-brand-text h1 {
+            margin: 0;
+
+            font-size: 21px;
+
+            color: #172033;
+        }
+
+
+        .admin-brand-text span {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 12px;
+
+            color: #7c3aed;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+        }
+
+
+        .back-store-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 11px 16px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            background: #fff;
+
+            color: #444;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .back-store-btn:hover {
+            border-color: #7c3aed;
+
+            color: #7c3aed;
+        }
+
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .admin-page {
+            width: 100%;
+
+            max-width: 1400px;
+
+            margin: 0 auto;
+
+            padding: 35px 24px 70px;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+
+        .page-title span {
+            display: block;
+
+            color: #7c3aed;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .page-title h2 {
+            margin: 0 0 6px;
+
+            font-size: 34px;
+        }
+
+
+        .page-title p {
+            margin: 0;
+
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+
+        /* =====================================================
+           STATS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .stat-card {
+            background: #fff;
+
+            border-radius: 17px;
+
+            padding: 22px;
+
+            border: 1px solid #ededed;
+
+            box-shadow:
+                0 8px 25px rgba(20, 30, 50, 0.05);
+        }
+
+
+        .stat-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 13px;
+
+            background: #f2edff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+
+        .stat-card small {
+            color: #777;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .stat-card strong {
+            display: block;
+
+            margin-top: 12px;
+
+            font-size: 27px;
+
+            color: #172033;
+        }
+
+
+        .stat-card.revenue strong {
+            color: #7c3aed;
+        }
+
+
+
+        /* =====================================================
+           TOOLBAR
+        ===================================================== */
+
+        .orders-panel {
+            background: #fff;
+
+            border-radius: 20px;
+
+            border: 1px solid #ededed;
+
+            box-shadow:
+                0 8px 30px rgba(20, 30, 50, 0.05);
+
+            overflow: hidden;
+        }
+
+
+        .orders-toolbar {
+            padding: 20px;
+
+            border-bottom: 1px solid #eee;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(220px, 1fr)
+                180px
+                auto;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+
+        .search-wrap {
+            position: relative;
+        }
+
+
+        .search-wrap input {
+            width: 100%;
+
+            height: 46px;
+
+            padding:
+                0 15px 0 42px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+
+        .search-wrap input:focus {
+            border-color: #7c3aed;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(124, 58, 237, 0.10);
+        }
+
+
+        .search-icon {
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            font-size: 17px;
+
+            color: #888;
+
+            pointer-events: none;
+        }
+
+
+        #statusFilter {
+            width: 100%;
+
+            height: 46px;
+
+            padding: 0 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 11px;
+
+            background: #fff;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+
+        #statusFilter:focus {
+            border-color: #7c3aed;
+        }
+
+
+        .refresh-btn {
+            height: 46px;
+
+            padding: 0 18px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background: #7c3aed;
+
+            color: #fff;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .refresh-btn:hover {
+            background: #6d28d9;
+        }
+
+
+
+        /* =====================================================
+           ORDERS TABLE
+        ===================================================== */
+
+        .orders-table-wrap {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        .orders-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 950px;
+        }
+
+
+        .orders-table th {
+            background: #fafafa;
+
+            padding: 15px 16px;
+
+            text-align: left;
+
+            font-size: 12px;
+
+            color: #777;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .orders-table td {
+            padding: 17px 16px;
+
+            border-bottom: 1px solid #f0f0f0;
+
+            vertical-align: middle;
+
+            font-size: 14px;
+        }
+
+
+        .orders-table tbody tr:hover {
+            background: #fcfbff;
+        }
+
+
+        .order-number {
+            font-weight: 800;
+
+            color: #7c3aed;
+
+            white-space: nowrap;
+        }
+
+
+        .customer-name {
+            font-weight: 700;
+
+            color: #202638;
+        }
+
+
+        .customer-phone {
+            margin-top: 4px;
+
+            color: #777;
+
+            font-size: 12px;
+        }
+
+
+        .order-total {
+            font-weight: 800;
+
+            color: #7c3aed;
+
+            white-space: nowrap;
+        }
+
+
+        .order-date {
+            color: #666;
+
+            white-space: nowrap;
+
+            font-size: 13px;
+        }
+
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-select {
+            border: none;
+
+            outline: none;
+
+            border-radius: 20px;
+
+            padding: 7px 11px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            background: #f1f1f1;
+
+            color: #555;
+        }
+
+
+        .status-pending {
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+
+        .status-confirmed {
+            background: #e7f1ff;
+
+            color: #1456a0;
+        }
+
+
+        .status-processing {
+            background: #eee8ff;
+
+            color: #6333bb;
+        }
+
+
+        .status-shipped {
+            background: #e4f8ef;
+
+            color: #147a4d;
+        }
+
+
+        .status-delivered {
+            background: #dff7e8;
+
+            color: #137a40;
+        }
+
+
+        .status-cancelled {
+            background: #ffe7e7;
+
+            color: #b42318;
+        }
+
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .action-buttons {
+            display: flex;
+
+            gap: 7px;
+
+            align-items: center;
+        }
+
+
+        .view-btn,
+        .delete-btn {
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 9px 11px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .view-btn {
+            background: #f1ecff;
+
+            color: #6d28d9;
+        }
+
+
+        .view-btn:hover {
+            background: #e7ddff;
+        }
+
+
+        .delete-btn {
+            background: #fff0f0;
+
+            color: #c62828;
+        }
+
+
+        .delete-btn:hover {
+            background: #ffe1e1;
+        }
+
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-orders {
+            padding: 70px 20px;
+
+            text-align: center;
+        }
+
+
+        .empty-orders-icon {
+            font-size: 58px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-orders h3 {
+            margin: 0 0 8px;
+
+            font-size: 22px;
+        }
+
+
+        .empty-orders p {
+            margin: 0;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .order-modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            background:
+                rgba(15, 20, 30, 0.65);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+
+        .order-modal-overlay.show {
+            display: flex;
+        }
+
+
+        .order-modal {
+            width: 100%;
+
+            max-width: 720px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: #fff;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.22);
+        }
+
+
+        .modal-header {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 2;
+
+            background: #fff;
+
+            padding: 20px 23px;
+
+            border-bottom: 1px solid #eee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+
+        .modal-header h2 {
+            margin: 0;
+
+            font-size: 21px;
+        }
+
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f3f3f3;
+
+            font-size: 21px;
+
+            cursor: pointer;
+        }
+
+
+        .modal-body {
+            padding: 23px;
+        }
+
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        .detail-section-title {
+            margin: 0 0 13px;
+
+            font-size: 14px;
+
+            color: #7c3aed;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .customer-details {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        .detail-box {
+            padding: 13px;
+
+            border-radius: 11px;
+
+            background: #f8f8fa;
+        }
+
+
+        .detail-box.full {
+            grid-column: 1 / -1;
+        }
+
+
+        .detail-box small {
+            display: block;
+
+            color: #888;
+
+            font-size: 11px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .detail-box strong {
+            color: #202638;
+
+            font-size: 14px;
+
+            word-break: break-word;
+        }
+
+
+        .modal-items {
+            border: 1px solid #eee;
+
+            border-radius: 13px;
+
+            overflow: hidden;
+        }
+
+
+        .modal-item {
+            display: grid;
+
+            grid-template-columns:
+                55px minmax(0, 1fr) auto;
+
+            gap: 12px;
+
+            align-items: center;
+
+            padding: 12px;
+
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .modal-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .modal-item-image {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 9px;
+
+            background: #f5f5f5;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .modal-item-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .modal-item-name {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #202638;
+        }
+
+
+        .modal-item-qty {
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #777;
+        }
+
+
+        .modal-item-price {
+            font-weight: 800;
+
+            color: #7c3aed;
+
+            white-space: nowrap;
+        }
+
+
+        .modal-total {
+            margin-top: 14px;
+
+            padding-top: 15px;
+
+            border-top: 1px dashed #ddd;
+        }
+
+
+        .modal-total-row {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .modal-total-row span {
+            color: #666;
+
+            font-size: 14px;
+        }
+
+
+        .modal-total-row strong {
+            color: #222;
+
+            font-size: 14px;
+        }
+
+
+        .modal-grand-total {
+            padding-top: 12px;
+
+            border-top: 1px solid #eee;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .modal-grand-total span {
+            font-weight: 800;
+
+            font-size: 17px;
+        }
+
+
+        .modal-grand-total strong {
+            font-size: 22px;
+
+            color: #7c3aed;
+        }
+
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .admin-footer {
+            text-align: center;
+
+            padding: 25px 15px 40px;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .orders-toolbar {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .refresh-btn {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .admin-header-inner {
+                padding: 12px 15px;
+            }
+
+
+            .admin-brand-logo {
+                width: 42px;
+                height: 42px;
+            }
+
+
+            .admin-brand-text h1 {
+                font-size: 17px;
+            }
+
+
+            .admin-brand-text span {
+                font-size: 10px;
+            }
+
+
+            .back-store-btn {
+                padding: 9px 11px;
+
+                font-size: 12px;
+            }
+
+
+            .admin-page {
+                padding:
+                    25px 12px 50px;
+            }
+
+
+            .page-title h2 {
+                font-size: 28px;
+            }
+
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+            }
+
+
+            .stat-card {
+                padding: 15px;
+            }
+
+
+            .stat-card strong {
+                font-size: 22px;
+            }
+
+
+            .stat-icon {
+                width: 38px;
+                height: 38px;
+
+                font-size: 18px;
+            }
+
+
+            .orders-toolbar {
+                grid-template-columns: 1fr;
+
+                padding: 15px;
+            }
+
+
+            .orders-panel {
+                border-radius: 15px;
+            }
+
+
+            .customer-details {
+                grid-template-columns: 1fr;
+            }
+
+
+            .detail-box.full {
+                grid-column: auto;
+            }
+
+
+            .order-modal {
+                border-radius: 17px;
+
+                max-height: 94vh;
+            }
+
+
+            .modal-body {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+    <div class="admin-header-inner">
+
+        <div class="admin-brand">
+
+            <img
+                class="admin-brand-logo"
+                src="images/logo-header.png"
+                alt="Dreamly Mart"
+            >
+
+            <div class="admin-brand-text">
+
+                <h1>
+                    Dreamly Mart
+                </h1>
+
+                <span>
+                    ADMIN ORDERS
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="index.html"
+            class="back-store-btn"
+        >
+            ← Back to Store
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="admin-page">
+
+
+    <!-- PAGE TITLE -->
+
+    <section class="page-title">
+
+        <span>
+            ORDER MANAGEMENT
+        </span>
+
+        <h2>
+            Orders Dashboard
+        </h2>
+
+        <p>
+            View, search and manage Dreamly Mart customer orders.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <small>
+                    Total Orders
+                </small>
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+            </div>
+
+            <strong id="totalOrders">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <small>
+                    Pending Orders
+                </small>
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+            </div>
+
+            <strong id="pendingOrders">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <small>
+                    Delivered Orders
+                </small>
+
+                <div class="stat-icon">
+                    🚚
+                </div>
+
+            </div>
+
+            <strong id="deliveredOrders">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="stat-card revenue">
+
+            <div class="stat-top">
+
+                <small>
+                    Total Revenue
+                </small>
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+            </div>
+
+            <strong id="totalRevenue">
+                ৳0
+            </strong>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ORDERS
+    ================================================== -->
+
+    <section class="orders-panel">
+
+
+        <!-- TOOLBAR -->
+
+        <div class="orders-toolbar">
+
+
+            <div class="search-wrap">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="search"
+                    id="orderSearch"
+                    placeholder="Search order number, name or phone..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <select id="statusFilter">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Confirmed">
+                    Confirmed
+                </option>
+
+                <option value="Processing">
+                    Processing
+                </option>
+
+                <option value="Shipped">
+                    Shipped
+                </option>
+
+                <option value="Delivered">
+                    Delivered
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                class="refresh-btn"
+                id="refreshOrders"
+            >
+                ↻ Refresh
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div
+            class="orders-table-wrap"
+            id="ordersTableContainer"
+        >
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     ORDER DETAILS MODAL
+===================================================== -->
+
+<div
+    class="order-modal-overlay"
+    id="orderModalOverlay"
+>
+
+
+    <div class="order-modal">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Order Details
+            </h2>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeOrderModal"
+                aria-label="Close"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="orderModalBody"
+        >
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="admin-footer">
+
+    © 2026 Dreamly Mart — Admin Order Management
+
+</footer>
+
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =================================================
+           STORAGE
+        ================================================= */
+
+        function getOrders() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem(
+                        "dreamlyOrders"
+                    )
+                ) || [];
+
+            } catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        function saveOrders(orders) {
+
+            localStorage.setItem(
+                "dreamlyOrders",
+                JSON.stringify(orders)
+            );
+
+        }
+
+
+
+        /* =================================================
+           ELEMENTS
+        ================================================= */
+
+        const tableContainer =
+            document.getElementById(
+                "ordersTableContainer"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "orderSearch"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "statusFilter"
+            );
+
+
+        const refreshButton =
+            document.getElementById(
+                "refreshOrders"
+            );
+
+
+        const modalOverlay =
+            document.getElementById(
+                "orderModalOverlay"
+            );
+
+
+        const modalBody =
+            document.getElementById(
+                "orderModalBody"
+            );
+
+
+        const closeModalButton =
+            document.getElementById(
+                "closeOrderModal"
+            );
+
+
+
+        /* =================================================
+           MONEY
+        ================================================= */
+
+        function formatMoney(amount) {
+
+            return (
+                "৳" +
+                Number(amount || 0)
+                    .toLocaleString("en-BD")
+            );
+
+        }
+
+
+
+        /* =================================================
+           DATE
+        ================================================= */
+
+        function formatDate(dateString) {
+
+            if (!dateString) {
+
+                return "—";
+
+            }
+
+
+            const date =
+                new Date(dateString);
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "—";
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-BD",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            )
+            +
+            " "
+            +
+            date.toLocaleTimeString(
+                "en-BD",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           ESCAPE HTML
+        ================================================= */
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =================================================
+           STATUS CLASS
+        ================================================= */
+
+        function statusClass(status) {
+
+            const safeStatus =
+                String(status || "Pending")
+                    .toLowerCase();
+
+
+            return (
+                "status-" +
+                safeStatus
+                    .replace(
+                        /\s+/g,
+                        "-"
+                    )
+            );
+
+        }
+
+
+
+        /* =================================================
+           UPDATE STATS
+        ================================================= */
+
+        function updateStats(orders) {
+
+            const total =
+                orders.length;
+
+
+            const pending =
+                orders.filter(
+                    function (order) {
+
+                        return (
+                            order.status ===
+                            "Pending"
+                        );
+
+                    }
+                ).length;
+
+
+            const delivered =
+                orders.filter(
+                    function (order) {
+
+                        return (
+                            order.status ===
+                            "Delivered"
+                        );
+
+                    }
+                ).length;
+
+
+            const revenue =
+                orders.reduce(
+                    function (
+                        total,
+                        order
+                    ) {
+
+                        return (
+                            total +
+                            Number(
+                                order.total || 0
+                            )
+                        );
+
+                    },
+                    0
+                );
+
+
+            document.getElementById(
+                "totalOrders"
+            ).textContent =
+                total;
+
+
+            document.getElementById(
+                "pendingOrders"
+            ).textContent =
+                pending;
+
+
+            document.getElementById(
+                "deliveredOrders"
+            ).textContent =
+                delivered;
+
+
+            document.getElementById(
+                "totalRevenue"
+            ).textContent =
+                formatMoney(
+                    revenue
+                );
+
+        }
+
+
+
+        /* =================================================
+           FILTER ORDERS
+        ================================================= */
+
+        function getFilteredOrders() {
+
+            const orders =
+                getOrders();
+
+
+            const search =
+                searchInput
+                    ? searchInput.value
+                        .trim()
+                        .toLowerCase()
+                    : "";
+
+
+            const status =
+                statusFilter
+                    ? statusFilter.value
+                    : "all";
+
+
+            return orders.filter(
+                function (order) {
+
+                    const customer =
+                        order.customer || {};
+
+
+                    const searchText =
+                        (
+                            order.orderNumber ||
+                            ""
+                        )
+                        .toLowerCase()
+                        +
+                        " "
+                        +
+                        (
+                            customer.name ||
+                            ""
+                        )
+                        .toLowerCase()
+                        +
+                        " "
+                        +
+                        (
+                            customer.phone ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const matchesSearch =
+                        !search ||
+                        searchText.includes(
+                            search
+                        );
+
+
+                    const matchesStatus =
+                        status === "all" ||
+                        order.status === status;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesStatus
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           RENDER ORDERS
+        ================================================= */
+
+        function renderOrders() {
+
+            const allOrders =
+                getOrders();
+
+
+            updateStats(
+                allOrders
+            );
+
+
+            const orders =
+                getFilteredOrders();
+
+
+            if (
+                !orders.length
+            ) {
+
+                tableContainer.innerHTML = `
+
+                    <div class="empty-orders">
+
+                        <div class="empty-orders-icon">
+                            📦
+                        </div>
+
+                        <h3>
+                            No Orders Found
+                        </h3>
+
+                        <p>
+                            Customer orders will appear here after checkout.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            /* Newest first */
+
+            orders.sort(
+                function (a, b) {
+
+                    return (
+                        new Date(
+                            b.createdAt || 0
+                        )
+                        -
+                        new Date(
+                            a.createdAt || 0
+                        )
+                    );
+
+                }
+            );
+
+
+            let rows = "";
+
+
+            orders.forEach(
+                function (order) {
+
+                    const customer =
+                        order.customer || {};
+
+
+                    const status =
+                        order.status ||
+                        "Pending";
+
+
+                    rows += `
+
+                        <tr>
+
+                            <td>
+
+                                <div class="order-number">
+                                    ${escapeHTML(
+                                        order.orderNumber ||
+                                        "—"
+                                    )}
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="customer-name">
+                                    ${escapeHTML(
+                                        customer.name ||
+                                        "—"
+                                    )}
+                                </div>
+
+                                <div class="customer-phone">
+                                    ${escapeHTML(
+                                        customer.phone ||
+                                        "—"
+                                    )}
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                ${escapeHTML(
+                                    customer.district ||
+                                    "—"
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="order-total">
+                                    ${formatMoney(
+                                        order.total
+                                    )}
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="order-date">
+                                    ${formatDate(
+                                        order.createdAt
+                                    )}
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <select
+                                    class="status-select ${statusClass(
+                                        status
+                                    )}"
+                                    data-status-id="${escapeHTML(
+                                        order.orderNumber
+                                    )}"
+                                >
+
+                                    <option
+                                        value="Pending"
+                                        ${status === "Pending" ? "selected" : ""}
+                                    >
+                                        Pending
+                                    </option>
+
+                                    <option
+                                        value="Confirmed"
+                                        ${status === "Confirmed" ? "selected" : ""}
+                                    >
+                                        Confirmed
+                                    </option>
+
+                                    <option
+                                        value="Processing"
+                                        ${status === "Processing" ? "selected" : ""}
+                                    >
+                                        Processing
+                                    </option>
+
+                                    <option
+                                        value="Shipped"
+                                        ${status === "Shipped" ? "selected" : ""}
+                                    >
+                                        Shipped
+                                    </option>
+
+                                    <option
+                                        value="Delivered"
+                                        ${status === "Delivered" ? "selected" : ""}
+                                    >
+                                        Delivered
+                                    </option>
+
+                                    <option
+                                        value="Cancelled"
+                                        ${status === "Cancelled" ? "selected" : ""}
+                                    >
+                                        Cancelled
+                                    </option>
+
+                                </select>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <button
+                                        type="button"
+                                        class="view-btn"
+                                        data-view-id="${escapeHTML(
+                                            order.orderNumber
+                                        )}"
+                                    >
+                                        👁 View
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="delete-btn"
+                                        data-delete-id="${escapeHTML(
+                                            order.orderNumber
+                                        )}"
+                                    >
+                                        🗑 Delete
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            tableContainer.innerHTML = `
+
+                <table class="orders-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Order
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                District
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${rows}
+
+                    </tbody>
+
+                </table>
+
+            `;
+
+
+            attachOrderActions();
+
+        }
+
+
+
+        /* =================================================
+           ORDER ACTIONS
+        ================================================= */
+
+        function attachOrderActions() {
+
+
+            /* STATUS */
+
+            tableContainer
+                .querySelectorAll(
+                    ".status-select"
+                )
+                .forEach(
+                    function (select) {
+
+                        select.addEventListener(
+                            "change",
+                            function () {
+
+                                updateOrderStatus(
+                                    select.dataset.statusId,
+                                    select.value
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /* VIEW */
+
+            tableContainer
+                .querySelectorAll(
+                    "[data-view-id]"
+                )
+                .forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                openOrderModal(
+                                    button.dataset.viewId
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /* DELETE */
+
+            tableContainer
+                .querySelectorAll(
+                    "[data-delete-id]"
+                )
+                .forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                deleteOrder(
+                                    button.dataset.deleteId
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+
+        /* =================================================
+           UPDATE STATUS
+        ================================================= */
+
+        function updateOrderStatus(
+            orderNumber,
+            newStatus
+        ) {
+
+            const orders =
+                getOrders();
+
+
+            const order =
+                orders.find(
+                    function (item) {
+
+                        return (
+                            item.orderNumber ===
+                            orderNumber
+                        );
+
+                    }
+                );
+
+
+            if (!order) {
+
+                return;
+
+            }
+
+
+            order.status =
+                newStatus;
+
+
+            saveOrders(
+                orders
+            );
+
+
+            renderOrders();
+
+        }
+
+
+
+        /* =================================================
+           DELETE ORDER
+        ================================================= */
+
+        function deleteOrder(
+            orderNumber
+        ) {
+
+            const confirmed =
+                window.confirm(
+                    "Are you sure you want to delete this order?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            let orders =
+                getOrders();
+
+
+            orders =
+                orders.filter(
+                    function (order) {
+
+                        return (
+                            order.orderNumber !==
+                            orderNumber
+                        );
+
+                    }
+                );
+
+
+            saveOrders(
+                orders
+            );
+
+
+            renderOrders();
+
+        }
+
+
+
+        /* =================================================
+           OPEN ORDER MODAL
+        ================================================= */
+
+        function openOrderModal(
+            orderNumber
+        ) {
+
+            const orders =
+                getOrders();
+
+
+            const order =
+                orders.find(
+                    function (item) {
+
+                        return (
+                            item.orderNumber ===
+                            orderNumber
+                        );
+
+                    }
+                );
+
+
+            if (!order) {
+
+                return;
+
+            }
+
+
+            const customer =
+                order.customer || {};
+
+
+            const items =
+                Array.isArray(
+                    order.items
+                )
+                    ? order.items
+                    : [];
+
+
+            let itemsHTML = "";
+
+
+            items.forEach(
+                function (item) {
+
+                    itemsHTML += `
+
+                        <div class="modal-item">
+
+                            <div class="modal-item-image">
+
+                                <img
+                                    src="${escapeHTML(
+                                        item.image ||
+                                        ""
+                                    )}"
+                                    alt="${escapeHTML(
+                                        item.name ||
+                                        "Product"
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="modal-item-name">
+
+                                    ${escapeHTML(
+                                        item.name ||
+                                        "Product"
+                                    )}
+
+                                </div>
+
+                                <div class="modal-item-qty">
+
+                                    Quantity:
+                                    ${Number(
+                                        item.quantity || 0
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-item-price">
+
+                                ${formatMoney(
+                                    Number(
+                                        item.price || 0
+                                    ) *
+                                    Number(
+                                        item.quantity || 0
+                                    )
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            if (!itemsHTML) {
+
+                itemsHTML = `
+
+                    <div style="padding:20px;text-align:center;color:#777;">
+                        No product information available.
+                    </div>
+
+                `;
+
+            }
+
+
+            modalBody.innerHTML = `
+
+                <div class="detail-section">
+
+                    <h3 class="detail-section-title">
+                        Order Information
+                    </h3>
+
+
+                    <div class="customer-details">
+
+                        <div class="detail-box">
+
+                            <small>
+                                Order Number
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    order.orderNumber ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                Order Date
+                            </small>
+
+                            <strong>
+                                ${formatDate(
+                                    order.createdAt
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                Status
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    order.status ||
+                                    "Pending"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                Payment Method
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    order.paymentMethod ||
+                                    "cod"
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="detail-section">
+
+                    <h3 class="detail-section-title">
+                        Customer Information
+                    </h3>
+
+
+                    <div class="customer-details">
+
+                        <div class="detail-box">
+
+                            <small>
+                                Full Name
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    customer.name ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                Mobile Number
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    customer.phone ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                Email
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    customer.email ||
+                                    "Not provided"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <small>
+                                District
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    customer.district ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box full">
+
+                            <small>
+                                Delivery Address
+                            </small>
+
+                            <strong>
+                                ${escapeHTML(
+                                    customer.address ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        ${
+                            customer.note
+                                ? `
+                                    <div class="detail-box full">
+
+                                        <small>
+                                            Order Note
+                                        </small>
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                customer.note
+                                            )}
+                                        </strong>
+
+                                    </div>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="detail-section">
+
+                    <h3 class="detail-section-title">
+                        Ordered Products
+                    </h3>
+
+
+                    <div class="modal-items">
+
+                        ${itemsHTML}
+
+                    </div>
+
+
+                    <div class="modal-total">
+
+                        <div class="modal-total-row">
+
+                            <span>
+                                Subtotal
+                            </span>
+
+                            <strong>
+                                ${formatMoney(
+                                    order.subtotal
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="modal-total-row">
+
+                            <span>
+                                Delivery Charge
+                            </span>
+
+                            <strong>
+                                ${formatMoney(
+                                    order.deliveryCharge
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="modal-grand-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong>
+                                ${formatMoney(
+                                    order.total
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            modalOverlay.classList.add(
+                "show"
+            );
+
+
+            /* Image fallback */
+
+            modalBody
+                .querySelectorAll(
+                    "img"
+                )
+                .forEach(
+                    function (image) {
+
+                        image.onerror =
+                            function () {
+
+                                this.style.display =
+                                    "none";
+
+                            };
+
+                    }
+                );
+
+        }
+
+
+
+        /* =================================================
+           CLOSE MODAL
+        ================================================= */
+
+        function closeOrderModal() {
+
+            modalOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        closeModalButton.addEventListener(
+            "click",
+            closeOrderModal
+        );
+
+
+        modalOverlay.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    modalOverlay
+                ) {
+
+                    closeOrderModal();
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeOrderModal();
+
+                }
+
+            }
+        );
+
+
+
+        /* =================================================
+           SEARCH
+        ================================================= */
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                renderOrders
+            );
+
+        }
+
+
+        /* =================================================
+           FILTER
+        ================================================= */
+
+        if (statusFilter) {
+
+            statusFilter.addEventListener(
+                "change",
+                renderOrders
+            );
+
+        }
+
+
+        /* =================================================
+           REFRESH
+        ================================================= */
+
+        if (refreshButton) {
+
+            refreshButton.addEventListener(
+                "click",
+                renderOrders
+            );
+
+        }
+
+
+
+        /* =================================================
+           INITIALIZE
+        ================================================= */
+
+        renderOrders();
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
