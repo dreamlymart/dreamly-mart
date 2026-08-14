@@ -1,149 +1,19 @@
 /* =========================================================
    DREAMLY MART
    CHECKOUT.JS
-
-   COMPLETE CHECKOUT SYSTEM
-   64 DISTRICTS
-   SEARCHABLE DISTRICT SELECTOR
-   DHAKA DELIVERY = ৳80
-   OUTSIDE DHAKA = ৳120
+   SECURE SUPABASE CHECKOUT SYSTEM
 ========================================================= */
-
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
     /* =====================================================
-       BANGLADESH DISTRICTS
+       SUPABASE CONNECTION
     ===================================================== */
 
-    const districts = [
-
-        { name: "ঢাকা", search: "dhaka ঢাকা" },
-        { name: "ফরিদপুর", search: "faridpur ফরিদপুর" },
-        { name: "গাজীপুর", search: "gazipur গাজীপুর" },
-        { name: "গোপালগঞ্জ", search: "gopalganj গোপালগঞ্জ" },
-        { name: "কিশোরগঞ্জ", search: "kishoreganj কিশোরগঞ্জ" },
-        { name: "মাদারীপুর", search: "madaripur মাদারীপুর" },
-        { name: "মানিকগঞ্জ", search: "manikganj মানিকগঞ্জ" },
-        { name: "মুন্সিগঞ্জ", search: "munshiganj মুন্সিগঞ্জ" },
-        { name: "নারায়ণগঞ্জ", search: "narayanganj নারায়ণগঞ্জ" },
-        { name: "নরসিংদী", search: "narsingdi নরসিংদী" },
-        { name: "রাজবাড়ী", search: "rajbari রাজবাড়ী" },
-        { name: "শরীয়তপুর", search: "shariatpur শরীয়তপুর" },
-        { name: "টাঙ্গাইল", search: "tangail টাঙ্গাইল" },
-
-        { name: "বাগেরহাট", search: "bagerhat বাগেরহাট" },
-        { name: "চুয়াডাঙ্গা", search: "chuadanga চুয়াডাঙ্গা" },
-        { name: "যশোর", search: "jashore যশোর" },
-        { name: "ঝিনাইদহ", search: "jhenaidah ঝিনাইদহ" },
-        { name: "খুলনা", search: "khulna খুলনা" },
-        { name: "কুষ্টিয়া", search: "kushtia কুষ্টিয়া" },
-        { name: "মাগুরা", search: "magura মাগুরা" },
-        { name: "মেহেরপুর", search: "meherpur মেহেরপুর" },
-        { name: "নড়াইল", search: "narail নড়াইল" },
-        { name: "সাতক্ষীরা", search: "satkhira সাতক্ষীরা" },
-
-        { name: "বান্দরবান", search: "bandarban বান্দরবান" },
-        { name: "ব্রাহ্মণবাড়িয়া", search: "brahmanbaria ব্রাহ্মণবাড়িয়া" },
-        { name: "চাঁদপুর", search: "chandpur চাঁদপুর" },
-        { name: "চট্টগ্রাম", search: "chattogram chittagong চট্টগ্রাম" },
-        { name: "কুমিল্লা", search: "cumilla comilla কুমিল্লা" },
-        { name: "কক্সবাজার", search: "coxsbazar cox's bazar কক্সবাজার" },
-        { name: "ফেনী", search: "feni ফেনী" },
-        { name: "খাগড়াছড়ি", search: "khagrachhari khagrachari খাগড়াছড়ি" },
-        { name: "লক্ষ্মীপুর", search: "lakshmipur লক্ষ্মীপুর" },
-        { name: "নোয়াখালী", search: "noakhali নোয়াখালী" },
-        { name: "রাঙ্গামাটি", search: "rangamati রাঙ্গামাটি" },
-
-        { name: "বগুড়া", search: "bogura bogra বগুড়া" },
-        { name: "জয়পুরহাট", search: "joypurhat জয়পুরহাট" },
-        { name: "নওগাঁ", search: "naogaon নওগাঁ" },
-        { name: "নাটোর", search: "natore নাটোর" },
-        { name: "চাঁপাইনবাবগঞ্জ", search: "chapainawabganj চাঁপাইনবাবগঞ্জ" },
-        { name: "পাবনা", search: "pabna পাবনা" },
-        { name: "রাজশাহী", search: "rajshahi রাজশাহী" },
-        { name: "সিরাজগঞ্জ", search: "sirajganj সিরাজগঞ্জ" },
-
-        { name: "আক্কেলপুর", search: "akkelpur" },
-
-        { name: "দিনাজপুর", search: "dinajpur দিনাজপুর" },
-        { name: "গাইবান্ধা", search: "gaibandha গাইবান্ধা" },
-        { name: "কুড়িগ্রাম", search: "kurigram কুড়িগ্রাম" },
-        { name: "লালমনিরহাট", search: "lalmonirhat লালমনিরহাট" },
-        { name: "নীলফামারী", search: "nilphamari নীলফামারী" },
-        { name: "পঞ্চগড়", search: "panchagarh পঞ্চগড়" },
-        { name: "রংপুর", search: "rangpur রংপুর" },
-        { name: "ঠাকুরগাঁও", search: "thakurgaon ঠাকুরগাঁও" },
-
-        { name: "হবিগঞ্জ", search: "habiganj হবিগঞ্জ" },
-        { name: "মৌলভীবাজার", search: "moulvibazar মৌলভীবাজার" },
-        { name: "সুনামগঞ্জ", search: "sunamganj সুনামগঞ্জ" },
-        { name: "সিলেট", search: "sylhet সিলেট" },
-
-        { name: "জামালপুর", search: "jamalpur জামালপুর" },
-        { name: "ময়মনসিংহ", search: "mymensingh ময়মনসিংহ" },
-        { name: "নেত্রকোণা", search: "netrokona নেত্রকোণা" },
-        { name: "শেরপুর", search: "sherpur শেরপুর" },
-
-        { name: "বরগুনা", search: "barguna বরগুনা" },
-        { name: "বরিশাল", search: "barishal বরিশাল" },
-        { name: "ভোলা", search: "bhola ভোলা" },
-        { name: "ঝালকাঠি", search: "jhalokati ঝালকাঠি" },
-        { name: "পটুয়াখালী", search: "patuakhali পটুয়াখালী" },
-        { name: "পিরোজপুর", search: "pirojpur পিরোজপুর" }
-
-    ];
-
-
-    /*
-     * IMPORTANT:
-     * The accidental "আক্কেলপুর" entry above is NOT a district.
-     * Remove it automatically so the system always contains
-     * exactly Bangladesh's 64 districts.
-     */
-
-    const validDistricts =
-        districts.filter(function (district) {
-
-            return district.name !== "আক্কেলপুর";
-
-        });
-
-
-
-    /* =====================================================
-       DELIVERY CHARGE
-    ===================================================== */
-
-    const DHAKA_DELIVERY_CHARGE = 80;
-
-    const OUTSIDE_DHAKA_DELIVERY_CHARGE = 120;
-
-
-
-    function getDeliveryCharge(district) {
-
-        if (!district) {
-
-            return 0;
-
-        }
-
-
-        if (
-            district.trim() === "ঢাকা"
-        ) {
-
-            return DHAKA_DELIVERY_CHARGE;
-
-        }
-
-
-        return OUTSIDE_DHAKA_DELIVERY_CHARGE;
-
-    }
-
+    const supabase =
+        window.DreamlySupabase
+            ? window.DreamlySupabase.client
+            : null;
 
 
     /* =====================================================
@@ -154,18 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
-            const cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "dreamlyCart"
-                    )
-                );
-
-            return Array.isArray(cart)
-                ? cart
-                : [];
+            return JSON.parse(
+                localStorage.getItem("dreamlyCart")
+            ) || [];
 
         } catch (error) {
+
+            console.error(
+                "Cart read error:",
+                error
+            );
 
             return [];
 
@@ -174,129 +42,130 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =====================================================
        ELEMENTS
     ===================================================== */
 
     const checkoutItems =
-        document.getElementById(
-            "checkoutItems"
-        );
-
+        document.getElementById("checkoutItems");
 
     const checkoutSubtotal =
-        document.getElementById(
-            "checkoutSubtotal"
-        );
-
+        document.getElementById("checkoutSubtotal");
 
     const deliveryCharge =
-        document.getElementById(
-            "deliveryCharge"
-        );
-
+        document.getElementById("deliveryCharge");
 
     const checkoutTotal =
-        document.getElementById(
-            "checkoutTotal"
-        );
-
+        document.getElementById("checkoutTotal");
 
     const summaryCount =
-        document.getElementById(
-            "summaryCount"
-        );
-
+        document.getElementById("summaryCount");
 
     const placeOrderButton =
-        document.getElementById(
-            "placeOrderButton"
-        );
-
+        document.getElementById("placeOrderButton");
 
     const backToCartButton =
-        document.getElementById(
-            "backToCartButton"
-        );
-
+        document.getElementById("backToCartButton");
 
     const checkoutForm =
-        document.getElementById(
-            "checkoutForm"
-        );
-
+        document.getElementById("checkoutForm");
 
     const termsCheckbox =
-        document.getElementById(
-            "termsCheckbox"
-        );
-
+        document.getElementById("termsCheckbox");
 
     const successOverlay =
-        document.getElementById(
-            "orderSuccessOverlay"
-        );
-
+        document.getElementById("orderSuccessOverlay");
 
     const successOrderNumber =
-        document.getElementById(
-            "successOrderNumber"
-        );
-
+        document.getElementById("successOrderNumber");
 
     const continueShoppingButton =
-        document.getElementById(
-            "continueShoppingButton"
-        );
-
+        document.getElementById("continueShoppingButton");
 
 
     /* =====================================================
-       DISTRICT ELEMENTS
+       DELIVERY CHARGE
+       DHAKA = 80
+       OTHER DISTRICTS = 120
     ===================================================== */
 
-    const districtSelector =
-        document.getElementById(
-            "districtSelector"
-        );
+    const DHAKA_DELIVERY_CHARGE = 80;
+
+    const OUTSIDE_DHAKA_DELIVERY_CHARGE = 120;
 
 
-    const districtSelectButton =
-        document.getElementById(
-            "districtSelectButton"
-        );
+    /* =====================================================
+       BANGLADESH DISTRICTS
+    ===================================================== */
 
+    const bangladeshDistricts = [
 
-    const districtDropdown =
-        document.getElementById(
-            "districtDropdown"
-        );
+        "Bagerhat",
+        "Bandarban",
+        "Barguna",
+        "Barishal",
+        "Bhola",
+        "Bogura",
+        "Brahmanbaria",
+        "Chandpur",
+        "Chattogram",
+        "Chuadanga",
+        "Cox's Bazar",
+        "Cumilla",
+        "Dhaka",
+        "Dinajpur",
+        "Faridpur",
+        "Feni",
+        "Gaibandha",
+        "Gazipur",
+        "Gopalganj",
+        "Habiganj",
+        "Jamalpur",
+        "Jashore",
+        "Jhalokathi",
+        "Jhenaidah",
+        "Joypurhat",
+        "Khagrachhari",
+        "Khulna",
+        "Kishoreganj",
+        "Kurigram",
+        "Kushtia",
+        "Lakshmipur",
+        "Lalmonirhat",
+        "Madaripur",
+        "Magura",
+        "Manikganj",
+        "Meherpur",
+        "Moulvibazar",
+        "Munshiganj",
+        "Mymensingh",
+        "Naogaon",
+        "Narail",
+        "Narayanganj",
+        "Narsingdi",
+        "Natore",
+        "Nawabganj",
+        "Netrokona",
+        "Nilphamari",
+        "Noakhali",
+        "Pabna",
+        "Panchagarh",
+        "Patuakhali",
+        "Pirojpur",
+        "Rajbari",
+        "Rajshahi",
+        "Rangamati",
+        "Rangpur",
+        "Satkhira",
+        "Shariatpur",
+        "Sherpur",
+        "Sirajganj",
+        "Sunamganj",
+        "Sylhet",
+        "Tangail",
+        "Thakurgaon"
 
-
-    const districtSearchInput =
-        document.getElementById(
-            "districtSearchInput"
-        );
-
-
-    const districtList =
-        document.getElementById(
-            "districtList"
-        );
-
-
-    const selectedDistrictText =
-        document.getElementById(
-            "selectedDistrictText"
-        );
-
-
-    const customerDistrict =
-        document.getElementById(
-            "customerDistrict"
-        );
-
+    ];
 
 
     /* =====================================================
@@ -307,391 +176,70 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return (
             "৳" +
-            Number(amount)
+            Number(amount || 0)
                 .toLocaleString("en-BD")
         );
 
     }
 
 
-
     /* =====================================================
-       DISTRICT LIST
+       GET DELIVERY CHARGE
     ===================================================== */
 
-    function renderDistricts(searchText = "") {
+    function getDeliveryCharge(district) {
 
-        if (!districtList) {
-
-            return;
-
-        }
-
-
-        districtList.innerHTML = "";
-
-
-        const search =
-            searchText
+        if (
+            String(district || "")
                 .trim()
-                .toLowerCase();
-
-
-        const filtered =
-            validDistricts.filter(
-                function (district) {
-
-                    return district.search
-                        .toLowerCase()
-                        .includes(search);
-
-                }
-            );
-
-
-        if (filtered.length === 0) {
-
-            districtList.innerHTML = `
-
-                <div class="no-district-found">
-
-                    🔍
-
-                    <strong>
-                        District not found
-                    </strong>
-
-                    <small>
-                        Try another name.
-                    </small>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        filtered.forEach(
-            function (district) {
-
-                const option =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                option.type =
-                    "button";
-
-
-                option.className =
-                    "district-option";
-
-
-                option.textContent =
-                    district.name;
-
-
-                option.dataset.district =
-                    district.name;
-
-
-                option.addEventListener(
-                    "click",
-                    function () {
-
-                        selectDistrict(
-                            district.name
-                        );
-
-                    }
-                );
-
-
-                districtList.appendChild(
-                    option
-                );
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       SELECT DISTRICT
-    ===================================================== */
-
-    function selectDistrict(districtName) {
-
-        if (
-            !districtName ||
-            !customerDistrict
+                .toLowerCase() === "dhaka"
         ) {
 
-            return;
+            return DHAKA_DELIVERY_CHARGE;
 
         }
 
-
-        customerDistrict.value =
-            districtName;
-
-
-        if (selectedDistrictText) {
-
-            selectedDistrictText.textContent =
-                districtName;
-
-            selectedDistrictText.classList.add(
-                "selected"
-            );
-
-        }
-
-
-        closeDistrictDropdown();
-
-
-        updateCheckoutTotals();
+        return OUTSIDE_DHAKA_DELIVERY_CHARGE;
 
     }
 
 
-
     /* =====================================================
-       OPEN DISTRICT DROPDOWN
+       CALCULATE SUBTOTAL
     ===================================================== */
 
-    function openDistrictDropdown() {
+    function calculateSubtotal() {
 
-        if (
-            !districtDropdown ||
-            !districtSelectButton
-        ) {
+        const cart = getCart();
 
-            return;
+        return cart.reduce(
+            function (total, item) {
 
-        }
-
-
-        districtDropdown.classList.add(
-            "show"
-        );
-
-
-        districtSelectButton.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-
-        if (districtSearchInput) {
-
-            districtSearchInput.value =
-                "";
-
-            renderDistricts();
-
-            setTimeout(
-                function () {
-
-                    districtSearchInput.focus();
-
-                },
-                50
-            );
-
-        }
-
-    }
-
-
-
-    /* =====================================================
-       CLOSE DISTRICT DROPDOWN
-    ===================================================== */
-
-    function closeDistrictDropdown() {
-
-        if (
-            !districtDropdown ||
-            !districtSelectButton
-        ) {
-
-            return;
-
-        }
-
-
-        districtDropdown.classList.remove(
-            "show"
-        );
-
-
-        districtSelectButton.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    }
-
-
-
-    /* =====================================================
-       DISTRICT BUTTON
-    ===================================================== */
-
-    if (districtSelectButton) {
-
-        districtSelectButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-
-                if (
-                    districtDropdown &&
-                    districtDropdown.classList.contains(
-                        "show"
-                    )
-                ) {
-
-                    closeDistrictDropdown();
-
-                } else {
-
-                    openDistrictDropdown();
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       DISTRICT SEARCH
-    ===================================================== */
-
-    if (districtSearchInput) {
-
-        districtSearchInput.addEventListener(
-            "input",
-            function () {
-
-                renderDistricts(
-                    districtSearchInput.value
+                return (
+                    total +
+                    Number(item.price || 0) *
+                    Number(item.quantity || 0)
                 );
 
-            }
-        );
-
-
-        districtSearchInput.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-            }
+            },
+            0
         );
 
     }
 
 
-
     /* =====================================================
-       CLOSE DISTRICT WHEN CLICKING OUTSIDE
+       UPDATE TOTAL
     ===================================================== */
 
-    document.addEventListener(
-        "click",
-        function (event) {
+    function updateCheckoutTotal(charge = 0) {
 
-            if (
-                districtSelector &&
-                !districtSelector.contains(
-                    event.target
-                )
-            ) {
-
-                closeDistrictDropdown();
-
-            }
-
-        }
-    );
-
-
-
-    /* =====================================================
-       UPDATE TOTALS
-    ===================================================== */
-
-    function updateCheckoutTotals() {
-
-        const cart =
-            getCart();
-
-
-        let subtotal =
-            0;
-
-
-        let totalItems =
-            0;
-
-
-        cart.forEach(
-            function (item) {
-
-                subtotal +=
-                    Number(item.price) *
-                    Number(item.quantity);
-
-
-                totalItems +=
-                    Number(item.quantity);
-
-            }
-        );
-
-
-        const selectedDistrict =
-            customerDistrict
-                ? customerDistrict.value
-                : "";
-
-
-        const charge =
-            getDeliveryCharge(
-                selectedDistrict
-            );
-
+        const subtotal =
+            calculateSubtotal();
 
         const total =
-            subtotal + charge;
-
-
-        if (summaryCount) {
-
-            summaryCount.textContent =
-                totalItems +
-                (
-                    totalItems === 1
-                        ? " item"
-                        : " items"
-                );
-
-        }
+            subtotal +
+            Number(charge || 0);
 
 
         if (checkoutSubtotal) {
@@ -702,45 +250,345 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        if (deliveryCharge) {
-
-            if (!selectedDistrict) {
-
-                deliveryCharge.textContent =
-                    "Select District";
-
-            } else {
-
-                deliveryCharge.textContent =
-                    formatMoney(charge);
-
-            }
-
-        }
-
-
         if (checkoutTotal) {
 
-            if (!selectedDistrict) {
-
-                checkoutTotal.textContent =
-                    formatMoney(subtotal);
-
-            } else {
-
-                checkoutTotal.textContent =
-                    formatMoney(total);
-
-            }
+            checkoutTotal.textContent =
+                formatMoney(total);
 
         }
 
     }
 
 
+    /* =====================================================
+       DISTRICT SELECTOR
+    ===================================================== */
+
+    function setupDistrictSelector() {
+
+        const selector =
+            document.getElementById(
+                "districtSelector"
+            );
+
+        const selectButton =
+            document.getElementById(
+                "districtSelectButton"
+            );
+
+        const dropdown =
+            document.getElementById(
+                "districtDropdown"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "districtSearchInput"
+            );
+
+        const districtList =
+            document.getElementById(
+                "districtList"
+            );
+
+        const selectedText =
+            document.getElementById(
+                "selectedDistrictText"
+            );
+
+        const hiddenInput =
+            document.getElementById(
+                "customerDistrict"
+            );
+
+
+        if (
+            !selector ||
+            !selectButton ||
+            !dropdown ||
+            !searchInput ||
+            !districtList ||
+            !selectedText ||
+            !hiddenInput
+        ) {
+
+            console.warn(
+                "District selector elements not found."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           RENDER DISTRICTS
+        ================================================= */
+
+        function renderDistricts(searchTerm = "") {
+
+            const query =
+                searchTerm
+                    .trim()
+                    .toLowerCase();
+
+
+            const filtered =
+                bangladeshDistricts.filter(
+                    function (district) {
+
+                        return district
+                            .toLowerCase()
+                            .includes(query);
+
+                    }
+                );
+
+
+            districtList.innerHTML = "";
+
+
+            if (filtered.length === 0) {
+
+                districtList.innerHTML = `
+
+                    <div class="district-no-result">
+                        No district found
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            filtered.forEach(
+                function (district) {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    button.type = "button";
+
+                    button.className =
+                        "district-option";
+
+                    button.textContent =
+                        district;
+
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            selectedText.textContent =
+                                district;
+
+                            hiddenInput.value =
+                                district;
+
+                            dropdown.classList.remove(
+                                "show"
+                            );
+
+                            selectButton.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                            searchInput.value =
+                                "";
+
+                            updateDeliveryCharge();
+
+                        }
+                    );
+
+
+                    districtList.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================================
+           OPEN / CLOSE
+        ================================================= */
+
+        selectButton.addEventListener(
+            "click",
+            function () {
+
+                const isOpen =
+                    dropdown.classList.contains(
+                        "show"
+                    );
+
+
+                if (isOpen) {
+
+                    dropdown.classList.remove(
+                        "show"
+                    );
+
+                    selectButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                } else {
+
+                    dropdown.classList.add(
+                        "show"
+                    );
+
+                    selectButton.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                    renderDistricts();
+
+                    setTimeout(
+                        function () {
+
+                            searchInput.focus();
+
+                        },
+                        50
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           SEARCH
+        ================================================= */
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                renderDistricts(
+                    searchInput.value
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           CLOSE WHEN CLICKING OUTSIDE
+        ================================================= */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !selector.contains(
+                        event.target
+                    )
+                ) {
+
+                    dropdown.classList.remove(
+                        "show"
+                    );
+
+                    selectButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           INITIAL DISTRICTS
+        ================================================= */
+
+        renderDistricts();
+
+    }
+
 
     /* =====================================================
-       RENDER CHECKOUT ITEMS
+       UPDATE DELIVERY CHARGE
+    ===================================================== */
+
+    function updateDeliveryCharge() {
+
+        const districtInput =
+            document.getElementById(
+                "customerDistrict"
+            );
+
+
+        if (!districtInput) {
+
+            return;
+
+        }
+
+
+        const district =
+            districtInput.value.trim();
+
+
+        if (!district) {
+
+            if (deliveryCharge) {
+
+                deliveryCharge.textContent =
+                    "Select District";
+
+            }
+
+
+            updateCheckoutTotal(0);
+
+            return;
+
+        }
+
+
+        const charge =
+            getDeliveryCharge(
+                district
+            );
+
+
+        if (deliveryCharge) {
+
+            deliveryCharge.textContent =
+                formatMoney(charge);
+
+        }
+
+
+        updateCheckoutTotal(
+            charge
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER CHECKOUT
     ===================================================== */
 
     function renderCheckout() {
@@ -759,6 +607,10 @@ document.addEventListener("DOMContentLoaded", function () {
         checkoutItems.innerHTML =
             "";
 
+
+        /* =================================================
+           EMPTY CART
+        ================================================= */
 
         if (cart.length === 0) {
 
@@ -787,6 +639,38 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
 
+            if (checkoutSubtotal) {
+
+                checkoutSubtotal.textContent =
+                    "৳0";
+
+            }
+
+
+            if (deliveryCharge) {
+
+                deliveryCharge.textContent =
+                    "Select District";
+
+            }
+
+
+            if (checkoutTotal) {
+
+                checkoutTotal.textContent =
+                    "৳0";
+
+            }
+
+
+            if (summaryCount) {
+
+                summaryCount.textContent =
+                    "0 items";
+
+            }
+
+
             if (placeOrderButton) {
 
                 placeOrderButton.disabled =
@@ -794,8 +678,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
-
-            updateCheckoutTotals();
 
             return;
 
@@ -810,24 +692,50 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        let subtotal = 0;
+
+        let totalItems = 0;
+
+
         cart.forEach(
             function (item) {
+
+                const itemPrice =
+                    Number(item.price || 0);
+
+                const quantity =
+                    Number(item.quantity || 0);
+
+                const itemSubtotal =
+                    itemPrice * quantity;
+
+
+                subtotal +=
+                    itemSubtotal;
+
+                totalItems +=
+                    quantity;
+
+
+                /* =========================================
+                   ITEM
+                ========================================= */
 
                 const itemElement =
                     document.createElement(
                         "div"
                     );
 
-
                 itemElement.className =
                     "checkout-item";
 
+
+                /* IMAGE */
 
                 const imageBox =
                     document.createElement(
                         "div"
                     );
-
 
                 imageBox.className =
                     "checkout-item-image";
@@ -838,19 +746,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         "img"
                     );
 
-
                 image.src =
-                    item.image;
-
+                    item.image || "";
 
                 image.alt =
-                    item.name;
+                    item.name || "Product";
 
 
                 image.onerror =
                     function () {
 
-                        this.style.display =
+                        image.style.display =
                             "none";
 
                         imageBox.innerHTML =
@@ -864,11 +770,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
+                /* INFO */
+
                 const info =
                     document.createElement(
                         "div"
                     );
-
 
                 info.className =
                     "checkout-item-info";
@@ -879,20 +786,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         "h3"
                     );
 
-
                 title.textContent =
-                    item.name;
+                    item.name || "Product";
 
 
-                const quantity =
+                const quantityText =
                     document.createElement(
                         "p"
                     );
 
-
-                quantity.textContent =
+                quantityText.textContent =
                     "Quantity: " +
-                    item.quantity;
+                    quantity;
 
 
                 const price =
@@ -900,11 +805,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         "strong"
                     );
 
-
                 price.textContent =
                     formatMoney(
-                        Number(item.price) *
-                        Number(item.quantity)
+                        itemSubtotal
                     );
 
 
@@ -912,11 +815,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     title
                 );
 
-
                 info.appendChild(
-                    quantity
+                    quantityText
                 );
-
 
                 info.appendChild(
                     price
@@ -926,7 +827,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 itemElement.appendChild(
                     imageBox
                 );
-
 
                 itemElement.appendChild(
                     info
@@ -941,14 +841,51 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        updateCheckoutTotals();
+        /* =================================================
+           SUMMARY
+        ================================================= */
+
+        if (summaryCount) {
+
+            summaryCount.textContent =
+                totalItems +
+                (
+                    totalItems === 1
+                        ? " item"
+                        : " items"
+                );
+
+        }
+
+
+        if (checkoutSubtotal) {
+
+            checkoutSubtotal.textContent =
+                formatMoney(subtotal);
+
+        }
+
+
+        if (deliveryCharge) {
+
+            deliveryCharge.textContent =
+                "Select District";
+
+        }
+
+
+        if (checkoutTotal) {
+
+            checkoutTotal.textContent =
+                formatMoney(subtotal);
+
+        }
 
     }
 
 
-
     /* =====================================================
-       PAYMENT UI
+       PAYMENT METHOD
     ===================================================== */
 
     const paymentOptions =
@@ -986,9 +923,8 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-
     /* =====================================================
-       ORDER NUMBER
+       GENERATE ORDER NUMBER
     ===================================================== */
 
     function generateOrderNumber() {
@@ -1004,19 +940,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const month =
             String(
                 now.getMonth() + 1
-            ).padStart(
-                2,
-                "0"
-            );
+            ).padStart(2, "0");
 
 
         const day =
             String(
                 now.getDate()
-            ).padStart(
-                2,
-                "0"
-            );
+            ).padStart(2, "0");
 
 
         const random =
@@ -1038,51 +968,151 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =====================================================
-       SAVE ORDER
+       SAVE ORDER THROUGH SECURE RPC
     ===================================================== */
 
-    function saveOrder(order) {
+    async function saveOrderToSupabase(order) {
 
-        let orders = [];
+        if (!supabase) {
 
-
-        try {
-
-            orders =
-                JSON.parse(
-                    localStorage.getItem(
-                        "dreamlyOrders"
-                    )
-                ) || [];
-
-        } catch (error) {
-
-            orders = [];
+            throw new Error(
+                "Supabase connection is not available."
+            );
 
         }
 
 
-        orders.push(
-            order
-        );
+        const items =
+            order.items.map(
+                function (item) {
+
+                    const price =
+                        Number(
+                            item.price || 0
+                        );
+
+                    const quantity =
+                        Number(
+                            item.quantity || 0
+                        );
 
 
-        localStorage.setItem(
-            "dreamlyOrders",
-            JSON.stringify(orders)
-        );
+                    return {
+
+                        product_id:
+                            String(
+                                item.id ??
+                                item.productId ??
+                                ""
+                            ),
+
+                        product_name:
+                            String(
+                                item.name ??
+                                "Product"
+                            ),
+
+                        product_image:
+                            item.image ||
+                            null,
+
+                        price:
+                            price,
+
+                        quantity:
+                            quantity,
+
+                        subtotal:
+                            price * quantity
+
+                    };
+
+                }
+            );
+
+
+        const { data, error } =
+            await supabase.rpc(
+                "place_dreamly_order",
+                {
+
+                    p_order_number:
+                        order.orderNumber,
+
+                    p_customer_name:
+                        order.customer.name,
+
+                    p_customer_phone:
+                        order.customer.phone,
+
+                    p_customer_email:
+                        order.customer.email ||
+                        "",
+
+                    p_customer_address:
+                        order.customer.address,
+
+                    p_customer_district:
+                        order.customer.district,
+
+                    p_order_note:
+                        order.customer.note ||
+                        "",
+
+                    p_payment_method:
+                        order.paymentMethod,
+
+                    p_subtotal:
+                        order.subtotal,
+
+                    p_delivery_charge:
+                        order.deliveryCharge,
+
+                    p_total:
+                        order.total,
+
+                    p_items:
+                        items
+
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Supabase RPC error:",
+                error
+            );
+
+            throw error;
+
+        }
+
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            throw new Error(
+                "Order was not confirmed by database."
+            );
+
+        }
+
+
+        return data;
 
     }
-
 
 
     /* =====================================================
        PLACE ORDER
     ===================================================== */
 
-    function placeOrder() {
+    async function placeOrder() {
 
         const cart =
             getCart();
@@ -1099,7 +1129,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /* FORM VALIDATION */
+        if (!supabase) {
+
+            alert(
+                "Database connection is not ready. Please try again."
+            );
+
+            console.error(
+                "DreamlySupabase client is missing."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           FORM VALIDATION
+        ================================================= */
 
         if (
             !checkoutForm ||
@@ -1117,33 +1164,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /* DISTRICT VALIDATION */
-
-        if (
-            !customerDistrict ||
-            !customerDistrict.value
-        ) {
-
-            alert(
-                "Please select your district."
-            );
-
-            openDistrictDropdown();
-
-            return;
-
-        }
-
-
-        /* TERMS */
-
         if (
             termsCheckbox &&
             !termsCheckbox.checked
         ) {
 
             alert(
-                "Please confirm that your information is correct."
+                "Please confirm that your delivery information is correct."
             );
 
             return;
@@ -1151,48 +1178,108 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /* =================================================
+           CUSTOMER ELEMENTS
+        ================================================= */
+
+        const customerNameElement =
+            document.getElementById(
+                "customerName"
+            );
+
+        const customerPhoneElement =
+            document.getElementById(
+                "customerPhone"
+            );
+
+        const customerEmailElement =
+            document.getElementById(
+                "customerEmail"
+            );
+
+        const customerAddressElement =
+            document.getElementById(
+                "customerAddress"
+            );
+
+        const customerDistrictElement =
+            document.getElementById(
+                "customerDistrict"
+            );
+
+        const orderNoteElement =
+            document.getElementById(
+                "orderNote"
+            );
+
+
+        const district =
+            customerDistrictElement
+                ? customerDistrictElement.value.trim()
+                : "";
+
+
+        if (!district) {
+
+            alert(
+                "Please select your district."
+            );
+
+            return;
+
+        }
+
 
         /* =================================================
-           CUSTOMER INFORMATION
-        ================================================== */
+           DELIVERY CHARGE
+        ================================================= */
+
+        const currentDeliveryCharge =
+            getDeliveryCharge(
+                district
+            );
+
+
+        /* =================================================
+           CUSTOMER
+        ================================================= */
 
         const customer = {
 
             name:
-                document.getElementById(
-                    "customerName"
-                ).value.trim(),
+                customerNameElement
+                    ? customerNameElement.value.trim()
+                    : "",
 
             phone:
-                document.getElementById(
-                    "customerPhone"
-                ).value.trim(),
+                customerPhoneElement
+                    ? customerPhoneElement.value.trim()
+                    : "",
 
             email:
-                document.getElementById(
-                    "customerEmail"
-                ).value.trim(),
+                customerEmailElement
+                    ? customerEmailElement.value.trim()
+                    : "",
 
             address:
-                document.getElementById(
-                    "customerAddress"
-                ).value.trim(),
+                customerAddressElement
+                    ? customerAddressElement.value.trim()
+                    : "",
 
             district:
-                customerDistrict.value,
+                district,
 
             note:
-                document.getElementById(
-                    "orderNote"
-                ).value.trim()
+                orderNoteElement
+                    ? orderNoteElement.value.trim()
+                    : ""
 
         };
 
 
-
         /* =================================================
            PAYMENT
-        ================================================== */
+        ================================================= */
 
         const paymentInput =
             document.querySelector(
@@ -1206,58 +1293,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "cod";
 
 
-
         /* =================================================
-           TOTAL
-        ================================================== */
+           PRICE
+        ================================================= */
 
-        let subtotal =
-            0;
-
-
-        cart.forEach(
-            function (item) {
-
-                subtotal +=
-                    Number(item.price) *
-                    Number(item.quantity);
-
-            }
-        );
-
-
-        const selectedDeliveryCharge =
-            getDeliveryCharge(
-                customer.district
-            );
+        const subtotal =
+            calculateSubtotal();
 
 
         const total =
             subtotal +
-            selectedDeliveryCharge;
-
+            currentDeliveryCharge;
 
 
         /* =================================================
-           CREATE ORDER
-        ================================================== */
+           ORDER
+        ================================================= */
 
         const order = {
 
             orderNumber:
                 generateOrderNumber(),
 
-            createdAt:
-                new Date().toISOString(),
-
-            status:
-                "Pending",
+            customer:
+                customer,
 
             paymentMethod:
                 paymentMethod,
-
-            customer:
-                customer,
 
             items:
                 cart,
@@ -1266,7 +1328,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 subtotal,
 
             deliveryCharge:
-                selectedDeliveryCharge,
+                currentDeliveryCharge,
 
             total:
                 total
@@ -1274,42 +1336,88 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
 
-        /* SAVE */
+        /* =================================================
+           BUTTON
+        ================================================= */
 
-        saveOrder(
-            order
-        );
+        if (placeOrderButton) {
 
+            placeOrderButton.disabled =
+                true;
 
-        /* CLEAR CART */
-
-        localStorage.removeItem(
-            "dreamlyCart"
-        );
-
-
-        /* SUCCESS NUMBER */
-
-        if (successOrderNumber) {
-
-            successOrderNumber.textContent =
-                order.orderNumber;
+            placeOrderButton.textContent =
+                "⏳ Placing Order...";
 
         }
 
 
-        /* SUCCESS MODAL */
+        try {
 
-        if (successOverlay) {
+            const savedOrder =
+                await saveOrderToSupabase(
+                    order
+                );
 
-            successOverlay.classList.add(
-                "show"
+
+            /* =============================================
+               CLEAR CART
+            ============================================= */
+
+            localStorage.removeItem(
+                "dreamlyCart"
             );
+
+
+            /* =============================================
+               SUCCESS
+            ============================================= */
+
+            if (successOrderNumber) {
+
+                successOrderNumber.textContent =
+                    savedOrder.order_number ||
+                    order.orderNumber;
+
+            }
+
+
+            if (successOverlay) {
+
+                successOverlay.classList.add(
+                    "show"
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Dreamly Mart order error:",
+                error
+            );
+
+
+            alert(
+                "অর্ডার সম্পন্ন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
+            );
+
+
+        } finally {
+
+            if (placeOrderButton) {
+
+                placeOrderButton.disabled =
+                    false;
+
+                placeOrderButton.textContent =
+                    "🛍️ Place Order";
+
+            }
 
         }
 
     }
-
 
 
     /* =====================================================
@@ -1324,7 +1432,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
-
 
 
     /* =====================================================
@@ -1346,7 +1453,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =====================================================
        CONTINUE SHOPPING
     ===================================================== */
@@ -1366,9 +1472,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =====================================================
-       HEADER CART
+       CART ICON
     ===================================================== */
 
     const cartButton =
@@ -1396,15 +1501,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =====================================================
        INITIALIZE
     ===================================================== */
 
-    renderDistricts();
+    setupDistrictSelector();
 
     renderCheckout();
 
-    updateCheckoutTotals();
+    updateDeliveryCharge();
 
 });

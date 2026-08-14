@@ -12,6 +12,11 @@
 
     <title>Checkout | Dreamly Mart</title>
 
+
+    <!-- =====================================================
+         GLOBAL CSS
+    ====================================================== -->
+
     <link
         rel="stylesheet"
         href="css/style.css"
@@ -102,7 +107,9 @@
 <main class="checkout-page">
 
 
-    <!-- PAGE INTRO -->
+    <!-- =================================================
+         PAGE INTRO
+    ================================================== -->
 
     <section class="checkout-intro">
 
@@ -166,7 +173,9 @@
                 <form id="checkoutForm">
 
 
-                    <!-- NAME + PHONE -->
+                    <!-- =================================================
+                         FULL NAME + PHONE
+                    ================================================== -->
 
                     <div class="form-row">
 
@@ -215,12 +224,13 @@
 
                         </div>
 
-
                     </div>
 
 
 
-                    <!-- EMAIL -->
+                    <!-- =================================================
+                         EMAIL
+                    ================================================== -->
 
                     <div class="form-group">
 
@@ -246,7 +256,9 @@
 
 
 
-                    <!-- ADDRESS -->
+                    <!-- =================================================
+                         FULL ADDRESS
+                    ================================================== -->
 
                     <div class="form-group">
 
@@ -291,13 +303,14 @@
                         >
 
 
-                            <!-- SELECTED DISTRICT -->
+                            <!-- SELECTED DISTRICT BUTTON -->
 
                             <button
                                 type="button"
                                 class="district-select-button"
                                 id="districtSelectButton"
                                 aria-expanded="false"
+                                aria-haspopup="listbox"
                             >
 
                                 <span
@@ -306,7 +319,9 @@
                                     Select your district
                                 </span>
 
-                                <span class="district-arrow">
+                                <span
+                                    class="district-arrow"
+                                >
                                     ▾
                                 </span>
 
@@ -314,7 +329,9 @@
 
 
 
-                            <!-- DROPDOWN -->
+                            <!-- =================================================
+                                 DISTRICT DROPDOWN
+                            ================================================== -->
 
                             <div
                                 class="district-dropdown"
@@ -322,9 +339,11 @@
                             >
 
 
-                                <!-- SEARCH -->
+                                <!-- SEARCH BOX -->
 
-                                <div class="district-search-box">
+                                <div
+                                    class="district-search-box"
+                                >
 
                                     <span>
                                         🔍
@@ -347,13 +366,17 @@
                                 <div
                                     class="district-list"
                                     id="districtList"
+                                    role="listbox"
                                 ></div>
 
 
                             </div>
 
 
-                            <!-- HIDDEN VALUE -->
+
+                            <!-- =================================================
+                                 HIDDEN DISTRICT VALUE
+                            ================================================== -->
 
                             <input
                                 type="hidden"
@@ -375,7 +398,9 @@
 
 
 
-                    <!-- ORDER NOTE -->
+                    <!-- =================================================
+                         ORDER NOTE
+                    ================================================== -->
 
                     <div class="form-group">
 
@@ -436,9 +461,13 @@
                 <div class="payment-methods">
 
 
-                    <!-- CASH ON DELIVERY -->
+                    <!-- =================================================
+                         CASH ON DELIVERY
+                    ================================================== -->
 
-                    <label class="payment-option active">
+                    <label
+                        class="payment-option active"
+                    >
 
                         <input
                             type="radio"
@@ -471,9 +500,13 @@
 
 
 
-                    <!-- BKASH -->
+                    <!-- =================================================
+                         BKASH
+                    ================================================== -->
 
-                    <label class="payment-option">
+                    <label
+                        class="payment-option"
+                    >
 
                         <input
                             type="radio"
@@ -505,9 +538,13 @@
 
 
 
-                    <!-- NAGAD -->
+                    <!-- =================================================
+                         NAGAD
+                    ================================================== -->
 
-                    <label class="payment-option">
+                    <label
+                        class="payment-option"
+                    >
 
                         <input
                             type="radio"
@@ -542,6 +579,10 @@
 
 
 
+                <!-- =================================================
+                     ONLINE PAYMENT NOTICE
+                ================================================== -->
+
                 <div
                     class="payment-notice"
                     id="onlinePaymentNotice"
@@ -564,7 +605,7 @@
 
 
             <!-- =================================================
-                 TERMS
+                 TERMS & CONDITIONS
             ================================================== -->
 
             <div class="checkout-terms">
@@ -604,6 +645,10 @@
             <div class="order-summary">
 
 
+                <!-- =================================================
+                     SUMMARY HEADER
+                ================================================== -->
+
                 <div class="summary-heading">
 
                     <div>
@@ -629,7 +674,9 @@
 
 
 
-                <!-- ORDER ITEMS -->
+                <!-- =================================================
+                     ORDER ITEMS
+                ================================================== -->
 
                 <div
                     class="checkout-items"
@@ -638,10 +685,14 @@
 
 
 
-                <!-- PRICES -->
+                <!-- =================================================
+                     PRICES
+                ================================================== -->
 
                 <div class="summary-prices">
 
+
+                    <!-- SUBTOTAL -->
 
                     <div>
 
@@ -649,12 +700,17 @@
                             Subtotal
                         </span>
 
-                        <strong id="checkoutSubtotal">
+                        <strong
+                            id="checkoutSubtotal"
+                        >
                             ৳0
                         </strong>
 
                     </div>
 
+
+
+                    <!-- DELIVERY -->
 
                     <div>
 
@@ -662,7 +718,9 @@
                             Delivery Charge
                         </span>
 
-                        <strong id="deliveryCharge">
+                        <strong
+                            id="deliveryCharge"
+                        >
                             Select District
                         </strong>
 
@@ -673,7 +731,9 @@
 
 
 
-                <!-- TOTAL -->
+                <!-- =================================================
+                     TOTAL
+                ================================================== -->
 
                 <div class="summary-total">
 
@@ -681,7 +741,9 @@
                         Total
                     </span>
 
-                    <strong id="checkoutTotal">
+                    <strong
+                        id="checkoutTotal"
+                    >
                         ৳0
                     </strong>
 
@@ -689,7 +751,9 @@
 
 
 
-                <!-- PLACE ORDER -->
+                <!-- =================================================
+                     PLACE ORDER
+                ================================================== -->
 
                 <button
                     type="button"
@@ -700,7 +764,10 @@
                 </button>
 
 
-                <!-- BACK TO CART -->
+
+                <!-- =================================================
+                     BACK TO CART
+                ================================================== -->
 
                 <button
                     type="button"
@@ -710,6 +777,11 @@
                     ← Back to Cart
                 </button>
 
+
+
+                <!-- =================================================
+                     SECURITY NOTE
+                ================================================== -->
 
                 <div class="secure-note">
 
@@ -769,7 +841,9 @@
                 Order Number
             </span>
 
-            <strong id="successOrderNumber">
+            <strong
+                id="successOrderNumber"
+            >
                 DM-000000
             </strong>
 
@@ -819,7 +893,20 @@
 
 
 
+<!-- =====================================================
+     JAVASCRIPT
+     IMPORTANT LOAD ORDER:
+     1. Supabase Library
+     2. Dreamly Mart Supabase Client
+     3. Checkout System
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
 <script src="js/checkout.js"></script>
+
 
 </body>
 
