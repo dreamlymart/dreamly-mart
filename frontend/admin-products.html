@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Products | Dreamly Mart</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .brand p {
+            margin: 5px 0 0;
+            color: #5b21b6;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #f3f0ff;
+            color: #5b21b6;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 18px;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .page-title h2 {
+            margin: 0 0 6px;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            margin: 0 0 20px;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d9deea;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #6d28d9;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-row {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            display: none;
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .button-row {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #5b21b6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4c1d95;
+        }
+
+        .btn-secondary {
+            background: #eef0f5;
+            color: #374151;
+        }
+
+        .message {
+            display: none;
+            padding: 13px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .products-table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #edf0f5;
+            text-align: left;
+        }
+
+        th {
+            background: #f8f9fc;
+            font-size: 13px;
+        }
+
+        .product-img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .status-active {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                padding: 15px;
+            }
+
+            .brand h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                margin-top: 20px;
+                padding: 0 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .checkbox-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+        <h1>Dreamly Mart</h1>
+        <p>PRODUCT MANAGEMENT</p>
+    </div>
+
+    <a href="admin-orders.html" class="back-btn">
+        ← Admin Orders
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-title">
+        <h2>Add New Product</h2>
+        <p>Add products directly to Dreamly Mart database.</p>
+    </div>
+
+
+    <div id="message" class="message"></div>
+
+
+    <section class="card">
+
+        <h3 class="card-title">Product Information</h3>
+
+        <form id="productForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="productId">Product ID</label>
+                    <input
+                        type="text"
+                        id="productId"
+                        placeholder="Example: DM-CASIO-001"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="name">Product Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter product name"
+                        required
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="category">Category</label>
+
+                    <select id="category">
+
+                        <option value="">Select Category</option>
+
+                        <option value="Electronics & Gadgets">
+                            Electronics & Gadgets
+                        </option>
+
+                        <option value="Fashion & Style">
+                            Fashion & Style
+                        </option>
+
+                        <option value="Home & Kitchen">
+                            Home & Kitchen
+                        </option>
+
+                        <option value="Beauty & Personal Care">
+                            Beauty & Personal Care
+                        </option>
+
+                        <option value="Gift & Combos">
+                            Gift & Combos
+                        </option>
+
+                        <option value="Lifestyle">
+                            Lifestyle
+                        </option>
+
+                        <option value="Others">
+                            Others
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="field">
+                    <label for="price">Selling Price (৳) *</label>
+
+                    <input
+                        type="number"
+                        id="price"
+                        min="0"
+                        step="0.01"
+                        placeholder="1590"
+                        required
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="oldPrice">Old Price (৳)</label>
+
+                    <input
+                        type="number"
+                        id="oldPrice"
+                        min="0"
+                        step="0.01"
+                        placeholder="1990"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="discount">Discount</label>
+
+                    <input
+                        type="text"
+                        id="discount"
+                        placeholder="20%"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="stock">Stock Quantity</label>
+
+                    <input
+                        type="number"
+                        id="stock"
+                        min="0"
+                        value="0"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="image">Product Image URL</label>
+
+                    <input
+                        type="text"
+                        id="image"
+                        placeholder="images/products/product.jpg"
+                    >
+
+                    <img
+                        id="imagePreview"
+                        class="image-preview"
+                        alt="Product Preview"
+                    >
+                </div>
+
+
+                <div class="field full">
+
+                    <label for="description">
+                        Product Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Write product description..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <div class="checkbox-row">
+
+                        <label class="checkbox-item">
+                            <input
+                                type="checkbox"
+                                id="isFeatured"
+                            >
+                            Featured Product
+                        </label>
+
+
+                        <label class="checkbox-item">
+                            <input
+                                type="checkbox"
+                                id="isNewArrival"
+                            >
+                            New Arrival
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="saveButton"
+                >
+                    Add Product
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="resetButton"
+                >
+                    Clear Form
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3 class="card-title">Products in Database</h3>
+
+        <div class="products-table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productsTableBody">
+
+                    <tr>
+                        <td colspan="6" class="empty">
+                            Loading products...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Dreamly Mart Supabase Client -->
+<script src="js/supabase.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const supabase =
+        window.DreamlySupabase
+            ? window.DreamlySupabase.client
+            : null;
+
+
+    const form =
+        document.getElementById("productForm");
+
+    const message =
+        document.getElementById("message");
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    const resetButton =
+        document.getElementById("resetButton");
+
+    const imageInput =
+        document.getElementById("image");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+    const productsTableBody =
+        document.getElementById("productsTableBody");
+
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    function hideMessage() {
+
+        message.textContent = "";
+
+        message.className =
+            "message";
+
+    }
+
+
+    imageInput.addEventListener("input", function () {
+
+        const url =
+            imageInput.value.trim();
+
+        if (!url) {
+
+            imagePreview.style.display =
+                "none";
+
+            return;
+        }
+
+        imagePreview.src = url;
+
+        imagePreview.style.display =
+            "block";
+
+    });
+
+
+    imagePreview.addEventListener("error", function () {
+
+        imagePreview.style.display =
+            "none";
+
+    });
+
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        hideMessage();
+
+
+        if (!supabase) {
+
+            showMessage(
+                "Supabase connection is unavailable.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const name =
+            document.getElementById("name")
+                .value.trim();
+
+        const productId =
+            document.getElementById("productId")
+                .value.trim();
+
+        const category =
+            document.getElementById("category")
+                .value;
+
+        const price =
+            Number(
+                document.getElementById("price")
+                    .value
+            );
+
+        const oldPriceValue =
+            document.getElementById("oldPrice")
+                .value;
+
+        const oldPrice =
+            oldPriceValue
+                ? Number(oldPriceValue)
+                : null;
+
+        const discount =
+            document.getElementById("discount")
+                .value.trim() || null;
+
+        const stock =
+            Number(
+                document.getElementById("stock")
+                    .value || 0
+            );
+
+        const image =
+            document.getElementById("image")
+                .value.trim() || null;
+
+        const description =
+            document.getElementById("description")
+                .value.trim() || null;
+
+        const isFeatured =
+            document.getElementById("isFeatured")
+                .checked;
+
+        const isNewArrival =
+            document.getElementById("isNewArrival")
+                .checked;
+
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+            "Saving...";
+
+
+        try {
+
+            const { data, error } =
+                await supabase
+                    .from("products")
+                    .insert({
+
+                        product_id:
+                            productId || null,
+
+                        name:
+                            name,
+
+                        description:
+                            description,
+
+                        price:
+                            price,
+
+                        old_price:
+                            oldPrice,
+
+                        discount:
+                            discount,
+
+                        rating:
+                            0,
+
+                        reviews:
+                            0,
+
+                        category:
+                            category || null,
+
+                        image:
+                            image,
+
+                        stock:
+                            stock,
+
+                        is_active:
+                            true,
+
+                        is_featured:
+                            isFeatured,
+
+                        is_new_arrival:
+                            isNewArrival
+
+                    })
+                    .select()
+                    .single();
+
+
+            if (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Product save failed: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                "✅ Product added successfully!",
+                "success"
+            );
+
+
+            form.reset();
+
+            imagePreview.style.display =
+                "none";
+
+
+            loadProducts();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Something went wrong while saving the product.",
+                "error"
+            );
+
+        } finally {
+
+            saveButton.disabled = false;
+
+            saveButton.textContent =
+                "Add Product";
+
+        }
+
+    });
+
+
+    resetButton.addEventListener("click", function () {
+
+        form.reset();
+
+        imagePreview.style.display =
+            "none";
+
+        hideMessage();
+
+    });
+
+
+    async function loadProducts() {
+
+        if (!supabase) {
+
+            productsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        Supabase connection unavailable.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        const { data, error } =
+            await supabase
+                .from("products")
+                .select(
+                    "product_id,name,category,price,stock,image,is_active"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(error);
+
+            productsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        Unable to load products.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+            productsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        No products found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        productsTableBody.innerHTML =
+            data.map(function (product) {
+
+                const image =
+                    product.image
+                    || "https://via.placeholder.com/55";
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            <img
+                                src="${image}"
+                                class="product-img"
+                                alt=""
+                                onerror="this.src='https://via.placeholder.com/55'"
+                            >
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${escapeHtml(product.name || "")}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(product.category || "-")}
+                        </td>
+
+                        <td>
+                            ৳${Number(product.price || 0).toLocaleString()}
+                        </td>
+
+                        <td>
+                            ${product.stock ?? 0}
+                        </td>
+
+                        <td class="status-active">
+                            ${product.is_active ? "Active" : "Inactive"}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    loadProducts();
+
+});
+
+</script>
+
+</body>
+</html>
