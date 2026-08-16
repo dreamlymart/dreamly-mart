@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Track Order | Dreamly Mart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 18px 5%;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 12px;
+            color: #7c3aed;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #172033;
+            border: 1px solid #ddd;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .title p {
+            color: #667085;
+        }
+
+        .tracking-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #d9dce3;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #7c3aed;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .error {
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .success {
+            background: #ecfdf3;
+            color: #047857;
+        }
+
+        .order-result {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .order-number {
+            font-size: 22px;
+            font-weight: 800;
+            color: #7c3aed;
+            margin-bottom: 8px;
+        }
+
+        .customer {
+            color: #667085;
+            margin-bottom: 25px;
+        }
+
+        .status-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin: 35px 0;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 17px;
+            left: 8%;
+            right: 8%;
+            height: 4px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+
+        .step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 20%;
+        }
+
+        .circle {
+            width: 36px;
+            height: 36px;
+            margin: auto;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step.active .circle {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .step.active .label {
+            color: #7c3aed;
+            font-weight: 700;
+        }
+
+        .label {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .order-info {
+            background: #f8f9fc;
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-box button {
+                width: 100%;
+            }
+
+            .title h1 {
+                font-size: 28px;
+            }
+
+            .tracking-card {
+                padding: 20px;
+            }
+
+            .timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .step {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-align: left;
+            }
+
+            .circle {
+                margin: 0;
+                flex-shrink: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="brand">
+
+        Dreamly Mart
+
+        <span>
+            ORDER TRACKING
+        </span>
+
+    </div>
+
+    <a
+        href="index.html"
+        class="back-btn"
+    >
+        ← Back to Store
+    </a>
+
+</header>
+
+
+<main class="container">
+
+
+    <section class="title">
+
+        <h1>
+            Track Your Order
+        </h1>
+
+        <p>
+            Enter your Dreamly Mart order number to check your order status.
+        </p>
+
+    </section>
+
+
+    <section class="tracking-card">
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="orderNumber"
+                placeholder="Example: DM-20260814-2369"
+            >
+
+            <button
+                type="button"
+                id="trackButton"
+            >
+                Track Order
+            </button>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <div
+            id="orderResult"
+            class="order-result"
+        >
+
+            <div
+                id="resultOrderNumber"
+                class="order-number"
+            ></div>
+
+            <div
+                id="resultCustomer"
+                class="customer"
+            ></div>
+
+
+            <div class="status-title">
+                Order Status
+            </div>
+
+
+            <div
+                id="timeline"
+                class="timeline"
+            >
+
+                <div class="step">
+
+                    <div class="circle">
+                        1
+                    </div>
+
+                    <div class="label">
+                        Pending
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="circle">
+                        2
+                    </div>
+
+                    <div class="label">
+                        Confirmed
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="circle">
+                        3
+                    </div>
+
+                    <div class="label">
+                        Processing
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="circle">
+                        4
+                    </div>
+
+                    <div class="label">
+                        Shipped
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="circle">
+                        5
+                    </div>
+
+                    <div class="label">
+                        Delivered
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-info">
+
+                <div class="info-row">
+
+                    <span>
+                        Order Total
+                    </span>
+
+                    <strong id="resultTotal">
+                        ৳0
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Order Date
+                    </span>
+
+                    <strong id="resultDate">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Current Status
+                    </span>
+
+                    <strong id="resultStatus">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+<script src="js/supabase.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const supabase =
+            window.DreamlySupabase
+                ? window.DreamlySupabase.client
+                : null;
+
+
+        const orderInput =
+            document.getElementById(
+                "orderNumber"
+            );
+
+
+        const trackButton =
+            document.getElementById(
+                "trackButton"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const result =
+            document.getElementById(
+                "orderResult"
+            );
+
+
+        const resultOrderNumber =
+            document.getElementById(
+                "resultOrderNumber"
+            );
+
+
+        const resultCustomer =
+            document.getElementById(
+                "resultCustomer"
+            );
+
+
+        const resultTotal =
+            document.getElementById(
+                "resultTotal"
+            );
+
+
+        const resultDate =
+            document.getElementById(
+                "resultDate"
+            );
+
+
+        const resultStatus =
+            document.getElementById(
+                "resultStatus"
+            );
+
+
+        const timeline =
+            document.getElementById(
+                "timeline"
+            );
+
+
+        const steps = [
+            "Pending",
+            "Confirmed",
+            "Processing",
+            "Shipped",
+            "Delivered"
+        ];
+
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.textContent =
+                text;
+
+            message.className =
+                "message " + type;
+
+            message.style.display =
+                "block";
+
+        }
+
+
+        function updateTimeline(
+            status
+        ) {
+
+            const stepElements =
+                timeline.querySelectorAll(
+                    ".step"
+                );
+
+
+            let currentIndex =
+                steps.indexOf(
+                    status
+                );
+
+
+            if (
+                status === "Cancelled"
+            ) {
+
+                currentIndex = -1;
+
+            }
+
+
+            stepElements.forEach(
+                function (
+                    step,
+                    index
+                ) {
+
+                    if (
+                        index <=
+                        currentIndex
+                    ) {
+
+                        step.classList.add(
+                            "active"
+                        );
+
+                    } else {
+
+                        step.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        async function trackOrder() {
+
+            const orderNumber =
+                orderInput.value
+                    .trim();
+
+
+            result.style.display =
+                "none";
+
+
+            message.style.display =
+                "none";
+
+
+            if (!orderNumber) {
+
+                showMessage(
+                    "Please enter your order number.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!supabase) {
+
+                showMessage(
+                    "Database connection is unavailable.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            trackButton.disabled =
+                true;
+
+            trackButton.textContent =
+                "Searching...";
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } = await supabase
+                    .from("orders")
+                    .select(
+                        "*"
+                    )
+                    .eq(
+                        "order_number",
+                        orderNumber
+                    )
+                    .maybeSingle();
+
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+
+                if (!data) {
+
+                    showMessage(
+                        "Order not found. Please check your order number.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                const status =
+                    data.order_status ||
+                    "Pending";
+
+
+                resultOrderNumber.textContent =
+                    data.order_number ||
+                    orderNumber;
+
+
+                resultCustomer.textContent =
+                    "Customer: " +
+                    (
+                        data.customer_name ||
+                        "Customer"
+                    );
+
+
+                resultTotal.textContent =
+                    "৳" +
+                    Number(
+                        data.total ||
+                        0
+                    ).toLocaleString(
+                        "en-BD"
+                    );
+
+
+                resultDate.textContent =
+                    data.created_at
+                        ? new Date(
+                            data.created_at
+                        ).toLocaleString(
+                            "en-BD"
+                        )
+                        : "—";
+
+
+                resultStatus.textContent =
+                    status;
+
+
+                updateTimeline(
+                    status
+                );
+
+
+                result.style.display =
+                    "block";
+
+
+                showMessage(
+                    "Order found successfully.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to find order. Please try again.",
+                    "error"
+                );
+
+            } finally {
+
+                trackButton.disabled =
+                    false;
+
+                trackButton.textContent =
+                    "Track Order";
+
+            }
+
+        }
+
+
+        trackButton.addEventListener(
+            "click",
+            trackOrder
+        );
+
+
+        orderInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    trackOrder();
+
+                }
+
+            }
+        );
+
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
