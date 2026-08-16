@@ -418,21 +418,27 @@
                 </div>
 
 
-                <div class="field">
-                    <label for="image">Product Image URL</label>
+<div class="field">
+    <label for="imageFile">Product Image</label>
 
-                    <input
-                        type="text"
-                        id="image"
-                        placeholder="images/products/product.jpg"
-                    >
+    <input
+        type="file"
+        id="imageFile"
+        accept="image/*"
+        required
+    >
 
-                    <img
-                        id="imagePreview"
-                        class="image-preview"
-                        alt="Product Preview"
-                    >
-                </div>
+    <img
+        id="imagePreview"
+        class="image-preview"
+        alt="Product Preview"
+        style="display:none;"
+    >
+
+    <small style="display:block; margin-top:8px; color:#666;">
+        JPG, PNG বা WEBP ছবি নির্বাচন করুন।
+    </small>
+</div>
 
 
                 <div class="field full">
@@ -570,11 +576,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const resetButton =
         document.getElementById("resetButton");
 
-    const imageInput =
-        document.getElementById("image");
+    const imageFileInput =
+    document.getElementById("imageFile");
 
-    const imagePreview =
-        document.getElementById("imagePreview");
+const imagePreview =
+    document.getElementById("imagePreview");
 
     const productsTableBody =
         document.getElementById("productsTableBody");
@@ -605,25 +611,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    imageInput.addEventListener("input", function () {
+    imageFileInput.addEventListener(
+    "change",
+    function () {
 
-        const url =
-            imageInput.value.trim();
+        const file =
+            this.files[0];
 
-        if (!url) {
+        if (!file) {
 
             imagePreview.style.display =
                 "none";
 
+            imagePreview.src = "";
+
             return;
         }
 
-        imagePreview.src = url;
+
+        const imageUrl =
+            URL.createObjectURL(file);
+
+
+        imagePreview.src =
+            imageUrl;
 
         imagePreview.style.display =
             "block";
 
-    });
+    }
+);
 
 
     imagePreview.addEventListener("error", function () {
@@ -689,9 +706,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     .value || 0
             );
 
-        const image =
-            document.getElementById("image")
-                .value.trim() || null;
+        const imageFile =
+    document.getElementById("imageFile").files[0];
 
         const description =
             document.getElementById("description")
@@ -712,7 +728,74 @@ document.addEventListener("DOMContentLoaded", function () {
             "Saving...";
 
 
-        try {
+        try {// ================================
+            // UPLOAD PRODUCT IMAGE
+            // ================================
+
+            if (!imageFile) {
+
+                showMessage(
+                    "Please select a product image.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // Create a unique file name
+            const fileExtension =
+                imageFile.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const fileName =
+                `${Date.now()}-${Math.random()
+                    .toString(36)
+                    .substring(2, 8)}.${fileExtension}`;
+
+
+            // Upload image to Supabase Storage
+            const { data: uploadData, error: uploadError } =
+                await supabase
+                    .storage
+                    .from("product-images")
+                    .upload(
+                        fileName,
+                        imageFile,
+                        {
+                            cacheControl: "3600",
+                            upsert: false,
+                            contentType: imageFile.type
+                        }
+                    );
+
+
+            if (uploadError) {
+
+                console.error(uploadError);
+
+                showMessage(
+                    "Image upload failed: " +
+                    uploadError.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // Get public image URL
+            const { data: publicUrlData } =
+                supabase
+                    .storage
+                    .from("product-images")
+                    .getPublicUrl(uploadData.path);
+
+
+            const image =
+                publicUrlData.publicUrl;
 
             const { data, error } =
                 await supabase
@@ -786,10 +869,12 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            form.reset();
+form.reset();
 
-            imagePreview.style.display =
-                "none";
+imagePreview.style.display =
+    "none";
+
+imagePreview.src = "";
 
 
             loadProducts();
