@@ -757,8 +757,8 @@ const imagePreviewContainer =
                     .value || 0
             );
 
-        const imageFile =
-    document.getElementById("imageFile").files[0];
+        const imageFiles =
+    document.getElementById("imageFile").files;
 
         const description =
             document.getElementById("description")
@@ -780,73 +780,72 @@ const imagePreviewContainer =
 
 
         try {// ================================
-            // UPLOAD PRODUCT IMAGE
-            // ================================
+// UPLOAD PRODUCT IMAGES
+// ================================
 
-            if (!imageFile) {
+const uploadedImageUrls = [];
 
-                showMessage(
-                    "Please select a product image.",
-                    "error"
-                );
+for (let i = 0; i < imageFiles.length; i++) {
 
-                return;
+    const imageFile = imageFiles[i];
+
+    const fileExtension =
+        imageFile.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+    const fileName =
+        `${Date.now()}-${i}-${Math.random()
+            .toString(36)
+            .substring(2, 8)}.${fileExtension}`;
+
+    const {
+        data: uploadData,
+        error: uploadError
+    } = await supabase
+        .storage
+        .from("product-images")
+        .upload(
+            fileName,
+            imageFile,
+            {
+                cacheControl: "3600",
+                upsert: false,
+                contentType: imageFile.type
             }
+        );
+
+    if (uploadError) {
+
+    console.error(uploadError);
+
+    showMessage(
+        "Image " + (i + 1) + " upload failed: " +
+        uploadError.message,
+        "error"
+    );
+
+    return;
+}
 
 
-            // Create a unique file name
-            const fileExtension =
-                imageFile.name
-                    .split(".")
-                    .pop()
-                    .toLowerCase();
+    const {
+        data: publicUrlData
+    } = supabase
+        .storage
+        .from("product-images")
+        .getPublicUrl(
+            uploadData.path
+        );
 
-            const fileName =
-                `${Date.now()}-${Math.random()
-                    .toString(36)
-                    .substring(2, 8)}.${fileExtension}`;
+    uploadedImageUrls.push(
+        publicUrlData.publicUrl
+    );
+}
 
-
-            // Upload image to Supabase Storage
-            const { data: uploadData, error: uploadError } =
-                await supabase
-                    .storage
-                    .from("product-images")
-                    .upload(
-                        fileName,
-                        imageFile,
-                        {
-                            cacheControl: "3600",
-                            upsert: false,
-                            contentType: imageFile.type
-                        }
-                    );
-
-
-            if (uploadError) {
-
-                console.error(uploadError);
-
-                showMessage(
-                    "Image upload failed: " +
-                    uploadError.message,
-                    "error"
-                );
-
-                return;
-            }
-
-
-            // Get public image URL
-            const { data: publicUrlData } =
-                supabase
-                    .storage
-                    .from("product-images")
-                    .getPublicUrl(uploadData.path);
-
-
-            const image =
-                publicUrlData.publicUrl;
+const image =
+    uploadedImageUrls[0];
 
             const { data, error } =
                 await supabase
