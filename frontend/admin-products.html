@@ -144,15 +144,43 @@
             width: auto;
         }
 
-        .image-preview {
-            margin-top: 10px;
-            display: none;
-            width: 150px;
-            height: 150px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid #ddd;
-        }
+        .image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    display: block;
+}
+
+.image-preview-number {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: #5b21b6;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
 
         .button-row {
             margin-top: 25px;
@@ -419,24 +447,23 @@
 
 
 <div class="field">
-    <label for="imageFile">Product Image</label>
+    <label for="imageFiles">Product Images</label>
 
     <input
         type="file"
-        id="imageFile"
+        id="imageFiles"
         accept="image/*"
+        multiple
         required
     >
 
-    <img
-        id="imagePreview"
-        class="image-preview"
-        alt="Product Preview"
-        style="display:none;"
-    >
+    <div
+        id="imagePreviewContainer"
+        class="image-preview-container"
+    ></div>
 
     <small style="display:block; margin-top:8px; color:#666;">
-        JPG, PNG বা WEBP ছবি নির্বাচন করুন।
+        JPG, PNG বা WEBP ছবি নির্বাচন করুন। সর্বোচ্চ ৫টি ছবি নির্বাচন করুন।
     </small>
 </div>
 
@@ -576,11 +603,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const resetButton =
         document.getElementById("resetButton");
 
-    const imageFileInput =
-    document.getElementById("imageFile");
+    const imageFilesInput =
+    document.getElementById("imageFiles");
 
-const imagePreview =
-    document.getElementById("imagePreview");
+const imagePreviewContainer =
+    document.getElementById("imagePreviewContainer");
 
     const productsTableBody =
         document.getElementById("productsTableBody");
@@ -611,33 +638,57 @@ const imagePreview =
     }
 
 
-    imageFileInput.addEventListener(
+    imageFilesInput.addEventListener(
     "change",
     function () {
 
-        const file =
-            this.files[0];
+        imagePreviewContainer.innerHTML = "";
 
-        if (!file) {
+        const files =
+            Array.from(this.files);
 
-            imagePreview.style.display =
-                "none";
-
-            imagePreview.src = "";
-
+        if (files.length === 0) {
             return;
         }
 
+        if (files.length > 5) {
 
-        const imageUrl =
-            URL.createObjectURL(file);
+            showMessage(
+                "Maximum 5 images can be selected.",
+                "error"
+            );
 
+            this.value = "";
+            return;
+        }
 
-        imagePreview.src =
-            imageUrl;
+        files.forEach(function (file, index) {
 
-        imagePreview.style.display =
-            "block";
+            const imageUrl =
+                URL.createObjectURL(file);
+
+            const previewItem =
+                document.createElement("div");
+
+            previewItem.className =
+                "image-preview-item";
+
+            previewItem.innerHTML = `
+                <img
+                    src="${imageUrl}"
+                    alt="Product Image ${index + 1}"
+                >
+
+                <span class="image-preview-number">
+                    ${index + 1}
+                </span>
+            `;
+
+            imagePreviewContainer.appendChild(
+                previewItem
+            );
+
+        });
 
     }
 );
