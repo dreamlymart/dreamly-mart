@@ -847,56 +847,114 @@ for (let i = 0; i < imageFiles.length; i++) {
 const image =
     uploadedImageUrls[0];
 
-            const { data, error } =
-                await supabase
-                    .from("products")
-                    .insert({
+            const { data: productData, error } =
+    await supabase
+        .from("products")
+        .insert({
 
-                        product_id:
-                            productId || null,
+            product_id:
+                productId || null,
 
-                        name:
-                            name,
+            name:
+                name,
 
-                        description:
-                            description,
+            description:
+                description,
 
-                        price:
-                            price,
+            price:
+                price,
 
-                        old_price:
-                            oldPrice,
+            old_price:
+                oldPrice,
 
-                        discount:
-                            discount,
+            discount:
+                discount,
 
-                        rating:
-                            0,
+            rating:
+                0,
 
-                        reviews:
-                            0,
+            reviews:
+                0,
 
-                        category:
-                            category || null,
+            category:
+                category || null,
 
-                        image:
-                            image,
+            image:
+                image,
 
-                        stock:
-                            stock,
+            stock:
+                stock,
 
-                        is_active:
-                            true,
+            is_active:
+                true,
 
-                        is_featured:
-                            isFeatured,
+            is_featured:
+                isFeatured,
 
-                        is_new_arrival:
-                            isNewArrival
+            is_new_arrival:
+                isNewArrival
 
-                    })
-                    .select()
-                    .single();
+        })
+        .select()
+        .single();
+
+
+if (error) {
+
+    console.error(error);
+
+    showMessage(
+        "Product save failed: " +
+        error.message,
+        "error"
+    );
+
+    return;
+}
+
+
+// ======================================
+// SAVE ALL PRODUCT IMAGES
+// ======================================
+
+const productImages =
+    uploadedImageUrls.map(
+        function (imageUrl, index) {
+
+            return {
+                product_id:
+                    productData.product_id,
+
+                image_url:
+                    imageUrl,
+
+                sort_order:
+                    index
+            };
+
+        }
+    );
+
+
+const {
+    error: imagesError
+} = await supabase
+    .from("product_images")
+    .insert(productImages);
+
+
+if (imagesError) {
+
+    console.error(imagesError);
+
+    showMessage(
+        "Product saved, but images could not be saved: " +
+        imagesError.message,
+        "error"
+    );
+
+    return;
+}
 
 
             if (error) {
