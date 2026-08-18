@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Add Products | Dreamly Mart</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -144,43 +147,47 @@
             width: auto;
         }
 
+        /* =========================
+           IMAGE PREVIEW
+        ========================= */
+
         .image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 12px;
-}
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
 
-.image-preview-item {
-    position: relative;
-    width: 120px;
-    height: 120px;
-}
+        .image-preview-item {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
 
-.image-preview-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    display: block;
-}
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            display: block;
+        }
 
-.image-preview-number {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    background: #5b21b6;
-    color: white;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-}
+        .image-preview-number {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: #5b21b6;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
         .button-row {
             margin-top: 25px;
@@ -204,6 +211,11 @@
 
         .btn-primary:hover {
             background: #4c1d95;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -265,13 +277,26 @@
             font-weight: bold;
         }
 
+        .status-inactive {
+            color: #991b1b;
+            font-weight: bold;
+        }
+
         .empty {
             text-align: center;
             padding: 30px;
             color: #6b7280;
         }
 
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-weight: bold;
+        }
+
         @media (max-width: 700px) {
+
             .header {
                 padding: 15px;
             }
@@ -310,18 +335,31 @@
             .btn {
                 width: 100%;
             }
+
+            .image-preview-item {
+                width: 100px;
+                height: 100px;
+            }
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
 <header class="header">
 
     <div class="brand">
+
         <h1>Dreamly Mart</h1>
+
         <p>PRODUCT MANAGEMENT</p>
+
     </div>
+
 
     <a href="admin-orders.html" class="back-btn">
         ← Admin Orders
@@ -330,74 +368,180 @@
 </header>
 
 
+
 <main class="container">
 
+
     <div class="page-title">
+
         <h2>Add New Product</h2>
-        <p>Add products directly to Dreamly Mart database.</p>
+
+        <p>
+            Add products directly to Dreamly Mart database.
+        </p>
+
     </div>
+
 
 
     <div id="message" class="message"></div>
 
 
+
+    <!-- =========================
+         PRODUCT FORM
+    ========================== -->
+
     <section class="card">
 
-        <h3 class="card-title">Product Information</h3>
+        <h3 class="card-title">
+            Product Information
+        </h3>
+
 
         <form id="productForm">
 
+
             <div class="form-grid">
 
+
+                <!-- PRODUCT ID -->
+
                 <div class="field">
-                    <label for="productId">Product ID</label>
+
+                    <label for="productId">
+                        Product ID
+                    </label>
+
                     <input
                         type="text"
                         id="productId"
                         placeholder="Example: DM-CASIO-001"
                     >
+
                 </div>
 
 
+
+                <!-- PRODUCT NAME -->
+
                 <div class="field">
-                    <label for="name">Product Name *</label>
+
+                    <label for="name">
+                        Product Name *
+                    </label>
+
                     <input
                         type="text"
                         id="name"
                         placeholder="Enter product name"
                         required
                     >
+
                 </div>
 
 
-                <div class="field">
-                    <label for="category">Category</label>
 
-<select id="category" name="category" required>
-    <option value="">Select Category</option>
-    <option value="Fashion & Style">Fashion & Style</option>
-    <option value="Electronics & Gadgets">Electronics & Gadgets</option>
-    <option value="Beauty & Care">Beauty & Care</option>
-    <option value="Home & Kitchen">Home & Kitchen</option>
-    <option value="Baby & Mother Care">Baby & Mother Care</option>
-    <option value="Gifts & Combos">Gifts & Combos</option>
-    <option value="Grocery & Food">Grocery & Food</option>
-    <option value="Health & Wellness">Health & Wellness</option>
-    <option value="Local & Heritage">Local & Heritage</option>
-    <option value="Furniture & Living">Furniture & Living</option>
-    <option value="Sports & Fitness">Sports & Fitness</option>
-    <option value="Automotive">Automotive</option>
-    <option value="Gaming & Entertainment">Gaming & Entertainment</option>
-    <option value="Senior Comfort">Senior Comfort</option>
-    <option value="Books & Stationery">Books & Stationery</option>
-    <option value="Pet Care">Pet Care</option>
-    <option value="Others">Others</option>
-</select>
+                <!-- CATEGORY -->
+
+                <div class="field">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Fashion & Style">
+                            Fashion & Style
+                        </option>
+
+                        <option value="Electronics & Gadgets">
+                            Electronics & Gadgets
+                        </option>
+
+                        <option value="Beauty & Care">
+                            Beauty & Care
+                        </option>
+
+                        <option value="Home & Kitchen">
+                            Home & Kitchen
+                        </option>
+
+                        <option value="Baby & Mother Care">
+                            Baby & Mother Care
+                        </option>
+
+                        <option value="Gifts & Combos">
+                            Gifts & Combos
+                        </option>
+
+                        <option value="Grocery & Food">
+                            Grocery & Food
+                        </option>
+
+                        <option value="Health & Wellness">
+                            Health & Wellness
+                        </option>
+
+                        <option value="Local & Heritage">
+                            Local & Heritage
+                        </option>
+
+                        <option value="Furniture & Living">
+                            Furniture & Living
+                        </option>
+
+                        <option value="Sports & Fitness">
+                            Sports & Fitness
+                        </option>
+
+                        <option value="Automotive">
+                            Automotive
+                        </option>
+
+                        <option value="Gaming & Entertainment">
+                            Gaming & Entertainment
+                        </option>
+
+                        <option value="Senior Comfort">
+                            Senior Comfort
+                        </option>
+
+                        <option value="Books & Stationery">
+                            Books & Stationery
+                        </option>
+
+                        <option value="Pet Care">
+                            Pet Care
+                        </option>
+
+                        <option value="Others">
+                            Others
+                        </option>
+
+                    </select>
+
                 </div>
 
 
+
+                <!-- PRICE -->
+
                 <div class="field">
-                    <label for="price">Selling Price (৳) *</label>
+
+                    <label for="price">
+                        Selling Price (৳) *
+                    </label>
 
                     <input
                         type="number"
@@ -407,11 +551,18 @@
                         placeholder="1590"
                         required
                     >
+
                 </div>
 
 
+
+                <!-- OLD PRICE -->
+
                 <div class="field">
-                    <label for="oldPrice">Old Price (৳)</label>
+
+                    <label for="oldPrice">
+                        Old Price (৳)
+                    </label>
 
                     <input
                         type="number"
@@ -420,22 +571,36 @@
                         step="0.01"
                         placeholder="1990"
                     >
+
                 </div>
 
 
+
+                <!-- DISCOUNT -->
+
                 <div class="field">
-                    <label for="discount">Discount</label>
+
+                    <label for="discount">
+                        Discount
+                    </label>
 
                     <input
                         type="text"
                         id="discount"
                         placeholder="20%"
                     >
+
                 </div>
 
 
+
+                <!-- STOCK -->
+
                 <div class="field">
-                    <label for="stock">Stock Quantity</label>
+
+                    <label for="stock">
+                        Stock Quantity
+                    </label>
 
                     <input
                         type="number"
@@ -443,36 +608,60 @@
                         min="0"
                         value="0"
                     >
+
                 </div>
 
 
-<div class="field">
-    <label for="imageFiles">Product Images</label>
 
-    <input
-        type="file"
-        id="imageFiles"
-        accept="image/*"
-        multiple
-        required
-    >
+                <!-- =========================
+                     MULTIPLE PRODUCT IMAGES
+                ========================== -->
 
-    <div
-        id="imagePreviewContainer"
-        class="image-preview-container"
-    ></div>
+                <div class="field">
 
-    <small style="display:block; margin-top:8px; color:#666;">
-        JPG, PNG বা WEBP ছবি নির্বাচন করুন। সর্বোচ্চ ৫টি ছবি নির্বাচন করুন।
-    </small>
-</div>
+                    <label for="imageFiles">
+                        Product Images
+                    </label>
 
+
+                    <input
+                        type="file"
+                        id="imageFiles"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                        required
+                    >
+
+
+                    <div
+                        id="imagePreviewContainer"
+                        class="image-preview-container"
+                    ></div>
+
+
+                    <small
+                        style="
+                            display:block;
+                            margin-top:8px;
+                            color:#666;
+                        "
+                    >
+                        JPG, PNG বা WEBP ছবি নির্বাচন করুন।
+                        সর্বোচ্চ ৫টি ছবি নির্বাচন করুন।
+                    </small>
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
 
                 <div class="field full">
 
                     <label for="description">
                         Product Description
                     </label>
+
 
                     <textarea
                         id="description"
@@ -482,35 +671,52 @@
                 </div>
 
 
+
+                <!-- CHECKBOX -->
+
                 <div class="field full">
 
                     <div class="checkbox-row">
 
+
                         <label class="checkbox-item">
+
                             <input
                                 type="checkbox"
                                 id="isFeatured"
                             >
+
                             Featured Product
+
                         </label>
 
 
+
                         <label class="checkbox-item">
+
                             <input
                                 type="checkbox"
                                 id="isNewArrival"
                             >
+
                             New Arrival
+
                         </label>
+
 
                     </div>
 
                 </div>
 
+
             </div>
 
 
+
+            <!-- BUTTONS -->
+
             <div class="button-row">
+
 
                 <button
                     type="submit"
@@ -521,6 +727,7 @@
                 </button>
 
 
+
                 <button
                     type="button"
                     class="btn btn-secondary"
@@ -529,569 +736,1253 @@
                     Clear Form
                 </button>
 
+
             </div>
+
 
         </form>
 
     </section>
 
 
+
+    <!-- =========================
+         PRODUCTS DATABASE
+    ========================== -->
+
     <section class="card">
 
-        <h3 class="card-title">Products in Database</h3>
+        <h3 class="card-title">
+            Products in Database
+        </h3>
+
 
         <div class="products-table-wrapper">
 
+
             <table>
 
+
                 <thead>
+
                     <tr>
+
                         <th>Image</th>
+
                         <th>Product</th>
+
                         <th>Category</th>
+
                         <th>Price</th>
+
                         <th>Stock</th>
+
                         <th>Status</th>
+
                     </tr>
+
                 </thead>
+
+
 
                 <tbody id="productsTableBody">
 
                     <tr>
-                        <td colspan="6" class="empty">
+
+                        <td
+                            colspan="6"
+                            class="loading"
+                        >
                             Loading products...
                         </td>
+
                     </tr>
 
                 </tbody>
 
+
             </table>
+
 
         </div>
 
     </section>
 
+
 </main>
 
 
-<!-- Supabase CDN -->
+
+<!-- =========================
+     SUPABASE
+========================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Dreamly Mart Supabase Client -->
 <script src="js/supabase.js"></script>
+
 
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    const supabase =
-        window.DreamlySupabase
-            ? window.DreamlySupabase.client
-            : null;
-
-
-    const form =
-        document.getElementById("productForm");
-
-    const message =
-        document.getElementById("message");
-
-    const saveButton =
-        document.getElementById("saveButton");
-
-    const resetButton =
-        document.getElementById("resetButton");
-
-    const imageFilesInput =
-    document.getElementById("imageFiles");
-
-const imagePreviewContainer =
-    document.getElementById("imagePreviewContainer");
-
-    const productsTableBody =
-        document.getElementById("productsTableBody");
-
-
-    function showMessage(text, type) {
-
-        message.textContent = text;
-
-        message.className =
-            "message " + type;
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-
-    function hideMessage() {
-
-        message.textContent = "";
-
-        message.className =
-            "message";
-
-    }
-
-
-    imageFilesInput.addEventListener(
-    "change",
+document.addEventListener(
+    "DOMContentLoaded",
     function () {
 
-        imagePreviewContainer.innerHTML = "";
 
-        const files =
-            Array.from(this.files);
+        /* =========================
+           SUPABASE CLIENT
+        ========================== */
 
-        if (files.length === 0) {
-            return;
-        }
-
-        if (files.length > 5) {
-
-            showMessage(
-                "Maximum 5 images can be selected.",
-                "error"
-            );
-
-            this.value = "";
-            return;
-        }
-
-        files.forEach(function (file, index) {
-
-            const imageUrl =
-                URL.createObjectURL(file);
-
-            const previewItem =
-                document.createElement("div");
-
-            previewItem.className =
-                "image-preview-item";
-
-            previewItem.innerHTML = `
-                <img
-                    src="${imageUrl}"
-                    alt="Product Image ${index + 1}"
-                >
-
-                <span class="image-preview-number">
-                    ${index + 1}
-                </span>
-            `;
-
-            imagePreviewContainer.appendChild(
-                previewItem
-            );
-
-        });
-
-    }
-);
-
-
-    imagePreview.addEventListener("error", function () {
-
-        imagePreview.style.display =
-            "none";
-
-    });
-
-
-    form.addEventListener("submit", async function (event) {
-
-        event.preventDefault();
-
-        hideMessage();
-
-
-        if (!supabase) {
-
-            showMessage(
-                "Supabase connection is unavailable.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        const name =
-            document.getElementById("name")
-                .value.trim();
-
-        const productId =
-            document.getElementById("productId")
-                .value.trim();
-
-        const category =
-            document.getElementById("category")
-                .value;
-
-        const price =
-            Number(
-                document.getElementById("price")
-                    .value
-            );
-
-        const oldPriceValue =
-            document.getElementById("oldPrice")
-                .value;
-
-        const oldPrice =
-            oldPriceValue
-                ? Number(oldPriceValue)
+        const supabase =
+            window.DreamlySupabase
+                ? window.DreamlySupabase.client
                 : null;
 
-        const discount =
-            document.getElementById("discount")
-                .value.trim() || null;
-
-        const stock =
-            Number(
-                document.getElementById("stock")
-                    .value || 0
-            );
-
-        const imageFiles =
-    document.getElementById("imageFile").files;
-
-        const description =
-            document.getElementById("description")
-                .value.trim() || null;
-
-        const isFeatured =
-            document.getElementById("isFeatured")
-                .checked;
-
-        const isNewArrival =
-            document.getElementById("isNewArrival")
-                .checked;
 
 
-        saveButton.disabled = true;
+        /* =========================
+           ELEMENTS
+        ========================== */
 
-        saveButton.textContent =
-            "Saving...";
-
-
-        try {// ================================
-// UPLOAD PRODUCT IMAGES
-// ================================
-
-const uploadedImageUrls = [];
-
-for (let i = 0; i < imageFiles.length; i++) {
-
-    const imageFile = imageFiles[i];
-
-    const fileExtension =
-        imageFile.name
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-    const fileName =
-        `${Date.now()}-${i}-${Math.random()
-            .toString(36)
-            .substring(2, 8)}.${fileExtension}`;
-
-    const {
-        data: uploadData,
-        error: uploadError
-    } = await supabase
-        .storage
-        .from("product-images")
-        .upload(
-            fileName,
-            imageFile,
-            {
-                cacheControl: "3600",
-                upsert: false,
-                contentType: imageFile.type
-            }
-        );
-
-    if (uploadError) {
-
-    console.error(uploadError);
-
-    showMessage(
-        "Image " + (i + 1) + " upload failed: " +
-        uploadError.message,
-        "error"
-    );
-
-    return;
-}
-
-
-    const {
-        data: publicUrlData
-    } = supabase
-        .storage
-        .from("product-images")
-        .getPublicUrl(
-            uploadData.path
-        );
-
-    uploadedImageUrls.push(
-        publicUrlData.publicUrl
-    );
-}
-
-const image =
-    uploadedImageUrls[0];
-
-            const { data, error } =
-                await supabase
-                    .from("products")
-                    .insert({
-
-                        product_id:
-                            productId || null,
-
-                        name:
-                            name,
-
-                        description:
-                            description,
-
-                        price:
-                            price,
-
-                        old_price:
-                            oldPrice,
-
-                        discount:
-                            discount,
-
-                        rating:
-                            0,
-
-                        reviews:
-                            0,
-
-                        category:
-                            category || null,
-
-                        image:
-                            image,
-
-                        stock:
-                            stock,
-
-                        is_active:
-                            true,
-
-                        is_featured:
-                            isFeatured,
-
-                        is_new_arrival:
-                            isNewArrival
-
-                    })
-                    .select()
-                    .single();
-
-
-            if (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "Product save failed: " +
-                    error.message,
-                    "error"
-                );
-
-                return;
-            }
-
-
-            showMessage(
-                "✅ Product added successfully!",
-                "success"
+        const form =
+            document.getElementById(
+                "productForm"
             );
 
 
-form.reset();
-
-imagePreview.style.display =
-    "none";
-
-imagePreview.src = "";
-
-
-            loadProducts();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showMessage(
-                "Something went wrong while saving the product.",
-                "error"
+        const message =
+            document.getElementById(
+                "message"
             );
 
-        } finally {
 
-            saveButton.disabled = false;
+        const saveButton =
+            document.getElementById(
+                "saveButton"
+            );
 
-            saveButton.textContent =
-                "Add Product";
+
+        const resetButton =
+            document.getElementById(
+                "resetButton"
+            );
+
+
+        const imageFilesInput =
+            document.getElementById(
+                "imageFiles"
+            );
+
+
+        const imagePreviewContainer =
+            document.getElementById(
+                "imagePreviewContainer"
+            );
+
+
+        const productsTableBody =
+            document.getElementById(
+                "productsTableBody"
+            );
+
+
+
+        /* =========================
+           SHOW MESSAGE
+        ========================== */
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.textContent = text;
+
+            message.className =
+                "message " + type;
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
         }
 
-    });
 
 
-    resetButton.addEventListener("click", function () {
+        /* =========================
+           HIDE MESSAGE
+        ========================== */
 
-        form.reset();
+        function hideMessage() {
 
-        imagePreview.style.display =
-            "none";
+            message.textContent = "";
 
-        hideMessage();
+            message.className =
+                "message";
 
-    });
-
-
-    async function loadProducts() {
-
-        if (!supabase) {
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="empty">
-                        Supabase connection unavailable.
-                    </td>
-                </tr>
-            `;
-
-            return;
         }
 
 
-        const { data, error } =
-            await supabase
-                .from("products")
-                .select(
-                    "product_id,name,category,price,stock,image,is_active"
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
+
+        /* =========================
+           CLEAR IMAGE PREVIEW
+        ========================== */
+
+        function clearImagePreview() {
+
+            imagePreviewContainer.innerHTML = "";
+
+            imageFilesInput.value = "";
+
+        }
+
+
+
+        /* =========================
+           IMAGE PREVIEW
+        ========================== */
+
+        imageFilesInput.addEventListener(
+            "change",
+            function () {
+
+
+                imagePreviewContainer.innerHTML = "";
+
+
+                const files =
+                    Array.from(this.files);
+
+
+                if (
+                    files.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+
+                if (
+                    files.length > 5
+                ) {
+
+                    showMessage(
+                        "Maximum 5 images can be selected.",
+                        "error"
+                    );
+
+                    this.value = "";
+
+                    return;
+
+                }
+
+
+
+                for (
+                    let i = 0;
+                    i < files.length;
+                    i++
+                ) {
+
+
+                    const file =
+                        files[i];
+
+
+                    /* Image validation */
+
+                    if (
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ) {
+
+                        showMessage(
+                            "Please select valid image files only.",
+                            "error"
+                        );
+
+                        this.value = "";
+
+                        imagePreviewContainer.innerHTML = "";
+
+                        return;
+
                     }
-                );
 
 
-        if (error) {
 
-            console.error(error);
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="empty">
-                        Unable to load products.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
+                    const imageUrl =
+                        URL.createObjectURL(
+                            file
+                        );
 
 
-        if (!data || data.length === 0) {
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="empty">
-                        No products found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
+                    const previewItem =
+                        document.createElement(
+                            "div"
+                        );
 
 
-        productsTableBody.innerHTML =
-            data.map(function (product) {
-
-                const image =
-                    product.image
-                    || "https://via.placeholder.com/55";
+                    previewItem.className =
+                        "image-preview-item";
 
 
-                return `
+                    previewItem.innerHTML = `
+
+                        <img
+                            src="${imageUrl}"
+                            alt="Product Image ${i + 1}"
+                        >
+
+                        <span
+                            class="image-preview-number"
+                        >
+                            ${i + 1}
+                        </span>
+
+                    `;
+
+
+                    imagePreviewContainer.appendChild(
+                        previewItem
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           FORM SUBMIT
+        ========================== */
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+
+                event.preventDefault();
+
+
+                hideMessage();
+
+
+
+                /* =========================
+                   SUPABASE CHECK
+                ========================== */
+
+                if (!supabase) {
+
+                    showMessage(
+                        "Supabase connection is unavailable.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =========================
+                   FORM VALUES
+                ========================== */
+
+                const name =
+                    document
+                        .getElementById("name")
+                        .value
+                        .trim();
+
+
+                let productId =
+                    document
+                        .getElementById("productId")
+                        .value
+                        .trim();
+
+
+                const category =
+                    document
+                        .getElementById("category")
+                        .value;
+
+
+                const price =
+                    Number(
+                        document
+                            .getElementById("price")
+                            .value
+                    );
+
+
+                const oldPriceValue =
+                    document
+                        .getElementById("oldPrice")
+                        .value;
+
+
+                const oldPrice =
+                    oldPriceValue
+                        ? Number(oldPriceValue)
+                        : null;
+
+
+                const discount =
+                    document
+                        .getElementById("discount")
+                        .value
+                        .trim()
+                        || null;
+
+
+                const stock =
+                    Number(
+                        document
+                            .getElementById("stock")
+                            .value
+                            || 0
+                    );
+
+
+                /* IMPORTANT:
+                   Correct image input ID
+                */
+
+                const imageFiles =
+                    Array.from(
+                        imageFilesInput.files
+                    );
+
+
+                const description =
+                    document
+                        .getElementById("description")
+                        .value
+                        .trim()
+                        || null;
+
+
+                const isFeatured =
+                    document
+                        .getElementById("isFeatured")
+                        .checked;
+
+
+                const isNewArrival =
+                    document
+                        .getElementById("isNewArrival")
+                        .checked;
+
+
+
+                /* =========================
+                   VALIDATION
+                ========================== */
+
+                if (!name) {
+
+                    showMessage(
+                        "Please enter product name.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!price || price < 0) {
+
+                    showMessage(
+                        "Please enter a valid selling price.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (imageFiles.length === 0) {
+
+                    showMessage(
+                        "Please select at least one product image.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (imageFiles.length > 5) {
+
+                    showMessage(
+                        "You can upload maximum 5 images.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =========================
+                   AUTO PRODUCT ID
+                ========================== */
+
+                if (!productId) {
+
+                    productId =
+                        "DM-" +
+                        Date.now();
+
+                }
+
+
+
+                /* =========================
+                   BUTTON STATE
+                ========================== */
+
+                saveButton.disabled = true;
+
+                saveButton.textContent =
+                    "Saving...";
+
+
+
+                try {
+
+
+                    /* ==================================
+                       STEP 1
+                       UPLOAD ALL PRODUCT IMAGES
+                    =================================== */
+
+                    const uploadedImageUrls = [];
+
+                    const uploadedStoragePaths = [];
+
+
+
+                    for (
+                        let i = 0;
+                        i < imageFiles.length;
+                        i++
+                    ) {
+
+
+                        const imageFile =
+                            imageFiles[i];
+
+
+                        const fileExtension =
+                            imageFile.name
+                                .split(".")
+                                .pop()
+                                .toLowerCase();
+
+
+                        const fileName =
+                            `${Date.now()}-${i}-${Math.random()
+                                .toString(36)
+                                .substring(2, 8)}.${fileExtension}`;
+
+
+
+                        const {
+                            data: uploadData,
+                            error: uploadError
+                        } =
+                            await supabase
+                                .storage
+                                .from(
+                                    "product-images"
+                                )
+                                .upload(
+                                    fileName,
+                                    imageFile,
+                                    {
+                                        cacheControl:
+                                            "3600",
+
+                                        upsert:
+                                            false,
+
+                                        contentType:
+                                            imageFile.type
+                                    }
+                                );
+
+
+
+                        if (uploadError) {
+
+
+                            console.error(
+                                "Image upload error:",
+                                uploadError
+                            );
+
+
+                            showMessage(
+                                "Image " +
+                                (i + 1) +
+                                " upload failed: " +
+                                uploadError.message,
+                                "error"
+                            );
+
+
+                            return;
+
+                        }
+
+
+
+                        uploadedStoragePaths.push(
+                            uploadData.path
+                        );
+
+
+
+                        const {
+                            data: publicUrlData
+                        } =
+                            supabase
+                                .storage
+                                .from(
+                                    "product-images"
+                                )
+                                .getPublicUrl(
+                                    uploadData.path
+                                );
+
+
+
+                        uploadedImageUrls.push(
+                            publicUrlData.publicUrl
+                        );
+
+                    }
+
+
+
+                    /* ==================================
+                       STEP 2
+                       MAIN IMAGE
+                    =================================== */
+
+                    const mainImage =
+                        uploadedImageUrls[0];
+
+
+
+                    /* ==================================
+                       STEP 3
+                       SAVE PRODUCT
+                    =================================== */
+
+                    const {
+                        data: productData,
+                        error: productError
+                    } =
+                        await supabase
+                            .from("products")
+                            .insert({
+
+                                product_id:
+                                    productId,
+
+                                name:
+                                    name,
+
+                                description:
+                                    description,
+
+                                price:
+                                    price,
+
+                                old_price:
+                                    oldPrice,
+
+                                discount:
+                                    discount,
+
+                                rating:
+                                    0,
+
+                                reviews:
+                                    0,
+
+                                category:
+                                    category || null,
+
+                                image:
+                                    mainImage,
+
+                                stock:
+                                    stock,
+
+                                is_active:
+                                    true,
+
+                                is_featured:
+                                    isFeatured,
+
+                                is_new_arrival:
+                                    isNewArrival
+
+                            })
+                            .select()
+                            .single();
+
+
+
+                    /* ==================================
+                       PRODUCT SAVE ERROR
+                    =================================== */
+
+                    if (productError) {
+
+
+                        console.error(
+                            "Product save error:",
+                            productError
+                        );
+
+
+                        showMessage(
+                            "Product save failed: " +
+                            productError.message,
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+
+                    /* ==================================
+                       STEP 4
+                       SAVE ALL IMAGES
+                       TO product_images TABLE
+                    =================================== */
+
+                    const imageRows =
+                        uploadedImageUrls.map(
+                            function (
+                                imageUrl,
+                                index
+                            ) {
+
+                                return {
+
+                                    product_id:
+                                        productId,
+
+                                    image_url:
+                                        imageUrl,
+
+                                    sort_order:
+                                        index
+
+                                };
+
+                            }
+                        );
+
+
+
+                    const {
+                        error: imagesError
+                    } =
+                        await supabase
+                            .from(
+                                "product_images"
+                            )
+                            .insert(
+                                imageRows
+                            );
+
+
+
+                    /* ==================================
+                       IMAGE DATABASE ERROR
+                    =================================== */
+
+                    if (imagesError) {
+
+
+                        console.error(
+                            "Product images save error:",
+                            imagesError
+                        );
+
+
+                        /*
+                         Product itself has already
+                         been saved, so show warning.
+                        */
+
+                        showMessage(
+                            "⚠️ Product added, but product gallery images could not be saved: " +
+                            imagesError.message,
+                            "error"
+                        );
+
+
+                        /*
+                         Still reload products.
+                        */
+
+                        await loadProducts();
+
+                        return;
+
+                    }
+
+
+
+                    /* ==================================
+                       SUCCESS
+                    =================================== */
+
+                    showMessage(
+                        "✅ Product added successfully! " +
+                        uploadedImageUrls.length +
+                        " image(s) uploaded.",
+                        "success"
+                    );
+
+
+
+                    /* ==================================
+                       CLEAR FORM
+                    =================================== */
+
+                    form.reset();
+
+                    clearImagePreview();
+
+
+
+                    /* ==================================
+                       RELOAD PRODUCT LIST
+                    =================================== */
+
+                    await loadProducts();
+
+
+                }
+                catch (error) {
+
+
+                    console.error(
+                        "Unexpected error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Something went wrong while saving the product: " +
+                        error.message,
+                        "error"
+                    );
+
+
+                }
+                finally {
+
+
+                    saveButton.disabled =
+                        false;
+
+
+                    saveButton.textContent =
+                        "Add Product";
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           CLEAR FORM BUTTON
+        ========================== */
+
+        resetButton.addEventListener(
+            "click",
+            function () {
+
+
+                form.reset();
+
+
+                clearImagePreview();
+
+
+                hideMessage();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           LOAD PRODUCTS
+        ========================== */
+
+        async function loadProducts() {
+
+
+            if (!supabase) {
+
+
+                productsTableBody.innerHTML = `
 
                     <tr>
 
-                        <td>
-                            <img
-                                src="${image}"
-                                class="product-img"
-                                alt=""
-                                onerror="this.src='https://via.placeholder.com/55'"
-                            >
-                        </td>
-
-                        <td>
-                            <strong>
-                                ${escapeHtml(product.name || "")}
-                            </strong>
-                        </td>
-
-                        <td>
-                            ${escapeHtml(product.category || "-")}
-                        </td>
-
-                        <td>
-                            ৳${Number(product.price || 0).toLocaleString()}
-                        </td>
-
-                        <td>
-                            ${product.stock ?? 0}
-                        </td>
-
-                        <td class="status-active">
-                            ${product.is_active ? "Active" : "Inactive"}
+                        <td
+                            colspan="6"
+                            class="empty"
+                        >
+                            Supabase connection unavailable.
                         </td>
 
                     </tr>
 
                 `;
 
-            }).join("");
+
+                return;
+
+            }
+
+
+
+            /* Show loading */
+
+            productsTableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="loading"
+                    >
+                        Loading products...
+                    </td>
+
+                </tr>
+
+            `;
+
+
+
+            try {
+
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabase
+                        .from("products")
+                        .select(
+                            "product_id,name,category,price,stock,image,is_active,created_at"
+                        )
+                        .order(
+                            "created_at",
+                            {
+                                ascending:
+                                    false
+                            }
+                        );
+
+
+
+                /* =========================
+                   LOAD ERROR
+                ========================== */
+
+                if (error) {
+
+
+                    console.error(
+                        "Load products error:",
+                        error
+                    );
+
+
+                    productsTableBody.innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="empty"
+                            >
+                                Unable to load products.
+                                <br><br>
+                                ${escapeHtml(
+                                    error.message
+                                )}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+
+                /* =========================
+                   NO PRODUCTS
+                ========================== */
+
+                if (
+                    !data ||
+                    data.length === 0
+                ) {
+
+
+                    productsTableBody.innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="empty"
+                            >
+                                No products found.
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+
+                /* =========================
+                   SHOW PRODUCTS
+                ========================== */
+
+                productsTableBody.innerHTML =
+                    data
+                        .map(
+                            function (
+                                product
+                            ) {
+
+
+                                const image =
+                                    product.image
+                                        ||
+                                    "https://via.placeholder.com/55";
+
+
+
+                                const statusClass =
+                                    product.is_active
+                                        ? "status-active"
+                                        : "status-inactive";
+
+
+
+                                const statusText =
+                                    product.is_active
+                                        ? "Active"
+                                        : "Inactive";
+
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+
+                                            <img
+                                                src="${escapeHtml(image)}"
+                                                class="product-img"
+                                                alt="${escapeHtml(
+                                                    product.name || "Product"
+                                                )}"
+                                                onerror="this.src='https://via.placeholder.com/55'"
+                                            >
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                ${escapeHtml(
+                                                    product.name || ""
+                                                )}
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            ${escapeHtml(
+                                                product.category || "-"
+                                            )}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            ৳${Number(
+                                                product.price || 0
+                                            ).toLocaleString()}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            ${product.stock ?? 0}
+
+                                        </td>
+
+
+                                        <td
+                                            class="${statusClass}"
+                                        >
+
+                                            ${statusText}
+
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+
+            }
+            catch (error) {
+
+
+                console.error(
+                    "Products loading exception:",
+                    error
+                );
+
+
+                productsTableBody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty"
+                        >
+                            Error loading products:
+                            <br><br>
+                            ${escapeHtml(
+                                error.message
+                            )}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+
+
+
+        /* =========================
+           ESCAPE HTML
+        ========================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+
+        /* =========================
+           INITIAL LOAD
+        ========================== */
+
+        loadProducts();
+
 
     }
+);
 
-
-    function escapeHtml(value) {
-
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    loadProducts();
-
-});
 
 </script>
 
+
 </body>
+
 </html>
