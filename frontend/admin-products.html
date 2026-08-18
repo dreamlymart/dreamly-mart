@@ -147,9 +147,7 @@
             width: auto;
         }
 
-        /* =========================
-           IMAGE PREVIEW
-        ========================= */
+        /* IMAGE PREVIEW */
 
         .image-preview-container {
             display: flex;
@@ -250,7 +248,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 750px;
+            min-width: 900px;
         }
 
         th,
@@ -388,9 +386,7 @@
 
 
 
-    <!-- =========================
-         PRODUCT FORM
-    ========================== -->
+    <!-- PRODUCT FORM -->
 
     <section class="card">
 
@@ -403,24 +399,6 @@
 
 
             <div class="form-grid">
-
-
-                <!-- PRODUCT ID -->
-
-                <div class="field">
-
-                    <label for="productId">
-                        Product ID
-                    </label>
-
-                    <input
-                        type="text"
-                        id="productId"
-                        placeholder="Example: DM-CASIO-001"
-                    >
-
-                </div>
-
 
 
                 <!-- PRODUCT NAME -->
@@ -613,9 +591,7 @@
 
 
 
-                <!-- =========================
-                     MULTIPLE PRODUCT IMAGES
-                ========================== -->
+                <!-- MULTIPLE PRODUCT IMAGES -->
 
                 <div class="field">
 
@@ -746,9 +722,7 @@
 
 
 
-    <!-- =========================
-         PRODUCTS DATABASE
-    ========================== -->
+    <!-- PRODUCTS DATABASE -->
 
     <section class="card">
 
@@ -768,6 +742,8 @@
                     <tr>
 
                         <th>Image</th>
+
+                        <th>Product ID</th>
 
                         <th>Product</th>
 
@@ -790,7 +766,7 @@
                     <tr>
 
                         <td
-                            colspan="6"
+                            colspan="7"
                             class="loading"
                         >
                             Loading products...
@@ -813,9 +789,7 @@
 
 
 
-<!-- =========================
-     SUPABASE
-========================== -->
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -995,8 +969,6 @@ document.addEventListener(
                         files[i];
 
 
-                    /* Image validation */
-
                     if (
                         !file.type.startsWith(
                             "image/"
@@ -1072,14 +1044,9 @@ document.addEventListener(
 
                 event.preventDefault();
 
-
                 hideMessage();
 
 
-
-                /* =========================
-                   SUPABASE CHECK
-                ========================== */
 
                 if (!supabase) {
 
@@ -1101,13 +1068,6 @@ document.addEventListener(
                 const name =
                     document
                         .getElementById("name")
-                        .value
-                        .trim();
-
-
-                let productId =
-                    document
-                        .getElementById("productId")
                         .value
                         .trim();
 
@@ -1155,10 +1115,6 @@ document.addEventListener(
                     );
 
 
-                /* IMPORTANT:
-                   Correct image input ID
-                */
-
                 const imageFiles =
                     Array.from(
                         imageFilesInput.files
@@ -1202,7 +1158,10 @@ document.addEventListener(
                 }
 
 
-                if (!price || price < 0) {
+                if (
+                    isNaN(price) ||
+                    price < 0
+                ) {
 
                     showMessage(
                         "Please enter a valid selling price.",
@@ -1214,7 +1173,9 @@ document.addEventListener(
                 }
 
 
-                if (imageFiles.length === 0) {
+                if (
+                    imageFiles.length === 0
+                ) {
 
                     showMessage(
                         "Please select at least one product image.",
@@ -1226,7 +1187,9 @@ document.addEventListener(
                 }
 
 
-                if (imageFiles.length > 5) {
+                if (
+                    imageFiles.length > 5
+                ) {
 
                     showMessage(
                         "You can upload maximum 5 images.",
@@ -1234,20 +1197,6 @@ document.addEventListener(
                     );
 
                     return;
-
-                }
-
-
-
-                /* =========================
-                   AUTO PRODUCT ID
-                ========================== */
-
-                if (!productId) {
-
-                    productId =
-                        "DM-" +
-                        Date.now();
 
                 }
 
@@ -1267,15 +1216,11 @@ document.addEventListener(
                 try {
 
 
-                    /* ==================================
-                       STEP 1
-                       UPLOAD ALL PRODUCT IMAGES
-                    =================================== */
+                    /* =========================
+                       UPLOAD ALL IMAGES
+                    ========================== */
 
                     const uploadedImageUrls = [];
-
-                    const uploadedStoragePaths = [];
-
 
 
                     for (
@@ -1331,12 +1276,10 @@ document.addEventListener(
 
                         if (uploadError) {
 
-
                             console.error(
                                 "Image upload error:",
                                 uploadError
                             );
-
 
                             showMessage(
                                 "Image " +
@@ -1346,16 +1289,9 @@ document.addEventListener(
                                 "error"
                             );
 
-
                             return;
 
                         }
-
-
-
-                        uploadedStoragePaths.push(
-                            uploadData.path
-                        );
 
 
 
@@ -1372,7 +1308,6 @@ document.addEventListener(
                                 );
 
 
-
                         uploadedImageUrls.push(
                             publicUrlData.publicUrl
                         );
@@ -1381,20 +1316,26 @@ document.addEventListener(
 
 
 
-                    /* ==================================
-                       STEP 2
+                    /* =========================
                        MAIN IMAGE
-                    =================================== */
+                    ========================== */
 
                     const mainImage =
                         uploadedImageUrls[0];
 
 
 
-                    /* ==================================
-                       STEP 3
+                    /* =========================
                        SAVE PRODUCT
-                    =================================== */
+
+                       IMPORTANT:
+                       product_id is NOT supplied.
+                       Supabase trigger generates:
+                       DM-000001
+                       DM-000002
+                       DM-000003
+                       ...
+                    ========================== */
 
                     const {
                         data: productData,
@@ -1403,9 +1344,6 @@ document.addEventListener(
                         await supabase
                             .from("products")
                             .insert({
-
-                                product_id:
-                                    productId,
 
                                 name:
                                     name,
@@ -1452,18 +1390,12 @@ document.addEventListener(
 
 
 
-                    /* ==================================
-                       PRODUCT SAVE ERROR
-                    =================================== */
-
                     if (productError) {
-
 
                         console.error(
                             "Product save error:",
                             productError
                         );
-
 
                         showMessage(
                             "Product save failed: " +
@@ -1471,18 +1403,27 @@ document.addEventListener(
                             "error"
                         );
 
-
                         return;
 
                     }
 
 
 
-                    /* ==================================
-                       STEP 4
-                       SAVE ALL IMAGES
-                       TO product_images TABLE
-                    =================================== */
+                    /* =========================
+                       GET AUTO PRODUCT ID
+                    ========================== */
+
+                    const generatedProductId =
+                        productData &&
+                        productData.product_id
+                            ? productData.product_id
+                            : "Auto-generated";
+
+
+
+                    /* =========================
+                       SAVE GALLERY IMAGES
+                    ========================== */
 
                     const imageRows =
                         uploadedImageUrls.map(
@@ -1494,7 +1435,7 @@ document.addEventListener(
                                 return {
 
                                     product_id:
-                                        productId,
+                                        generatedProductId,
 
                                     image_url:
                                         imageUrl,
@@ -1522,34 +1463,18 @@ document.addEventListener(
 
 
 
-                    /* ==================================
-                       IMAGE DATABASE ERROR
-                    =================================== */
-
                     if (imagesError) {
-
 
                         console.error(
                             "Product images save error:",
                             imagesError
                         );
 
-
-                        /*
-                         Product itself has already
-                         been saved, so show warning.
-                        */
-
                         showMessage(
-                            "⚠️ Product added, but product gallery images could not be saved: " +
+                            "⚠️ Product added, but gallery images could not be saved: " +
                             imagesError.message,
                             "error"
                         );
-
-
-                        /*
-                         Still reload products.
-                        */
 
                         await loadProducts();
 
@@ -1559,22 +1484,24 @@ document.addEventListener(
 
 
 
-                    /* ==================================
+                    /* =========================
                        SUCCESS
-                    =================================== */
+                    ========================== */
 
                     showMessage(
                         "✅ Product added successfully! " +
                         uploadedImageUrls.length +
-                        " image(s) uploaded.",
+                        " image(s) uploaded. " +
+                        "Product ID: " +
+                        generatedProductId,
                         "success"
                     );
 
 
 
-                    /* ==================================
+                    /* =========================
                        CLEAR FORM
-                    =================================== */
+                    ========================== */
 
                     form.reset();
 
@@ -1582,9 +1509,9 @@ document.addEventListener(
 
 
 
-                    /* ==================================
-                       RELOAD PRODUCT LIST
-                    =================================== */
+                    /* =========================
+                       RELOAD PRODUCTS
+                    ========================== */
 
                     await loadProducts();
 
@@ -1625,22 +1552,18 @@ document.addEventListener(
 
 
         /* =========================
-           CLEAR FORM BUTTON
+           CLEAR FORM
         ========================== */
 
         resetButton.addEventListener(
             "click",
             function () {
 
-
                 form.reset();
-
 
                 clearImagePreview();
 
-
                 hideMessage();
-
 
             }
         );
@@ -1656,13 +1579,12 @@ document.addEventListener(
 
             if (!supabase) {
 
-
                 productsTableBody.innerHTML = `
 
                     <tr>
 
                         <td
-                            colspan="6"
+                            colspan="7"
                             class="empty"
                         >
                             Supabase connection unavailable.
@@ -1672,21 +1594,18 @@ document.addEventListener(
 
                 `;
 
-
                 return;
 
             }
 
 
 
-            /* Show loading */
-
             productsTableBody.innerHTML = `
 
                 <tr>
 
                     <td
-                        colspan="6"
+                        colspan="7"
                         class="loading"
                     >
                         Loading products...
@@ -1720,12 +1639,7 @@ document.addEventListener(
 
 
 
-                /* =========================
-                   LOAD ERROR
-                ========================== */
-
                 if (error) {
-
 
                     console.error(
                         "Load products error:",
@@ -1738,7 +1652,7 @@ document.addEventListener(
                         <tr>
 
                             <td
-                                colspan="6"
+                                colspan="7"
                                 class="empty"
                             >
                                 Unable to load products.
@@ -1752,29 +1666,23 @@ document.addEventListener(
 
                     `;
 
-
                     return;
 
                 }
 
 
 
-                /* =========================
-                   NO PRODUCTS
-                ========================== */
-
                 if (
                     !data ||
                     data.length === 0
                 ) {
-
 
                     productsTableBody.innerHTML = `
 
                         <tr>
 
                             <td
-                                colspan="6"
+                                colspan="7"
                                 class="empty"
                             >
                                 No products found.
@@ -1784,7 +1692,6 @@ document.addEventListener(
 
                     `;
 
-
                     return;
 
                 }
@@ -1792,7 +1699,7 @@ document.addEventListener(
 
 
                 /* =========================
-                   SHOW PRODUCTS
+                   DISPLAY PRODUCTS
                 ========================== */
 
                 productsTableBody.innerHTML =
@@ -1809,12 +1716,10 @@ document.addEventListener(
                                     "https://via.placeholder.com/55";
 
 
-
                                 const statusClass =
                                     product.is_active
                                         ? "status-active"
                                         : "status-inactive";
-
 
 
                                 const statusText =
@@ -1838,6 +1743,17 @@ document.addEventListener(
                                                 )}"
                                                 onerror="this.src='https://via.placeholder.com/55'"
                                             >
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                ${escapeHtml(
+                                                    product.product_id || "-"
+                                                )}
+                                            </strong>
 
                                         </td>
 
@@ -1910,7 +1826,7 @@ document.addEventListener(
                     <tr>
 
                         <td
-                            colspan="6"
+                            colspan="7"
                             class="empty"
                         >
                             Error loading products:
