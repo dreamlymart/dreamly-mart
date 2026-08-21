@@ -2582,10 +2582,200 @@ document.addEventListener(
         }
 
 
-
         /* =================================================
-           UPDATE ORDER STATUS
+           UPDATE ORDER STATUS + AUTOMATIC STOCK MANAGEMENT
         ================================================= */
+
+        const STOCK_RESERVED_STATUSES = [
+            "Confirmed",
+            "Processing",
+            "Shipped",
+            "Delivered"
+        ];
+
+        function isStockReservedStatus(status) {
+
+            return STOCK_RESERVED_STATUSES.includes(
+                String(status || "Pending")
+            );
+
+        }
+
+
+        async function getOrderItemsForStock(orderId) {
+
+            const {
+                data,
+                error
+            } = await supabase
+                .from("order_items")
+                .select(
+                    "id, product_id, product_name, quantity"
+                )
+                .eq(
+                    "order_id",
+                    orderId
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
+
+            if (error) {
+                throw error;
+            }
+
+            return Array.isArray(data)
+                ? data
+                : [];
+
+        }
+
+
+        async function changeProductStock(
+            items,
+            direction
+        ) {
+
+            /*
+             * direction:
+             *
+             * -1 = decrease stock
+             * +1 = restore stock
+             */
+
+            if (!items.length) {
+                return;
+            }
+
+
+            for (const item of items) {
+
+                const productId =
+                    String(
+                        item.product_id || ""
+                    ).trim();
+
+
+                const quantity =
+                    Math.max(
+                        0,
+                        Number(
+                            item.quantity || 0
+                        )
+                    );
+
+
+                if (
+                    !productId ||
+                    quantity <= 0
+                ) {
+                    continue;
+                }
+
+
+                const {
+                    data: product,
+                    error: productError
+                } = await supabase
+                    .from("products")
+                    .select(
+                        "id, product_id, name, stock"
+                    )
+                    .eq(
+                        "product_id",
+                        productId
+                    )
+                    .maybeSingle();
+
+
+                if (productError) {
+                    throw productError;
+                }
+
+
+                if (!product) {
+
+                    throw new Error(
+                        `Product "${productId}" was not found in products table.`
+                    );
+
+                }
+
+
+                const currentStock =
+                    Number(
+                        product.stock || 0
+                    );
+
+
+                let nextStock;
+
+
+                /*
+                 * DECREASE STOCK
+                 */
+
+                if (direction < 0) {
+
+                    if (
+                        currentStock < quantity
+                    ) {
+
+                        throw new Error(
+                            `Insufficient stock for "${product.name || item.product_name || productId}". Available: ${currentStock}, Required: ${quantity}.`
+                        );
+
+                    }
+
+
+                    nextStock =
+                        currentStock - quantity;
+
+                }
+
+
+                /*
+                 * RESTORE STOCK
+                 */
+
+                else {
+
+                    nextStock =
+                        currentStock + quantity;
+
+                }
+
+
+                const {
+                    error: updateError
+                } = await supabase
+                    .from("products")
+                    .update({
+
+                        stock:
+                            nextStock,
+
+                        updated_at:
+                            new Date().toISOString()
+
+                    })
+                    .eq(
+                        "product_id",
+                        productId
+                    );
+
+
+                if (updateError) {
+                    throw updateError;
+                }
+
+            }
+
+        }
+
 
         async function updateOrderStatus(
             orderId,
@@ -2593,6 +2783,71 @@ document.addEventListener(
         ) {
 
             if (!supabase) {
+                return;
+            }
+
+
+            const validStatuses = [
+
+                "Pending",
+                "Confirmed",
+                "Processing",
+                "Shipped",
+                "Delivered",
+                "Cancelled"
+
+            ];
+
+
+            if (
+                !validStatuses.includes(
+                    newStatus
+                )
+            ) {
+
+                alert(
+                    "Invalid order status."
+                );
+
+                renderOrders();
+
+                return;
+            }
+
+
+            const order =
+                orders.find(
+                    function (item) {
+
+                        return String(
+                            item.id
+                        ) ===
+                        String(
+                            orderId
+                        );
+
+                    }
+                );
+
+
+            if (!order) {
+
+                renderOrders();
+
+                return;
+
+            }
+
+
+            const oldStatus =
+                order.order_status ||
+                "Pending";
+
+
+            if (
+                oldStatus ===
+                newStatus
+            ) {
 
                 return;
 
@@ -2602,13 +2857,181 @@ document.addEventListener(
             try {
 
                 setDatabaseStatus(
-                    "⏳ Updating order status...",
+                    "⏳ Updating order status and stock...",
                     "loading"
                 );
 
 
+                /*
+                 * Get latest status from database
+                 */
+
                 const {
-                    error
+                    data: freshOrder,
+                    error: freshOrderError
+                } = await supabase
+                    .from("orders")
+                    .select(
+                        "id, order_status"
+                    )
+                    .eq(
+                        "id",
+                        orderId
+                    )
+                    .maybeSingle();
+
+
+                if (freshOrderError) {
+                    throw freshOrderError;
+                }
+
+
+                if (!freshOrder) {
+
+                    throw new Error(
+                        "Order was not found."
+                    );
+
+                }
+
+
+                const currentStatus =
+                    freshOrder.order_status ||
+                    "Pending";
+
+
+                if (
+                    currentStatus ===
+                    newStatus
+                ) {
+
+                    order.order_status =
+                        newStatus;
+
+                    updateStats(
+                        orders
+                    );
+
+                    renderOrders();
+
+                    setDatabaseStatus(
+                        "✓ Order was already updated.",
+                        "success"
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                 * CHECK STOCK ACTION
+                 *
+                 * Pending → Confirmed
+                 * = STOCK DECREASE
+                 *
+                 * Confirmed → Processing
+                 * = NO STOCK CHANGE
+                 *
+                 * Processing → Shipped
+                 * = NO STOCK CHANGE
+                 *
+                 * Shipped → Delivered
+                 * = NO STOCK CHANGE
+                 *
+                 * Confirmed → Cancelled
+                 * = STOCK RESTORE
+                 *
+                 * Processing → Cancelled
+                 * = STOCK RESTORE
+                 *
+                 * Shipped → Cancelled
+                 * = STOCK RESTORE
+                 */
+
+                const wasReserved =
+                    isStockReservedStatus(
+                        currentStatus
+                    );
+
+
+                const willBeReserved =
+                    isStockReservedStatus(
+                        newStatus
+                    );
+
+
+                let stockDirection = 0;
+
+
+                /*
+                 * NOT RESERVED → RESERVED
+                 * Reduce stock
+                 */
+
+                if (
+                    !wasReserved &&
+                    willBeReserved
+                ) {
+
+                    stockDirection = -1;
+
+                }
+
+
+                /*
+                 * RESERVED → NOT RESERVED
+                 * Restore stock
+                 */
+
+                if (
+                    wasReserved &&
+                    !willBeReserved
+                ) {
+
+                    stockDirection = 1;
+
+                }
+
+
+                let items = [];
+
+
+                /*
+                 * Change stock only when necessary
+                 */
+
+                if (
+                    stockDirection !== 0
+                ) {
+
+                    items =
+                        await getOrderItemsForStock(
+                            orderId
+                        );
+
+
+                    /*
+                     * Check stock first.
+                     *
+                     * If stock is insufficient,
+                     * order status will NOT change.
+                     */
+
+                    await changeProductStock(
+                        items,
+                        stockDirection
+                    );
+
+                }
+
+
+                /*
+                 * UPDATE ORDER STATUS
+                 */
+
+                const {
+                    error: orderUpdateError
                 } = await supabase
                     .from("orders")
                     .update({
@@ -2623,19 +3046,122 @@ document.addEventListener(
                     );
 
 
-                if (error) {
+                /*
+                 * If order update fails,
+                 * rollback stock.
+                 */
 
-                    throw error;
+                if (orderUpdateError) {
+
+                    if (
+                        stockDirection !== 0 &&
+                        items.length
+                    ) {
+
+                        try {
+
+                            await changeProductStock(
+                                items,
+                                stockDirection * -1
+                            );
+
+                        }
+
+                        catch (rollbackError) {
+
+                            console.error(
+                                "Stock rollback failed:",
+                                rollbackError
+                            );
+
+
+                            alert(
+                                "⚠️ Order status update failed and stock rollback also failed. Please check product stock in Supabase."
+                            );
+
+                        }
+
+                    }
+
+
+                    throw orderUpdateError;
 
                 }
 
 
+                /*
+                 * UPDATE LOCAL ORDER
+                 */
+
+                order.order_status =
+                    newStatus;
+
+
+                updateStats(
+                    orders
+                );
+
+
+                renderOrders();
+
+
+                /*
+                 * SUCCESS MESSAGE
+                 */
+
+                if (
+                    stockDirection < 0
+                ) {
+
+                    setDatabaseStatus(
+                        "✓ Order confirmed and stock reduced successfully.",
+                        "success"
+                    );
+
+                }
+
+                else if (
+                    stockDirection > 0
+                ) {
+
+                    setDatabaseStatus(
+                        "✓ Order status updated and stock restored successfully.",
+                        "success"
+                    );
+
+                }
+
+                else {
+
+                    setDatabaseStatus(
+                        "✓ Order status updated successfully.",
+                        "success"
+                    );
+
+                }
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Status / stock update error:",
+                    error
+                );
+
+
+                /*
+                 * Restore old status
+                 * on screen
+                 */
+
                 const localOrder =
                     orders.find(
-                        function (order) {
+                        function (item) {
 
                             return String(
-                                order.id
+                                item.id
                             ) ===
                             String(
                                 orderId
@@ -2648,7 +3174,7 @@ document.addEventListener(
                 if (localOrder) {
 
                     localOrder.order_status =
-                        newStatus;
+                        oldStatus;
 
                 }
 
@@ -2661,22 +3187,8 @@ document.addEventListener(
                 renderOrders();
 
 
-                setDatabaseStatus(
-                    "✓ Order status updated successfully.",
-                    "success"
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Status update error:",
-                    error
-                );
-
-
                 alert(
-                    "Order status update করা যায়নি.\n\n" +
+                    "❌ Order status update করা যায়নি.\n\n" +
                     (
                         error.message ||
                         "Please try again."
@@ -2684,18 +3196,14 @@ document.addEventListener(
                 );
 
 
-                renderOrders();
-
-
                 setDatabaseStatus(
-                    "❌ Status update failed.",
+                    "❌ Status / stock update failed.",
                     "error"
                 );
 
             }
 
         }
-
 
 
         /* =================================================
