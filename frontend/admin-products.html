@@ -1379,39 +1379,56 @@ document.addEventListener(
                         ========================== */
 
                         const {
-                            data: updatedProduct,
-                            error: updateError
-                        } =
-                            await supabase
-                                .from("products")
-                                .update(
-                                    updateData
-                                )
-                                .eq(
-                                    "product_id",
-                                    editingProductId
-                                )
-                                .select()
-                                .single();
+    data: updatedProduct,
+    error: updateError
+} =
+    await supabase
+        .from("products")
+        .update(updateData)
+        .eq(
+            "product_id",
+            editingProductId
+        )
+        .select();
 
 
-                        if (updateError) {
+if (updateError) {
 
-                            console.error(
-                                "Product update error:",
-                                updateError
-                            );
+    console.error(
+        "Product update error:",
+        updateError
+    );
 
-                            showMessage(
-                                "Product update failed: " +
-                                updateError.message,
-                                "error"
-                            );
+    showMessage(
+        "Product update failed: " +
+        updateError.message,
+        "error"
+    );
 
-                            return;
-                        }
+    return;
+}
 
 
+if (
+    !updatedProduct ||
+    updatedProduct.length === 0
+) {
+
+    console.error(
+        "No product was updated. Product ID:",
+        editingProductId
+    );
+
+    showMessage(
+        "Product update failed: No matching product found.",
+        "error"
+    );
+
+    return;
+}
+
+
+ 
                         /* =========================
                            NEW IMAGES?
                         ========================== */
