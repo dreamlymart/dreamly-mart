@@ -1,7 +1,7 @@
 /* =========================================================
    DREAMLY MART
    CHECKOUT.JS
-   SECURE SUPABASE CHECKOUT SYSTEM
+   SUPABASE DATABASE CHECKOUT SYSTEM
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -30,11 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
 
-            console.error(
-                "Cart read error:",
-                error
-            );
-
             return [];
 
         }
@@ -47,44 +42,69 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     const checkoutItems =
-        document.getElementById("checkoutItems");
+        document.getElementById(
+            "checkoutItems"
+        );
 
     const checkoutSubtotal =
-        document.getElementById("checkoutSubtotal");
+        document.getElementById(
+            "checkoutSubtotal"
+        );
 
     const deliveryCharge =
-        document.getElementById("deliveryCharge");
+        document.getElementById(
+            "deliveryCharge"
+        );
 
     const checkoutTotal =
-        document.getElementById("checkoutTotal");
+        document.getElementById(
+            "checkoutTotal"
+        );
 
     const summaryCount =
-        document.getElementById("summaryCount");
+        document.getElementById(
+            "summaryCount"
+        );
 
     const placeOrderButton =
-        document.getElementById("placeOrderButton");
+        document.getElementById(
+            "placeOrderButton"
+        );
 
     const backToCartButton =
-        document.getElementById("backToCartButton");
+        document.getElementById(
+            "backToCartButton"
+        );
 
     const checkoutForm =
-        document.getElementById("checkoutForm");
+        document.getElementById(
+            "checkoutForm"
+        );
 
     const termsCheckbox =
-        document.getElementById("termsCheckbox");
+        document.getElementById(
+            "termsCheckbox"
+        );
 
     const successOverlay =
-        document.getElementById("orderSuccessOverlay");
+        document.getElementById(
+            "orderSuccessOverlay"
+        );
 
     const successOrderNumber =
-        document.getElementById("successOrderNumber");
+        document.getElementById(
+            "successOrderNumber"
+        );
 
     const continueShoppingButton =
-        document.getElementById("continueShoppingButton");
+        document.getElementById(
+            "continueShoppingButton"
+        );
 
 
     /* =====================================================
        DELIVERY CHARGE
+
        DHAKA = 80
        OTHER DISTRICTS = 120
     ===================================================== */
@@ -176,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return (
             "৳" +
-            Number(amount || 0)
+            Number(amount)
                 .toLocaleString("en-BD")
         );
 
@@ -187,12 +207,14 @@ document.addEventListener("DOMContentLoaded", function () {
        GET DELIVERY CHARGE
     ===================================================== */
 
-    function getDeliveryCharge(district) {
+    function getDeliveryCharge(
+        district
+    ) {
 
         if (
-            String(district || "")
-                .trim()
-                .toLowerCase() === "dhaka"
+            district &&
+            district.trim().toLowerCase() ===
+            "dhaka"
         ) {
 
             return DHAKA_DELIVERY_CHARGE;
@@ -205,66 +227,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CALCULATE SUBTOTAL
+       DISTRICT SELECT SETUP
+
+       CUSTOM SEARCHABLE DISTRICT SELECTOR
     ===================================================== */
 
-    function calculateSubtotal() {
+    function setupDistrictSelect() {
 
-        const cart = getCart();
-
-        return cart.reduce(
-            function (total, item) {
-
-                return (
-                    total +
-                    Number(item.price || 0) *
-                    Number(item.quantity || 0)
-                );
-
-            },
-            0
-        );
-
-    }
-
-
-    /* =====================================================
-       UPDATE TOTAL
-    ===================================================== */
-
-    function updateCheckoutTotal(charge = 0) {
-
-        const subtotal =
-            calculateSubtotal();
-
-        const total =
-            subtotal +
-            Number(charge || 0);
-
-
-        if (checkoutSubtotal) {
-
-            checkoutSubtotal.textContent =
-                formatMoney(subtotal);
-
-        }
-
-
-        if (checkoutTotal) {
-
-            checkoutTotal.textContent =
-                formatMoney(total);
-
-        }
-
-    }
-
-
-    /* =====================================================
-       DISTRICT SELECTOR
-    ===================================================== */
-
-    function setupDistrictSelector() {
+        const districtInput =
+            document.getElementById(
+                "customerDistrict"
+            );
 
         const selector =
             document.getElementById(
@@ -274,6 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectButton =
             document.getElementById(
                 "districtSelectButton"
+            );
+
+        const selectedText =
+            document.getElementById(
+                "selectedDistrictText"
             );
 
         const dropdown =
@@ -291,30 +269,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 "districtList"
             );
 
-        const selectedText =
-            document.getElementById(
-                "selectedDistrictText"
-            );
-
-        const hiddenInput =
-            document.getElementById(
-                "customerDistrict"
-            );
-
 
         if (
+            !districtInput ||
             !selector ||
             !selectButton ||
+            !selectedText ||
             !dropdown ||
             !searchInput ||
-            !districtList ||
-            !selectedText ||
-            !hiddenInput
+            !districtList
         ) {
-
-            console.warn(
-                "District selector elements not found."
-            );
 
             return;
 
@@ -325,15 +289,17 @@ document.addEventListener("DOMContentLoaded", function () {
            RENDER DISTRICTS
         ================================================= */
 
-        function renderDistricts(searchTerm = "") {
+        function renderDistricts(
+            filter = ""
+        ) {
 
             const query =
-                searchTerm
+                String(filter || "")
                     .trim()
                     .toLowerCase();
 
 
-            const filtered =
+            const matches =
                 bangladeshDistricts.filter(
                     function (district) {
 
@@ -348,12 +314,22 @@ document.addEventListener("DOMContentLoaded", function () {
             districtList.innerHTML = "";
 
 
-            if (filtered.length === 0) {
+            if (
+                matches.length === 0
+            ) {
 
                 districtList.innerHTML = `
 
-                    <div class="district-no-result">
-                        No district found
+                    <div
+                        style="
+                            padding:14px;
+                            text-align:center;
+                            color:#777;
+                        "
+                    >
+
+                        No district found.
+
                     </div>
 
                 `;
@@ -363,54 +339,75 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            filtered.forEach(
+            matches.forEach(
                 function (district) {
 
-                    const button =
+                    const option =
                         document.createElement(
                             "button"
                         );
 
 
-                    button.type = "button";
+                    option.type =
+                        "button";
 
-                    button.className =
+
+                    option.className =
                         "district-option";
 
-                    button.textContent =
+
+                    option.textContent =
                         district;
 
 
-                    button.addEventListener(
+                    option.addEventListener(
                         "click",
                         function () {
+
+                            districtInput.value =
+                                district;
+
 
                             selectedText.textContent =
                                 district;
 
-                            hiddenInput.value =
-                                district;
 
                             dropdown.classList.remove(
                                 "show"
                             );
+
 
                             selectButton.setAttribute(
                                 "aria-expanded",
                                 "false"
                             );
 
+
                             searchInput.value =
                                 "";
 
-                            updateDeliveryCharge();
+
+                            renderDistricts(
+                                ""
+                            );
+
+
+                            districtInput.dispatchEvent(
+                                new Event(
+                                    "change",
+                                    {
+                                        bubbles:
+                                            true
+                                    }
+                                )
+                            );
 
                         }
                     );
 
 
                     districtList.appendChild(
-                        button
+                        option
                     );
 
                 }
@@ -419,13 +416,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        renderDistricts();
+
+
         /* =================================================
-           OPEN / CLOSE
+           OPEN / CLOSE DISTRICT DROPDOWN
         ================================================= */
 
         selectButton.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.stopPropagation();
+
 
                 const isOpen =
                     dropdown.classList.contains(
@@ -433,38 +436,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                if (isOpen) {
+                dropdown.classList.toggle(
+                    "show",
+                    !isOpen
+                );
 
-                    dropdown.classList.remove(
-                        "show"
-                    );
 
-                    selectButton.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
+                selectButton.setAttribute(
+                    "aria-expanded",
+                    String(!isOpen)
+                );
 
-                } else {
 
-                    dropdown.classList.add(
-                        "show"
-                    );
+                if (!isOpen) {
 
-                    selectButton.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-                    renderDistricts();
-
-                    setTimeout(
-                        function () {
-
-                            searchInput.focus();
-
-                        },
-                        50
-                    );
+                    searchInput.focus();
 
                 }
 
@@ -473,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           SEARCH
+           DISTRICT SEARCH
         ================================================= */
 
         searchInput.addEventListener(
@@ -506,6 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "show"
                     );
 
+
                     selectButton.setAttribute(
                         "aria-expanded",
                         "false"
@@ -515,13 +502,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
-
-
-        /* =================================================
-           INITIAL DISTRICTS
-        ================================================= */
-
-        renderDistricts();
 
     }
 
@@ -554,12 +534,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (deliveryCharge) {
 
                 deliveryCharge.textContent =
-                    "Select District";
+                    formatMoney(0);
 
             }
 
 
-            updateCheckoutTotal(0);
+            updateCheckoutTotal(
+                0
+            );
+
 
             return;
 
@@ -575,7 +558,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (deliveryCharge) {
 
             deliveryCharge.textContent =
-                formatMoney(charge);
+                formatMoney(
+                    charge
+                );
 
         }
 
@@ -583,6 +568,62 @@ document.addEventListener("DOMContentLoaded", function () {
         updateCheckoutTotal(
             charge
         );
+
+    }
+
+
+    /* =====================================================
+       UPDATE TOTAL
+    ===================================================== */
+
+    function updateCheckoutTotal(
+        currentDeliveryCharge
+    ) {
+
+        const cart =
+            getCart();
+
+
+        let subtotal =
+            0;
+
+
+        cart.forEach(
+            function (item) {
+
+                subtotal +=
+                    Number(item.price) *
+                    Number(item.quantity);
+
+            }
+        );
+
+
+        const total =
+            subtotal +
+            Number(
+                currentDeliveryCharge
+            );
+
+
+        if (checkoutSubtotal) {
+
+            checkoutSubtotal.textContent =
+                formatMoney(
+                    subtotal
+                );
+
+        }
+
+
+        if (checkoutTotal) {
+
+            checkoutTotal.textContent =
+                formatMoney(
+                    total
+                );
+
+        }
 
     }
 
@@ -612,7 +653,9 @@ document.addEventListener("DOMContentLoaded", function () {
            EMPTY CART
         ================================================= */
 
-        if (cart.length === 0) {
+        if (
+            cart.length === 0
+        ) {
 
             checkoutItems.innerHTML = `
 
@@ -650,7 +693,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (deliveryCharge) {
 
                 deliveryCharge.textContent =
-                    "Select District";
+                    "৳0";
 
             }
 
@@ -692,50 +735,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        let subtotal = 0;
+        /* =================================================
+           ITEMS
+        ================================================= */
 
-        let totalItems = 0;
+        let subtotal =
+            0;
+
+
+        let totalItems =
+            0;
 
 
         cart.forEach(
             function (item) {
 
-                const itemPrice =
-                    Number(item.price || 0);
-
-                const quantity =
-                    Number(item.quantity || 0);
-
-                const itemSubtotal =
-                    itemPrice * quantity;
-
-
                 subtotal +=
-                    itemSubtotal;
+                    Number(item.price) *
+                    Number(item.quantity);
+
 
                 totalItems +=
-                    quantity;
+                    Number(item.quantity);
 
-
-                /* =========================================
-                   ITEM
-                ========================================= */
 
                 const itemElement =
                     document.createElement(
                         "div"
                     );
 
+
                 itemElement.className =
                     "checkout-item";
 
-
-                /* IMAGE */
 
                 const imageBox =
                     document.createElement(
                         "div"
                     );
+
 
                 imageBox.className =
                     "checkout-item-image";
@@ -746,11 +784,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         "img"
                     );
 
+
                 image.src =
-                    item.image || "";
+                    item.image;
+
 
                 image.alt =
-                    item.name || "Product";
+                    item.name;
 
 
                 image.onerror =
@@ -758,6 +798,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         image.style.display =
                             "none";
+
 
                         imageBox.innerHTML =
                             "<span>🛍️</span>";
@@ -770,12 +811,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                /* INFO */
-
                 const info =
                     document.createElement(
                         "div"
                     );
+
 
                 info.className =
                     "checkout-item-info";
@@ -786,18 +826,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         "h3"
                     );
 
+
                 title.textContent =
-                    item.name || "Product";
+                    item.name;
 
 
-                const quantityText =
+                const quantity =
                     document.createElement(
                         "p"
                     );
 
-                quantityText.textContent =
+
+                quantity.textContent =
                     "Quantity: " +
-                    quantity;
+                    item.quantity;
 
 
                 const price =
@@ -805,9 +847,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         "strong"
                     );
 
+
                 price.textContent =
                     formatMoney(
-                        itemSubtotal
+                        Number(item.price) *
+                        Number(item.quantity)
                     );
 
 
@@ -815,9 +859,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     title
                 );
 
+
                 info.appendChild(
-                    quantityText
+                    quantity
                 );
+
 
                 info.appendChild(
                     price
@@ -827,6 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 itemElement.appendChild(
                     imageBox
                 );
+
 
                 itemElement.appendChild(
                     info
@@ -861,7 +908,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (checkoutSubtotal) {
 
             checkoutSubtotal.textContent =
-                formatMoney(subtotal);
+                formatMoney(
+                    subtotal
+                );
 
         }
 
@@ -869,7 +918,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (deliveryCharge) {
 
             deliveryCharge.textContent =
-                "Select District";
+                "৳0";
 
         }
 
@@ -877,7 +926,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (checkoutTotal) {
 
             checkoutTotal.textContent =
-                formatMoney(subtotal);
+                formatMoney(
+                    subtotal
+                );
 
         }
 
@@ -885,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PAYMENT METHOD
+       PAYMENT METHOD UI
     ===================================================== */
 
     const paymentOptions =
@@ -940,19 +991,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const month =
             String(
                 now.getMonth() + 1
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
 
 
         const day =
             String(
                 now.getDate()
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
 
 
         const random =
             Math.floor(
                 1000 +
-                Math.random() * 9000
+                Math.random() *
+                9000
             );
 
 
@@ -969,10 +1027,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SAVE ORDER THROUGH SECURE RPC
+       RESOLVE CART PRODUCTS TO REAL DATABASE PRODUCT IDs
     ===================================================== */
 
-    async function saveOrderToSupabase(order) {
+    async function resolveCartProducts(
+        cart
+    ) {
 
         if (!supabase) {
 
@@ -983,48 +1043,398 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const items =
-            order.items.map(
+        const resolvedItems =
+            [];
+
+
+        for (
+            const item of cart
+        ) {
+
+            let product =
+                null;
+
+
+            /* =================================================
+               FIRST TRY REAL SUPABASE PRODUCT ID
+            ================================================= */
+
+            const byId =
+                await supabase
+                    .from(
+                        "products"
+                    )
+                    .select(
+                        "product_id,name,price,image,stock,is_active"
+                    )
+                    .eq(
+                        "product_id",
+                        String(
+                            item.id || ""
+                        ).trim()
+                    )
+                    .maybeSingle();
+
+
+            if (byId.error) {
+
+                throw byId.error;
+
+            }
+
+
+            product =
+                byId.data;
+
+
+            /* =================================================
+               FALLBACK: SEARCH BY PRODUCT NAME
+
+               This supports older cart items that used
+               frontend IDs/slugs.
+            ================================================= */
+
+            if (
+                !product &&
+                item.name
+            ) {
+
+                const byName =
+                    await supabase
+                        .from(
+                            "products"
+                        )
+                        .select(
+                            "product_id,name,price,image,stock,is_active"
+                        )
+                        .eq(
+                            "name",
+                            String(
+                                item.name
+                            ).trim()
+                        )
+                        .maybeSingle();
+
+
+                if (byName.error) {
+
+                    throw byName.error;
+
+                }
+
+
+                product =
+                    byName.data;
+
+            }
+
+
+            /* =================================================
+               PRODUCT NOT FOUND
+            ================================================= */
+
+            if (!product) {
+
+                throw new Error(
+                    `Product "${item.name || item.id || "Unknown"}" was not found in the products table.`
+                );
+
+            }
+
+
+            /* =================================================
+               PRODUCT ACTIVE CHECK
+            ================================================= */
+
+            if (
+                product.is_active === false
+            ) {
+
+                throw new Error(
+                    `Product "${product.name || item.name}" is currently unavailable.`
+                );
+
+            }
+
+
+            /* =================================================
+               QUANTITY
+            ================================================= */
+
+            const quantity =
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity || 0
+                    )
+                );
+
+
+            /* =================================================
+               STOCK CHECK
+            ================================================= */
+
+            const availableStock =
+                Number(
+                    product.stock || 0
+                );
+
+
+            if (
+                availableStock <
+                quantity
+            ) {
+
+                throw new Error(
+                    `Insufficient stock for "${product.name || item.name}". Available: ${availableStock}, Required: ${quantity}.`
+                );
+
+            }
+
+
+            /* =================================================
+               RESOLVED PRODUCT
+            ================================================= */
+
+            resolvedItems.push({
+
+                productId:
+                    product.product_id,
+
+                productName:
+                    product.name ||
+                    item.name,
+
+                productImage:
+                    product.image ||
+                    item.image ||
+                    null,
+
+                price:
+                    Number(
+                        item.price ??
+                        product.price ??
+                        0
+                    ),
+
+                quantity:
+                    quantity
+
+            });
+
+        }
+
+
+        return resolvedItems;
+
+    }
+
+
+    /* =====================================================
+       SAVE ORDER TO SUPABASE
+    ===================================================== */
+
+    async function saveOrderToSupabase(
+        order
+    ) {
+
+        if (!supabase) {
+
+            throw new Error(
+                "Supabase connection is not available."
+            );
+
+        }
+
+
+        /* =================================================
+           RESOLVE PRODUCTS
+
+           IMPORTANT:
+           order_items.product_id must contain the
+           real products.product_id.
+        ================================================= */
+
+        const resolvedItems =
+            await resolveCartProducts(
+                order.items
+            );
+
+
+        /* =================================================
+           CUSTOMER
+        ================================================= */
+
+        const {
+            data: customerData,
+            error: customerError
+        } = await supabase
+            .from(
+                "customers"
+            )
+            .insert({
+
+                name:
+                    order.customer.name,
+
+                phone:
+                    order.customer.phone,
+
+                email:
+                    order.customer.email ||
+                    null,
+
+                address:
+                    order.customer.address,
+
+                district:
+                    order.customer.district,
+
+                order_note:
+                    order.customer.note ||
+                    null
+
+            })
+            .select(
+                "id"
+            )
+            .single();
+
+
+        if (customerError) {
+
+            console.error(
+                "Customer insert error:",
+                customerError
+            );
+
+
+            throw customerError;
+
+        }
+
+
+        const customerId =
+            customerData.id;
+
+
+        /* =================================================
+           ORDER
+        ================================================= */
+
+        const {
+            data: orderData,
+            error: orderError
+        } = await supabase
+            .from(
+                "orders"
+            )
+            .insert({
+
+                order_number:
+                    order.orderNumber,
+
+                customer_id:
+                    customerId,
+
+                customer_name:
+                    order.customer.name,
+
+                customer_phone:
+                    order.customer.phone,
+
+                customer_email:
+                    order.customer.email ||
+                    null,
+
+                customer_address:
+                    order.customer.address,
+
+                customer_district:
+                    order.customer.district,
+
+                order_note:
+                    order.customer.note ||
+                    null,
+
+                payment_method:
+                    order.paymentMethod,
+
+                payment_status:
+                    "Pending",
+
+                order_status:
+                    "Pending",
+
+                subtotal:
+                    order.subtotal,
+
+                delivery_charge:
+                    order.deliveryCharge,
+
+                total:
+                    order.total
+
+            })
+            .select(
+                "id"
+            )
+            .single();
+
+
+        if (orderError) {
+
+            console.error(
+                "Order insert error:",
+                orderError
+            );
+
+
+            throw orderError;
+
+        }
+
+
+        const orderId =
+            orderData.id;
+
+
+        /* =================================================
+           ORDER ITEMS
+        ================================================= */
+
+        const orderItems =
+            resolvedItems.map(
                 function (item) {
-
-                    const price =
-                        Number(
-                            item.price || 0
-                        );
-
-                    const quantity =
-                        Number(
-                            item.quantity || 0
-                        );
-
 
                     return {
 
+                        order_id:
+                            orderId,
+
+                        /*
+                         * IMPORTANT FIX:
+                         * Real Supabase product_id
+                         */
+
                         product_id:
-                            String(
-                                item.id ??
-                                item.productId ??
-                                ""
-                            ),
+                            item.productId,
 
                         product_name:
-                            String(
-                                item.name ??
-                                "Product"
-                            ),
+                            item.productName,
 
                         product_image:
-                            item.image ||
-                            null,
+                            item.productImage,
 
                         price:
-                            price,
+                            item.price,
 
                         quantity:
-                            quantity,
+                            item.quantity,
 
                         subtotal:
-                            price * quantity
+                            item.price *
+                            item.quantity
 
                     };
 
@@ -1032,78 +1442,42 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        const { data, error } =
-            await supabase.rpc(
-                "place_dreamly_order",
-                {
-
-                    p_order_number:
-                        order.orderNumber,
-
-                    p_customer_name:
-                        order.customer.name,
-
-                    p_customer_phone:
-                        order.customer.phone,
-
-                    p_customer_email:
-                        order.customer.email ||
-                        "",
-
-                    p_customer_address:
-                        order.customer.address,
-
-                    p_customer_district:
-                        order.customer.district,
-
-                    p_order_note:
-                        order.customer.note ||
-                        "",
-
-                    p_payment_method:
-                        order.paymentMethod,
-
-                    p_subtotal:
-                        order.subtotal,
-
-                    p_delivery_charge:
-                        order.deliveryCharge,
-
-                    p_total:
-                        order.total,
-
-                    p_items:
-                        items
-
-                }
+        const {
+            error: itemError
+        } = await supabase
+            .from(
+                "order_items"
+            )
+            .insert(
+                orderItems
             );
 
 
-        if (error) {
+        if (itemError) {
 
             console.error(
-                "Supabase RPC error:",
-                error
+                "Order item insert error:",
+                itemError
             );
 
-            throw error;
+
+            throw itemError;
 
         }
 
 
-        if (
-            !data ||
-            data.success !== true
-        ) {
+        return {
 
-            throw new Error(
-                "Order was not confirmed by database."
-            );
+            customerId:
+                customerId,
 
-        }
+            orderId:
+                orderId,
 
+            orderNumber:
+                order.orderNumber
 
-        return data;
+        };
 
     }
 
@@ -1118,7 +1492,13 @@ document.addEventListener("DOMContentLoaded", function () {
             getCart();
 
 
-        if (cart.length === 0) {
+        /* =================================================
+           EMPTY CART
+        ================================================= */
+
+        if (
+            cart.length === 0
+        ) {
 
             alert(
                 "Your cart is empty."
@@ -1129,14 +1509,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /* =================================================
+           SUPABASE CHECK
+        ================================================= */
+
         if (!supabase) {
 
             alert(
                 "Database connection is not ready. Please try again."
-            );
-
-            console.error(
-                "DreamlySupabase client is missing."
             );
 
             return;
@@ -1164,6 +1544,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /* =================================================
+           TERMS CHECK
+        ================================================= */
+
         if (
             termsCheckbox &&
             !termsCheckbox.checked
@@ -1179,7 +1563,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           CUSTOMER ELEMENTS
+           CUSTOMER DATA
         ================================================= */
 
         const customerNameElement =
@@ -1187,25 +1571,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 "customerName"
             );
 
+
         const customerPhoneElement =
             document.getElementById(
                 "customerPhone"
             );
+
 
         const customerEmailElement =
             document.getElementById(
                 "customerEmail"
             );
 
+
         const customerAddressElement =
             document.getElementById(
                 "customerAddress"
             );
 
+
         const customerDistrictElement =
             document.getElementById(
                 "customerDistrict"
             );
+
 
         const orderNoteElement =
             document.getElementById(
@@ -1225,6 +1614,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Please select your district."
             );
 
+
+            if (
+                customerDistrictElement
+            ) {
+
+                customerDistrictElement.focus();
+
+            }
+
+
             return;
 
         }
@@ -1241,7 +1640,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           CUSTOMER
+           CUSTOMER OBJECT
         ================================================= */
 
         const customer = {
@@ -1294,12 +1693,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           PRICE
+           CALCULATE SUBTOTAL
         ================================================= */
 
-        const subtotal =
-            calculateSubtotal();
+        let subtotal =
+            0;
 
+
+        cart.forEach(
+            function (item) {
+
+                subtotal +=
+                    Number(item.price) *
+                    Number(item.quantity);
+
+            }
+        );
+
+
+        /* =================================================
+           TOTAL
+        ================================================= */
 
         const total =
             subtotal +
@@ -1307,7 +1721,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           ORDER
+           CREATE ORDER OBJECT
         ================================================= */
 
         const order = {
@@ -1315,11 +1729,17 @@ document.addEventListener("DOMContentLoaded", function () {
             orderNumber:
                 generateOrderNumber(),
 
-            customer:
-                customer,
+            createdAt:
+                new Date().toISOString(),
+
+            status:
+                "Pending",
 
             paymentMethod:
                 paymentMethod,
+
+            customer:
+                customer,
 
             items:
                 cart,
@@ -1337,19 +1757,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           BUTTON
+           DISABLE BUTTON
         ================================================= */
 
-        if (placeOrderButton) {
+        if (
+            placeOrderButton
+        ) {
 
             placeOrderButton.disabled =
                 true;
+
 
             placeOrderButton.textContent =
                 "⏳ Placing Order...";
 
         }
 
+
+        /* =================================================
+           SAVE ORDER
+        ================================================= */
 
         try {
 
@@ -1359,29 +1786,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-            /* =============================================
-               CLEAR CART
-            ============================================= */
+            /* =================================================
+               CLEAR LOCAL CART
+            ================================================= */
 
             localStorage.removeItem(
                 "dreamlyCart"
             );
 
 
-            /* =============================================
-               SUCCESS
-            ============================================= */
+            /* =================================================
+               SHOW SUCCESS
+            ================================================= */
 
-            if (successOrderNumber) {
+            if (
+                successOrderNumber
+            ) {
 
                 successOrderNumber.textContent =
-                    savedOrder.order_number ||
-                    order.orderNumber;
+                    savedOrder.orderNumber;
 
             }
 
 
-            if (successOverlay) {
+            if (
+                successOverlay
+            ) {
 
                 successOverlay.classList.add(
                     "show"
@@ -1389,8 +1819,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
+        }
 
-        } catch (error) {
+        catch (error) {
 
             console.error(
                 "Dreamly Mart order error:",
@@ -1402,13 +1833,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 "অর্ডার সম্পন্ন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
             );
 
+        }
 
-        } finally {
+        finally {
 
-            if (placeOrderButton) {
+            if (
+                placeOrderButton
+            ) {
 
                 placeOrderButton.disabled =
                     false;
+
 
                 placeOrderButton.textContent =
                     "🛍️ Place Order";
@@ -1424,7 +1859,9 @@ document.addEventListener("DOMContentLoaded", function () {
        PLACE ORDER BUTTON
     ===================================================== */
 
-    if (placeOrderButton) {
+    if (
+        placeOrderButton
+    ) {
 
         placeOrderButton.addEventListener(
             "click",
@@ -1435,10 +1872,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       DISTRICT CHANGE
+    ===================================================== */
+
+    const districtElement =
+        document.getElementById(
+            "customerDistrict"
+        );
+
+
+    if (
+        districtElement
+    ) {
+
+        districtElement.addEventListener(
+            "change",
+            updateDeliveryCharge
+        );
+
+    }
+
+
+    /* =====================================================
        BACK TO CART
     ===================================================== */
 
-    if (backToCartButton) {
+    if (
+        backToCartButton
+    ) {
 
         backToCartButton.addEventListener(
             "click",
@@ -1457,7 +1918,9 @@ document.addEventListener("DOMContentLoaded", function () {
        CONTINUE SHOPPING
     ===================================================== */
 
-    if (continueShoppingButton) {
+    if (
+        continueShoppingButton
+    ) {
 
         continueShoppingButton.addEventListener(
             "click",
@@ -1482,7 +1945,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    if (cartButton) {
+    if (
+        cartButton
+    ) {
 
         cartButton.style.cursor =
             "pointer";
@@ -1505,10 +1970,8 @@ document.addEventListener("DOMContentLoaded", function () {
        INITIALIZE
     ===================================================== */
 
-    setupDistrictSelector();
+    setupDistrictSelect();
 
     renderCheckout();
-
-    updateDeliveryCharge();
 
 });
